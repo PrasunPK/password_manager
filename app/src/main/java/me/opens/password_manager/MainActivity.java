@@ -21,8 +21,13 @@ public class MainActivity extends AppCompatActivity {
      */
     public void sendMessage(View view) {
         Intent intent = new Intent(this, DisplayMessageActivity.class);
-        EditText editText = (EditText) findViewById(R.id.editText);
-        String message = editText.getText().toString();
+        EditText key = (EditText) findViewById(R.id.key);
+        EditText value = (EditText) findViewById(R.id.value);
+
+        String messageKey = key.getText().toString();
+        String messageValue = value.getText().toString();
+        String message = String.format("%s - %s", messageKey, messageValue);
+
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
