@@ -1,8 +1,12 @@
 package me.opens.password_manager.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +38,14 @@ public class DisplayMessageActivity extends AppCompatActivity {
                 }
             }
         }).start();
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(),"This is a toast message",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void retrieveAll() {
