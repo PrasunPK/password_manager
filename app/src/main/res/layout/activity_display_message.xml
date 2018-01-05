@@ -9,8 +9,8 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="1dp"
-        app:layoutManager="GridLayoutManager"
-        app:spanCount="2"
+        android:clickable="true"
+        android:focusable="true"
+        app:layoutManager="LinearLayoutManager"
         tools:listitem="@layout/view_list_item" />
 </LinearLayout>

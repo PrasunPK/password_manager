@@ -38,7 +38,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
     private void retrieveAll() {
         ArrayList<Person> list = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             Person person = new Person();
             person.setName(String.valueOf("Item -" + i));
             person.setAge(String.valueOf("Sub Item - ." + i));

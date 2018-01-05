@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="50dp"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingLeft="5dp">
 
     <TextView
         android:id="@+id/person_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center" />
+        android:gravity="left"
+        tool:text="person name" />
 
     <TextView
         android:id="@+id/person_age"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center" />
+        android:gravity="left"
+        tool:text="person age" />
 
 </LinearLayout>
