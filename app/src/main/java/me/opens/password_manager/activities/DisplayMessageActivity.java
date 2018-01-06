@@ -1,11 +1,14 @@
 package me.opens.password_manager.activities;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,6 +22,7 @@ import me.opens.password_manager.entity.Person;
 public class DisplayMessageActivity extends AppCompatActivity {
 
     private RecyclerView recycleView;
+    final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +43,28 @@ public class DisplayMessageActivity extends AppCompatActivity {
             }
         }).start();
 
+        setFavAction();
+    }
+
+    private void setFavAction() {
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getBaseContext(),"This is a toast message",Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Clicked to add an item", Toast.LENGTH_LONG).show();
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.dialog_layout);
+                dialog.setTitle("Save credential here");
+
+                Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+                // if button is clicked, close the custom dialog
+                dialogButton.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
             }
         });
     }
