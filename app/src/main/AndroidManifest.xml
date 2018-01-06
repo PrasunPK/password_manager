@@ -22,7 +22,7 @@
             android:label="@string/app_name"/>
 
         <activity
-            android:name=".activities.DisplayMessageActivity"
+            android:name=".activities.DisplayCredentialsActivity"
             android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

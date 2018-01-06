@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendMessage(View view) {
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
+        Intent intent = new Intent(this, DisplayCredentialsActivity.class);
         EditText key = findViewById(R.id.key);
         EditText value = findViewById(R.id.value);
 

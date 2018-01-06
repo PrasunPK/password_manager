@@ -10,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/text_domain"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="Enter domain" />
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/text_identifier"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="Enter identifier" />
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/text_credential"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="Enter credential" />

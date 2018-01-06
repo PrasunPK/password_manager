@@ -9,24 +9,24 @@ import android.widget.TextView;
 import java.util.List;
 
 import me.opens.password_manager.R;
-import me.opens.password_manager.entity.Person;
+import me.opens.password_manager.entity.Credential;
 
-public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonViewHolder> {
-    private List<Person> list;
+public class CredentialAdapter extends RecyclerView.Adapter<CredentialAdapter.CredentialViewHolder> {
+    private List<Credential> list;
 
-    public PersonAdapter(List<Person> list) {
+    public CredentialAdapter(List<Credential> list) {
         this.list = list;
     }
 
     @Override
-    public PersonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CredentialViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.view_list_item, parent, false);
-        return new PersonViewHolder(view);
+        return new CredentialViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(PersonViewHolder holder, int position) {
+    public void onBindViewHolder(CredentialViewHolder holder, int position) {
         holder.bind(list.get(position));
     }
 
@@ -35,20 +35,20 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
         return list.size();
     }
 
-    static public class PersonViewHolder extends RecyclerView.ViewHolder {
+    static public class CredentialViewHolder extends RecyclerView.ViewHolder {
 
         private TextView nameTextView;
         private TextView ageTextView;
 
-        public PersonViewHolder(View itemView) {
+        public CredentialViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.person_name);
             ageTextView = itemView.findViewById(R.id.person_age);
         }
 
-        public void bind(Person person) {
-            nameTextView.setText(person.getName());
-            ageTextView.setText(person.getAge());
+        public void bind(Credential credential) {
+            nameTextView.setText(credential.getDomain());
+            ageTextView.setText(credential.getUsername());
         }
     }
 }

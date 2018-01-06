@@ -3,10 +3,10 @@ package me.opens.password_manager.storage;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
-import me.opens.password_manager.dao.PersonDao;
-import me.opens.password_manager.entity.Person;
+import me.opens.password_manager.dao.CredentialDao;
+import me.opens.password_manager.entity.Credential;
 
-@Database(entities = {Person.class}, version = 1)
+@Database(entities = {Credential.class}, version = 1)
 public abstract class MyDatabase extends RoomDatabase {
-    public abstract PersonDao productDao();
+    public abstract CredentialDao credentialDao();
 }

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -16,10 +17,10 @@ import java.util.List;
 
 import me.opens.password_manager.App;
 import me.opens.password_manager.R;
-import me.opens.password_manager.adapters.PersonAdapter;
-import me.opens.password_manager.entity.Person;
+import me.opens.password_manager.adapters.CredentialAdapter;
+import me.opens.password_manager.entity.Credential;
 
-public class DisplayMessageActivity extends AppCompatActivity {
+public class DisplayCredentialsActivity extends AppCompatActivity {
 
     private RecyclerView recycleView;
     final Context context = this;
@@ -27,17 +28,15 @@ public class DisplayMessageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_message);
+        setContentView(R.layout.activity_display_credentials);
 
         recycleView = (RecyclerView) findViewById(R.id.recycler_view);
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<Person> all = App.get().getDB().productDao().getAll();
-                if (all.isEmpty()) {
-                    retrieveAll();
-                } else {
+                List<Credential> all = App.get().getDB().credentialDao().getAll();
+                if (!all.isEmpty()) {
                     populateAll(all);
                 }
             }
@@ -57,11 +56,30 @@ public class DisplayMessageActivity extends AppCompatActivity {
                 dialog.setTitle("Save credential here");
 
                 Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-                // if button is clicked, close the custom dialog
                 dialogButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        String domain = ((EditText) dialog.findViewById(R.id.text_domain)).getText().toString();
+                        String identifier = ((EditText) dialog.findViewById(R.id.text_identifier)).getText().toString();
+                        String password = ((EditText) dialog.findViewById(R.id.text_credential)).getText().toString();
+                        final Credential credential = new Credential();
+                        credential.setDomain(domain);
+                        credential.setUsername(identifier);
+                        credential.setCredential(password);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                App.get().getDB().credentialDao().insert(credential);
+                                List<Credential> all = App.get().getDB().credentialDao().getAll();
+                                if (!all.isEmpty()) {
+                                    populateAll(all);
+                                }
+                            }
+                        }).start();
+
                         dialog.dismiss();
+
                     }
                 });
                 dialog.show();
@@ -69,25 +87,11 @@ public class DisplayMessageActivity extends AppCompatActivity {
         });
     }
 
-    private void retrieveAll() {
-        ArrayList<Person> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Person person = new Person();
-            person.setName(String.valueOf("Item -" + i));
-            person.setAge(String.valueOf("Sub Item - ." + i));
-            list.add(person);
-        }
-
-        App.get().getDB().productDao().insertAll(list);
-
-        populateAll(list);
-    }
-
-    private void populateAll(final List<Person> list) {
+    private void populateAll(final List<Credential> list) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                recycleView.setAdapter(new PersonAdapter(list));
+                recycleView.setAdapter(new CredentialAdapter(list));
             }
         });
     }
