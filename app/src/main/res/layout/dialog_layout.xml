@@ -35,7 +35,7 @@
             android:id="@+id/text_credential"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter credential" />
+            android:hint="Enter password" />
     </android.support.design.widget.TextInputLayout>
 
     <Button

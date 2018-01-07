@@ -3,14 +3,14 @@ package me.opens.password_manager;
 import android.app.Application;
 import android.arch.persistence.room.Room;
 
-import me.opens.password_manager.storage.MyDatabase;
+import me.opens.password_manager.storage.CredentialDatabase;
 
 public class App extends Application {
 
     public static App INSTANCE;
-    private static final String DATABASE_NAME = "MyDatabase";
+    private static final String DATABASE_NAME = "CredentialDatabase";
 
-    private MyDatabase database;
+    private CredentialDatabase database;
 
     public static App get() {
         return INSTANCE;
@@ -20,13 +20,13 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         database = Room.databaseBuilder(getApplicationContext(),
-                MyDatabase.class, DATABASE_NAME)
+                CredentialDatabase.class, DATABASE_NAME)
                 .build();
 
         INSTANCE = this;
     }
 
-    public MyDatabase getDB() {
+    public CredentialDatabase getDB() {
         return database;
     }
 }

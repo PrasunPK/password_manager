@@ -67,7 +67,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                 final Credential credential = new Credential();
                 credential.setDomain(domain);
                 credential.setUsername(identifier);
-                credential.setCredential(password);
+                credential.setPassword(password);
 
                 new Thread(() -> {
                     App.get().getDB().credentialDao().insert(credential);
@@ -97,7 +97,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                     intent.putExtra(EXTRA_MESSAGE, "Display Credential Activity");
                     intent.putExtra(DOMAIN, item.getDomain());
                     intent.putExtra(USERNAME, item.getUsername());
-                    intent.putExtra(PASSWORD, item.getCredential());
+                    intent.putExtra(PASSWORD, item.getPassword());
                     startActivity(intent);
                 }
                 dialog.dismiss();

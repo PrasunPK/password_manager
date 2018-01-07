@@ -16,8 +16,8 @@ public class Credential {
     @ColumnInfo(name = "username")
     private String username;
 
-    @ColumnInfo(name = "credential")
-    private String credential;
+    @ColumnInfo(name = "password")
+    private String password;
 
     public int getCid() {
         return cid;
@@ -44,11 +44,11 @@ public class Credential {
         this.cid = cid;
     }
 
-    public String getCredential() {
-        return credential;
+    public String getPassword() {
+        return password;
     }
 
-    public void setCredential(String credential) {
-        this.credential = credential;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

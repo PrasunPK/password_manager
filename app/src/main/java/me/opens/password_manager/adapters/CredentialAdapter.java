@@ -54,7 +54,7 @@ public class CredentialAdapter extends RecyclerView.Adapter<CredentialAdapter.Cr
         public void bind(final Credential credential, final OnItemClickListener listener) {
             nameTextView.setText(credential.getDomain());
             ageTextView.setText(credential.getUsername());
-            pwdTextView.setText(credential.getCredential());
+            pwdTextView.setText(credential.getPassword());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
