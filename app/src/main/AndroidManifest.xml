@@ -25,6 +25,14 @@
         </activity>
 
         <activity
+            android:name=".activities.RevealCredentialActivity"
+            android:parentActivityName=".activities.DisplayCredentialsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.DisplayCredentialsActivity" />
+        </activity>
+
+        <activity
             android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login">
             <intent-filter>

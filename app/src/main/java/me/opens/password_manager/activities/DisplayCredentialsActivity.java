@@ -2,44 +2,46 @@ package me.opens.password_manager.activities;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.opens.password_manager.App;
 import me.opens.password_manager.R;
 import me.opens.password_manager.adapters.CredentialAdapter;
 import me.opens.password_manager.entity.Credential;
-import me.opens.password_manager.listener.OnItemClickListener;
+import me.opens.password_manager.service.KeyCheckerService;
+
+import static me.opens.password_manager.activities.LoginActivity.EXTRA_MESSAGE;
+import static me.opens.password_manager.util.Constants.UNLOCK_KEY;
 
 public class DisplayCredentialsActivity extends AppCompatActivity {
 
     private RecyclerView recycleView;
     final Context context = this;
+    private Intent intent;
+
+    private KeyCheckerService keyCheckerService = new KeyCheckerService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_credentials);
+        intent = new Intent(this, RevealCredentialActivity.class);
 
-        recycleView = (RecyclerView) findViewById(R.id.recycler_view);
+        recycleView = findViewById(R.id.recycler_view);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<Credential> all = App.get().getDB().credentialDao().getAll();
-                if (!all.isEmpty()) {
-                    populateAll(all);
-                }
+        new Thread(() -> {
+            List<Credential> all = App.get().getDB().credentialDao().getAll();
+            if (!all.isEmpty()) {
+                populateAll(all);
             }
         }).start();
 
@@ -48,69 +50,54 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
 
     private void setFavAction() {
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Clicked to add an item", Toast.LENGTH_LONG).show();
-                final Dialog dialog = new Dialog(context);
-                dialog.setContentView(R.layout.dialog_layout);
-                dialog.setTitle("Save credential here");
+        fab.setOnClickListener(v -> {
+            Toast.makeText(getBaseContext(), "Clicked to add an item", Toast.LENGTH_LONG).show();
+            final Dialog dialog = new Dialog(context);
+            dialog.setContentView(R.layout.dialog_layout);
+            dialog.setTitle("Save credential here");
 
-                Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-                dialogButton.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String domain = ((EditText) dialog.findViewById(R.id.text_domain)).getText().toString();
-                        String identifier = ((EditText) dialog.findViewById(R.id.text_identifier)).getText().toString();
-                        String password = ((EditText) dialog.findViewById(R.id.text_credential)).getText().toString();
-                        final Credential credential = new Credential();
-                        credential.setDomain(domain);
-                        credential.setUsername(identifier);
-                        credential.setCredential(password);
+            Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
+            dialogButton.setOnClickListener(v1 -> {
+                String domain = ((EditText) dialog.findViewById(R.id.text_domain)).getText().toString();
+                String identifier = ((EditText) dialog.findViewById(R.id.text_identifier)).getText().toString();
+                String password = ((EditText) dialog.findViewById(R.id.text_credential)).getText().toString();
+                final Credential credential = new Credential();
+                credential.setDomain(domain);
+                credential.setUsername(identifier);
+                credential.setCredential(password);
 
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                App.get().getDB().credentialDao().insert(credential);
-                                List<Credential> all = App.get().getDB().credentialDao().getAll();
-                                if (!all.isEmpty()) {
-                                    populateAll(all);
-                                }
-                            }
-                        }).start();
-
-                        dialog.dismiss();
-
+                new Thread(() -> {
+                    App.get().getDB().credentialDao().insert(credential);
+                    List<Credential> all = App.get().getDB().credentialDao().getAll();
+                    if (!all.isEmpty()) {
+                        populateAll(all);
                     }
-                });
-                dialog.show();
-            }
+                }).start();
+
+                dialog.dismiss();
+
+            });
+            dialog.show();
         });
     }
 
     private void populateAll(final List<Credential> list) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                recycleView.setAdapter(new CredentialAdapter(list, new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(Credential item) {
-                        Toast.makeText(getBaseContext(), "Item Clicked", Toast.LENGTH_LONG).show();
-                        final Dialog dialog = new Dialog(context);
-                        dialog.setContentView(R.layout.dialog_reveal_with_key);
+        runOnUiThread(() -> recycleView.setAdapter(new CredentialAdapter(list, item -> {
+            Toast.makeText(getBaseContext(), "Item Clicked", Toast.LENGTH_LONG).show();
+            final Dialog dialog = new Dialog(context);
+            dialog.setContentView(R.layout.dialog_reveal_with_key);
 
-                        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonReveal);
-                        dialogButton.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                dialog.dismiss();
-                            }
-                        });
-                        dialog.show();
-                    }
+            Button dialogButton = dialog.findViewById(R.id.dialogButtonReveal);
+            dialogButton.setOnClickListener(view -> {
+                String passedInKey = ((EditText) dialog.findViewById(R.id.text_key)).getText().toString();
+                if (keyCheckerService.isKeyMatched(UNLOCK_KEY, passedInKey)) {
+                    intent.putExtra(EXTRA_MESSAGE, "Display Credential Activity");
+                    startActivity(intent);
                 }
-                ));
-            }
-        });
+                dialog.dismiss();
+            });
+            dialog.show();
+        }
+        )));
     }
 }
