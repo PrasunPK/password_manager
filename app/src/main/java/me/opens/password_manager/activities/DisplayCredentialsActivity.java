@@ -20,7 +20,10 @@ import me.opens.password_manager.entity.Credential;
 import me.opens.password_manager.service.KeyCheckerService;
 
 import static me.opens.password_manager.activities.LoginActivity.EXTRA_MESSAGE;
+import static me.opens.password_manager.util.Constants.DOMAIN;
+import static me.opens.password_manager.util.Constants.PASSWORD;
 import static me.opens.password_manager.util.Constants.UNLOCK_KEY;
+import static me.opens.password_manager.util.Constants.USERNAME;
 
 public class DisplayCredentialsActivity extends AppCompatActivity {
 
@@ -92,6 +95,9 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                 String passedInKey = ((EditText) dialog.findViewById(R.id.text_key)).getText().toString();
                 if (keyCheckerService.isKeyMatched(UNLOCK_KEY, passedInKey)) {
                     intent.putExtra(EXTRA_MESSAGE, "Display Credential Activity");
+                    intent.putExtra(DOMAIN, item.getDomain());
+                    intent.putExtra(USERNAME, item.getUsername());
+                    intent.putExtra(PASSWORD, item.getCredential());
                     startActivity(intent);
                 }
                 dialog.dismiss();
