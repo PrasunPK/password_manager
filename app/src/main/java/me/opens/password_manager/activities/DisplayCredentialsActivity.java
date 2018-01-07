@@ -19,6 +19,7 @@ import me.opens.password_manager.App;
 import me.opens.password_manager.R;
 import me.opens.password_manager.adapters.CredentialAdapter;
 import me.opens.password_manager.entity.Credential;
+import me.opens.password_manager.listener.OnItemClickListener;
 
 public class DisplayCredentialsActivity extends AppCompatActivity {
 
@@ -91,7 +92,13 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                recycleView.setAdapter(new CredentialAdapter(list));
+                recycleView.setAdapter(new CredentialAdapter(list, new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Credential item) {
+                        Toast.makeText(getBaseContext(), "Item Clicked", Toast.LENGTH_LONG).show();
+                    }
+                }
+                ));
             }
         });
     }
