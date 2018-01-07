@@ -96,6 +96,17 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(Credential item) {
                         Toast.makeText(getBaseContext(), "Item Clicked", Toast.LENGTH_LONG).show();
+                        final Dialog dialog = new Dialog(context);
+                        dialog.setContentView(R.layout.dialog_reveal_with_key);
+
+                        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonReveal);
+                        dialogButton.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.show();
                     }
                 }
                 ));
