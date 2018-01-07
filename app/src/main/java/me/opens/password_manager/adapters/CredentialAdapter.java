@@ -39,16 +39,19 @@ public class CredentialAdapter extends RecyclerView.Adapter<CredentialAdapter.Cr
 
         private TextView nameTextView;
         private TextView ageTextView;
+        private TextView pwdTextView;
 
         public CredentialViewHolder(View itemView) {
             super(itemView);
-            nameTextView = itemView.findViewById(R.id.person_name);
-            ageTextView = itemView.findViewById(R.id.person_age);
+            nameTextView = itemView.findViewById(R.id.domain);
+            ageTextView = itemView.findViewById(R.id.username);
+            pwdTextView = itemView.findViewById(R.id.password);
         }
 
         public void bind(Credential credential) {
             nameTextView.setText(credential.getDomain());
             ageTextView.setText(credential.getUsername());
+            pwdTextView.setText(credential.getCredential());
         }
     }
 }
