@@ -13,6 +13,9 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 import me.opens.password_manager.App;
 import me.opens.password_manager.R;
 import me.opens.password_manager.adapters.CredentialAdapter;
@@ -31,10 +34,12 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
     final Context context = this;
     private Intent intent;
 
-    private KeyCheckerService keyCheckerService = new KeyCheckerService();
+    @Inject
+    KeyCheckerService keyCheckerService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_credentials);
         intent = new Intent(this, RevealCredentialActivity.class);
