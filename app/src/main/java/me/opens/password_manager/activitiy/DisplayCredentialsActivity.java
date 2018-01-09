@@ -1,4 +1,4 @@
-package me.opens.password_manager.activities;
+package me.opens.password_manager.activitiy;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -16,13 +16,13 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
-import me.opens.password_manager.App;
+import me.opens.password_manager.PasswordManager;
 import me.opens.password_manager.R;
-import me.opens.password_manager.adapters.CredentialAdapter;
+import me.opens.password_manager.adapter.CredentialAdapter;
 import me.opens.password_manager.entity.Credential;
 import me.opens.password_manager.service.KeyCheckerService;
 
-import static me.opens.password_manager.activities.LoginActivity.EXTRA_MESSAGE;
+import static me.opens.password_manager.activitiy.LoginActivity.EXTRA_MESSAGE;
 import static me.opens.password_manager.util.Constants.DOMAIN;
 import static me.opens.password_manager.util.Constants.PASSWORD;
 import static me.opens.password_manager.util.Constants.UNLOCK_KEY;
@@ -47,7 +47,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
         recycleView = findViewById(R.id.recycler_view);
 
         new Thread(() -> {
-            List<Credential> all = App.get().getDB().credentialDao().getAll();
+            List<Credential> all = PasswordManager.get().getDB().credentialDao().getAll();
             if (!all.isEmpty()) {
                 populateAll(all);
             }
@@ -75,8 +75,8 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                 credential.setPassword(password);
 
                 new Thread(() -> {
-                    App.get().getDB().credentialDao().insert(credential);
-                    List<Credential> all = App.get().getDB().credentialDao().getAll();
+                    PasswordManager.get().getDB().credentialDao().insert(credential);
+                    List<Credential> all = PasswordManager.get().getDB().credentialDao().getAll();
                     if (!all.isEmpty()) {
                         populateAll(all);
                     }

@@ -9,27 +9,27 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
-import me.opens.password_manager.activities.DaggerMyApplicationComponent;
+import me.opens.password_manager.config.DaggerPasswordManagerComponent;
 import me.opens.password_manager.storage.CredentialDatabase;
 
-public class App extends Application implements HasActivityInjector {
+public class PasswordManager extends Application implements HasActivityInjector {
 
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
 
-    public static App INSTANCE;
+    public static PasswordManager INSTANCE;
     private static final String DATABASE_NAME = "CredentialDatabase";
 
     private CredentialDatabase database;
 
-    public static App get() {
+    public static PasswordManager get() {
         return INSTANCE;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        DaggerMyApplicationComponent.create().inject(this);
+        DaggerPasswordManagerComponent.create().inject(this);
         database = Room.databaseBuilder(getApplicationContext(),
                 CredentialDatabase.class, DATABASE_NAME)
                 .build();

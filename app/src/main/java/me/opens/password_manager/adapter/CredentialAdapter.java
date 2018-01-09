@@ -1,4 +1,4 @@
-package me.opens.password_manager.adapters;
+package me.opens.password_manager.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

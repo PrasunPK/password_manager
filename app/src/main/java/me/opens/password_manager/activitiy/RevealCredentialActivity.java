@@ -1,4 +1,4 @@
-package me.opens.password_manager.activities;
+package me.opens.password_manager.activitiy;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -1,4 +1,4 @@
-package me.opens.password_manager.activities;
+package me.opens.password_manager.activitiy;
 
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;

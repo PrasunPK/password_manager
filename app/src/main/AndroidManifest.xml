@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
-        android:name=".App"
+        android:name=".PasswordManager"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -17,23 +17,23 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activities.DisplayCredentialsActivity"
-            android:parentActivityName=".activities.LoginActivity">
+            android:name=".activitiy.DisplayCredentialsActivity"
+            android:parentActivityName=".activitiy.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.LoginActivity" />
+                android:value=".activitiy.LoginActivity" />
         </activity>
 
         <activity
-            android:name=".activities.RevealCredentialActivity"
-            android:parentActivityName=".activities.DisplayCredentialsActivity">
+            android:name=".activitiy.RevealCredentialActivity"
+            android:parentActivityName=".activitiy.DisplayCredentialsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.DisplayCredentialsActivity" />
+                android:value=".activitiy.DisplayCredentialsActivity" />
         </activity>
 
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activitiy.LoginActivity"
             android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
