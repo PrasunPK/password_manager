@@ -23,15 +23,16 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 import me.opens.password_manager.R;
+import me.opens.password_manager.service.LoginService;
 
 public class LoginActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "me.opens.password_manager.MESSAGE";
 
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "admin:1234"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -42,8 +43,12 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private Intent intent;
 
+    @Inject
+    LoginService loginService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         intent = new Intent(this, DisplayCredentialsActivity.class);
 
@@ -150,18 +155,8 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
             // TODO: register the new account here.
-            return true;
+            return loginService.validateKey(mEmail, mPassword);
         }
 
         @Override
