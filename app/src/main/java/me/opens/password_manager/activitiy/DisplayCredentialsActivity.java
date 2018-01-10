@@ -16,7 +16,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
-import me.opens.password_manager.PasswordManager;
+import me.opens.password_manager.PasswordManagerApplication;
 import me.opens.password_manager.R;
 import me.opens.password_manager.adapter.CredentialAdapter;
 import me.opens.password_manager.entity.Credential;
@@ -47,7 +47,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
         recycleView = findViewById(R.id.recycler_view);
 
         new Thread(() -> {
-            List<Credential> all = PasswordManager.get().getDB().credentialDao().getAll();
+            List<Credential> all = PasswordManagerApplication.get().getDB().credentialDao().getAll();
             if (!all.isEmpty()) {
                 populateAll(all);
             }
@@ -75,8 +75,8 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                 credential.setPassword(password);
 
                 new Thread(() -> {
-                    PasswordManager.get().getDB().credentialDao().insert(credential);
-                    List<Credential> all = PasswordManager.get().getDB().credentialDao().getAll();
+                    PasswordManagerApplication.get().getDB().credentialDao().insert(credential);
+                    List<Credential> all = PasswordManagerApplication.get().getDB().credentialDao().getAll();
                     if (!all.isEmpty()) {
                         populateAll(all);
                     }

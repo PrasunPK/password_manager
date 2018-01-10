@@ -1,6 +1,11 @@
 package me.opens.password_manager.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
+
+import me.opens.password_manager.entity.Credential;
+import me.opens.password_manager.storage.CredentialDatabase;
 
 public class LoginService {
 

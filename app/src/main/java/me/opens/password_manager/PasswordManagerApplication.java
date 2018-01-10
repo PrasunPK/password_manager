@@ -12,17 +12,18 @@ import dagger.android.HasActivityInjector;
 import me.opens.password_manager.config.DaggerPasswordManagerComponent;
 import me.opens.password_manager.storage.CredentialDatabase;
 
-public class PasswordManager extends Application implements HasActivityInjector {
+import static me.opens.password_manager.util.Constants.DATABASE_NAME;
+
+public class PasswordManagerApplication extends Application implements HasActivityInjector {
 
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
 
-    public static PasswordManager INSTANCE;
-    private static final String DATABASE_NAME = "CredentialDatabase";
+    public static PasswordManagerApplication INSTANCE;
 
     private CredentialDatabase database;
 
-    public static PasswordManager get() {
+    public static PasswordManagerApplication get() {
         return INSTANCE;
     }
 
