@@ -5,13 +5,13 @@ import javax.inject.Inject;
 import me.opens.password_manager.entity.Credential;
 import me.opens.password_manager.repository.CredentialDataSource;
 
-public class LoginService {
+public class AuthorizationService {
 
     @Inject
     CredentialDataSource dataSource;
 
     @Inject
-    public LoginService() {
+    public AuthorizationService() {
     }
 
     public boolean validate(String givenKey, String originalKey) {

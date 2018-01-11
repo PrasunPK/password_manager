@@ -15,23 +15,23 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LoginServiceTest {
+public class AuthorizationServiceTest {
 
     @InjectMocks
-    private LoginService loginService;
+    private AuthorizationService authorizationService;
 
     @Mock
     private CredentialDataSource credentialDataSource;
 
     @Test
     public void shouldReturnTrueIfTheKeysMatch() throws Exception {
-        boolean matched = loginService.validate("1234", "1234");
+        boolean matched = authorizationService.validate("1234", "1234");
         assertTrue(matched);
     }
 
     @Test
     public void shouldReturnFalseIfTheKeysDonotMatch() throws Exception {
-        boolean matched = loginService.validate("134", "abcd");
+        boolean matched = authorizationService.validate("134", "abcd");
         assertFalse(matched);
     }
 
@@ -43,7 +43,7 @@ public class LoginServiceTest {
         credential.setPassword("password");
         when(credentialDataSource.getLoginCredentials()).thenReturn(asList(credential));
 
-        assertTrue(loginService.validateKey("user", "password"));
+        assertTrue(authorizationService.validateKey("user", "password"));
     }
 
     @Test
@@ -54,6 +54,6 @@ public class LoginServiceTest {
         credential.setPassword("password");
         when(credentialDataSource.getLoginCredentials()).thenReturn(asList(credential));
 
-        assertTrue(loginService.validateKey("user", "pwd"));
+        assertTrue(authorizationService.validateKey("user", "pwd"));
     }
 }

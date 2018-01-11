@@ -20,7 +20,7 @@ import me.opens.password_manager.R;
 import me.opens.password_manager.config.DaggerAppComponent;
 import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
-import me.opens.password_manager.service.LoginService;
+import me.opens.password_manager.service.AuthorizationService;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     private Intent intent;
 
     @Inject
-    LoginService loginService;
+    AuthorizationService authorizationService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: register the new account here.
-            return loginService.validateKey(mEmail, mPassword);
+            return authorizationService.validateKey(mEmail, mPassword);
         }
 
         @Override
