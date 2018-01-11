@@ -1,0 +1,9 @@
+language: java
+java:
+  - 1.8
+
+notifications:
+  email: false
+
+script:
+  - ./gradlew test
