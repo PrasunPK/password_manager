@@ -15,11 +15,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjection;
 import me.opens.password_manager.PasswordManagerApplication;
 import me.opens.password_manager.R;
 import me.opens.password_manager.adapter.CredentialAdapter;
+import me.opens.password_manager.config.DaggerAppComponent;
 import me.opens.password_manager.entity.Credential;
+import me.opens.password_manager.module.AppModule;
+import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.service.KeyCheckerService;
 
 import static me.opens.password_manager.activitiy.LoginActivity.EXTRA_MESSAGE;
@@ -39,9 +41,13 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_credentials);
+        DaggerAppComponent.builder()
+                .appModule(new AppModule(getApplication()))
+                .roomModule(new RoomModule(getApplication()))
+                .build()
+                .inject(this);
         intent = new Intent(this, RevealCredentialActivity.class);
 
         recycleView = findViewById(R.id.recycler_view);

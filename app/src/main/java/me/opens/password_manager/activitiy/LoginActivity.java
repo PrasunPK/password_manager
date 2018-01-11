@@ -1,14 +1,8 @@
 package me.opens.password_manager.activitiy;
 
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -20,13 +14,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjection;
 import me.opens.password_manager.R;
+import me.opens.password_manager.config.DaggerAppComponent;
+import me.opens.password_manager.module.AppModule;
+import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.service.LoginService;
 
 public class LoginActivity extends AppCompatActivity {
@@ -48,11 +41,15 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         intent = new Intent(this, DisplayCredentialsActivity.class);
 
         setContentView(R.layout.activity_login);
+        DaggerAppComponent.builder()
+                .appModule(new AppModule(getApplication()))
+                .roomModule(new RoomModule(getApplication()))
+                .build()
+                .inject(this);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
