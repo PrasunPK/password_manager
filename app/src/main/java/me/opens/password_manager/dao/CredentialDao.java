@@ -19,4 +19,7 @@ public interface CredentialDao {
 
     @Insert
     void insert(Credential credential);
+
+    @Query("SELECT * FROM Credential where domain = 'LOGIN'")
+    List<Credential> getLoginCredentials();
 }

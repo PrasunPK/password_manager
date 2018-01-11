@@ -1,17 +1,14 @@
 package me.opens.password_manager.service;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import me.opens.password_manager.entity.Credential;
-import me.opens.password_manager.storage.CredentialDatabase;
+import me.opens.password_manager.repository.CredentialDataSource;
 
 public class LoginService {
 
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "admin:1234"
-    };
+    @Inject
+    CredentialDataSource dataSource;
 
     @Inject
     public LoginService() {
@@ -22,10 +19,9 @@ public class LoginService {
     }
 
     public boolean validateKey(String mEmail, String mPassword) {
-        for (String credential : DUMMY_CREDENTIALS) {
-            String[] pieces = credential.split(":");
-            if (pieces[0].equals(mEmail)) {
-                return pieces[1].equals(mPassword);
+        for (Credential credential : dataSource.getLoginCredentials()) {
+            if (credential.getUsername().equals(mEmail)) {
+                return credential.getPassword().equals(mPassword);
             }
         }
         return false;
