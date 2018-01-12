@@ -19,10 +19,12 @@ import me.opens.password_manager.PasswordManagerApplication;
 import me.opens.password_manager.R;
 import me.opens.password_manager.adapter.CredentialAdapter;
 import me.opens.password_manager.config.DaggerAppComponent;
+import me.opens.password_manager.config.SharedPreferenceUtils;
 import me.opens.password_manager.entity.Credential;
 import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
+import me.opens.password_manager.service.AuthorizationService;
 import me.opens.password_manager.service.KeyCheckerService;
 
 import static me.opens.password_manager.activitiy.LoginActivity.EXTRA_MESSAGE;
@@ -30,6 +32,7 @@ import static me.opens.password_manager.util.Constants.DOMAIN;
 import static me.opens.password_manager.util.Constants.PASSWORD;
 import static me.opens.password_manager.util.Constants.UNLOCK_KEY;
 import static me.opens.password_manager.util.Constants.USERNAME;
+import static me.opens.password_manager.util.Constants.USER_NAME_KEY;
 
 public class DisplayCredentialsActivity extends AppCompatActivity {
 
@@ -39,6 +42,12 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
 
     @Inject
     KeyCheckerService keyCheckerService;
+
+    @Inject
+    AuthorizationService authorizationService;
+
+    @Inject
+    SharedPreferenceUtils sharedPreferenceUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +92,9 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                 credential.setPassword(password);
 
                 new Thread(() -> {
-                    PasswordManagerApplication.get().getDB().credentialDao().insert(credential);
-                    List<Credential> all = PasswordManagerApplication.get().getDB().credentialDao().getAll();
+                    String username = sharedPreferenceUtils.getData(USER_NAME_KEY);
+                    List<Credential> all = authorizationService
+                            .getAllCredentialsFor(username);
                     if (!all.isEmpty()) {
                         populateAll(all);
                     }

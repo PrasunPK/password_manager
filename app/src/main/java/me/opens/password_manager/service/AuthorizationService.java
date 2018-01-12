@@ -1,5 +1,7 @@
 package me.opens.password_manager.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import me.opens.password_manager.entity.Credential;
@@ -30,5 +32,9 @@ public class AuthorizationService {
     public boolean register(String username, String password) {
         return !isValidUser(username, password) &&
                 dataSource.registerAccount(username, password);
+    }
+
+    public List<Credential> getAllCredentialsFor(String username) {
+        return dataSource.getAllFor(username);
     }
 }

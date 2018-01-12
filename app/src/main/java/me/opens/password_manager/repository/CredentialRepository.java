@@ -8,4 +8,6 @@ public interface CredentialRepository {
     List<Credential> getLoginCredentials();
 
     boolean registerAccount(String username, String password);
+
+    List<Credential> getAllFor(String username);
 }
