@@ -54,6 +54,6 @@ public class AuthorizationServiceTest {
         credential.setPassword("password");
         when(credentialDataSource.getLoginCredentials()).thenReturn(asList(credential));
 
-        assertTrue(authorizationService.validateKey("user", "pwd"));
+        assertFalse(authorizationService.validateKey("user", "pwd"));
     }
 }
