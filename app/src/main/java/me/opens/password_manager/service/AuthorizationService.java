@@ -18,12 +18,17 @@ public class AuthorizationService {
         return givenKey.equals(originalKey);
     }
 
-    public boolean validateKey(String mEmail, String mPassword) {
+    public boolean isValidUser(String mEmail, String mPassword) {
         for (Credential credential : dataSource.getLoginCredentials()) {
             if (credential.getUsername().equals(mEmail)) {
                 return credential.getPassword().equals(mPassword);
             }
         }
         return false;
+    }
+
+    public boolean register(String username, String password) {
+        return !isValidUser(username, password) &&
+                dataSource.registerAccount(username, password);
     }
 }

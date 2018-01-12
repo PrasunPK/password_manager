@@ -19,4 +19,14 @@ public class CredentialDataSource implements CredentialRepository {
     public List<Credential> getLoginCredentials() {
         return credentialDao.getLoginCredentials();
     }
+
+    @Override
+    public boolean registerAccount(String username, String password) {
+        Credential credential = new Credential();
+        credential.setDomain("LOGIN");
+        credential.setDomain(username);
+        credential.setDomain(password);
+        credentialDao.insert(credential);
+        return true;
+    }
 }

@@ -65,6 +65,29 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        setUpLoginAttempt();
+        setUpRegistrationAttempt();
+
+    }
+
+    private void setUpRegistrationAttempt() {
+        Button mEmailSignInButton = (Button) findViewById(R.id.email_register_button);
+        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptRegistration();
+            }
+        });
+    }
+
+    private void attemptRegistration() {
+        String email = mEmailView.getText().toString();
+        String password = mPasswordView.getText().toString();
+        mAuthTask = new UserLoginTask(email, password, true);
+        mAuthTask.execute((Void) null);
+    }
+
+    private void setUpLoginAttempt() {
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -72,7 +95,6 @@ public class LoginActivity extends AppCompatActivity {
                 attemptLogin();
             }
         });
-
     }
 
     /**
@@ -120,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             // perform the user login attempt.
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password, false);
             mAuthTask.execute((Void) null);
         }
     }
@@ -144,16 +166,21 @@ public class LoginActivity extends AppCompatActivity {
 
         private final String mEmail;
         private final String mPassword;
+        private final Boolean registration;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password, Boolean registration) {
             mEmail = email;
             mPassword = password;
+            this.registration = registration;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: register the new account here.
-            return authorizationService.validateKey(mEmail, mPassword);
+            if (registration) {
+                return authorizationService.register(mEmail, mPassword);
+            } else {
+                return authorizationService.isValidUser(mEmail, mPassword);
+            }
         }
 
         @Override
