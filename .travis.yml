@@ -1,9 +1,8 @@
-language: java
-java:
-  - 1.8
-
-notifications:
-  email: false
+language: android
+android:
+  components:
+    - build-tools-26.1.0
+    - android-26
 
 script:
   - ./gradlew test
