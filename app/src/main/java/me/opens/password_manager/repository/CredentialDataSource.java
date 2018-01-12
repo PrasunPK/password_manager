@@ -24,8 +24,8 @@ public class CredentialDataSource implements CredentialRepository {
     public boolean registerAccount(String username, String password) {
         Credential credential = new Credential();
         credential.setDomain("LOGIN");
-        credential.setDomain(username);
-        credential.setDomain(password);
+        credential.setUsername(username);
+        credential.setPassword(password);
         credentialDao.insert(credential);
         return true;
     }

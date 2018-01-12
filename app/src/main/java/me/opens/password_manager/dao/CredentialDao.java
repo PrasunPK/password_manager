@@ -20,9 +20,9 @@ public interface CredentialDao {
     @Insert
     void insert(Credential credential);
 
-    @Query("SELECT * FROM Credential where domain = 'LOGIN'")
+    @Query("SELECT * FROM Credential WHERE domain='LOGIN'")
     List<Credential> getLoginCredentials();
 
-    @Query("SELECT * FROM Credential where username = :username")
+    @Query("SELECT * FROM Credential WHERE username=:username")
     List<Credential> getAllFor(String username);
 }

@@ -15,7 +15,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import me.opens.password_manager.PasswordManagerApplication;
 import me.opens.password_manager.R;
 import me.opens.password_manager.adapter.CredentialAdapter;
 import me.opens.password_manager.config.DaggerAppComponent;
@@ -64,7 +63,9 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
         recycleView = findViewById(R.id.recycler_view);
 
         new Thread(() -> {
-            List<Credential> all = PasswordManagerApplication.get().getDB().credentialDao().getAll();
+            String username = sharedPreferenceUtils.getData(USER_NAME_KEY);
+            List<Credential> all = authorizationService
+                    .getAllCredentialsFor(username);
             if (!all.isEmpty()) {
                 populateAll(all);
             }
