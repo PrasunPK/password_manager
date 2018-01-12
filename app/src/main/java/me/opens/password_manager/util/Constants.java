@@ -9,7 +9,9 @@ public class Constants {
     public static final String PASSWORD = "PASSWORD";
     public static final String DOMAIN = "DOMAIN";
 
-    public static final String DOMAIN_LOGIN = "DOMAIN_LOGIN";
+    public static final String DOMAIN_LOGIN = "LOGIN";
     public static final String DATABASE_NAME = "CredentialDatabase";
+    public static final String USER_NAME_KEY = "USER_NAME";
+
 
 }

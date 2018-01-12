@@ -22,6 +22,7 @@ import me.opens.password_manager.config.DaggerAppComponent;
 import me.opens.password_manager.entity.Credential;
 import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
+import me.opens.password_manager.module.SharedPreferencesModule;
 import me.opens.password_manager.service.KeyCheckerService;
 
 import static me.opens.password_manager.activitiy.LoginActivity.EXTRA_MESSAGE;
@@ -46,6 +47,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
         DaggerAppComponent.builder()
                 .appModule(new AppModule(getApplication()))
                 .roomModule(new RoomModule(getApplication()))
+                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
                 .build()
                 .inject(this);
         intent = new Intent(this, RevealCredentialActivity.class);

@@ -18,9 +18,13 @@ import javax.inject.Inject;
 
 import me.opens.password_manager.R;
 import me.opens.password_manager.config.DaggerAppComponent;
+import me.opens.password_manager.config.SharedPreferenceUtils;
 import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
+import me.opens.password_manager.module.SharedPreferencesModule;
 import me.opens.password_manager.service.AuthorizationService;
+
+import static me.opens.password_manager.util.Constants.USER_NAME_KEY;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -39,6 +43,9 @@ public class LoginActivity extends AppCompatActivity {
     @Inject
     AuthorizationService authorizationService;
 
+    @Inject
+    SharedPreferenceUtils sharedPreferenceUtils;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         DaggerAppComponent.builder()
                 .appModule(new AppModule(getApplication()))
                 .roomModule(new RoomModule(getApplication()))
+                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
                 .build()
                 .inject(this);
         // Set up the login form.
@@ -179,6 +187,7 @@ public class LoginActivity extends AppCompatActivity {
             if (registration) {
                 return authorizationService.register(mEmail, mPassword);
             } else {
+                sharedPreferenceUtils.putData(USER_NAME_KEY, mEmail);
                 return authorizationService.isValidUser(mEmail, mPassword);
             }
         }

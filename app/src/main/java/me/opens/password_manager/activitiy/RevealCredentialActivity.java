@@ -6,6 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import me.opens.password_manager.R;
+import me.opens.password_manager.config.DaggerAppComponent;
+import me.opens.password_manager.module.AppModule;
+import me.opens.password_manager.module.RoomModule;
+import me.opens.password_manager.module.SharedPreferencesModule;
 
 import static me.opens.password_manager.util.Constants.DOMAIN;
 import static me.opens.password_manager.util.Constants.PASSWORD;
@@ -17,6 +21,13 @@ public class RevealCredentialActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reveal_credential);
+
+        DaggerAppComponent.builder()
+                .appModule(new AppModule(getApplication()))
+                .roomModule(new RoomModule(getApplication()))
+                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
+                .build()
+                .inject(this);
 
         TextView domainTextView = findViewById(R.id.revealed_domain);
         TextView userNameTextView = findViewById(R.id.revealed_username);
