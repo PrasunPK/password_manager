@@ -10,4 +10,6 @@ public interface CredentialRepository {
     boolean registerAccount(String username, String password);
 
     List<Credential> getAllFor(String username);
+
+    void addNew(Credential credential);
 }

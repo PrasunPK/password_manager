@@ -19,6 +19,9 @@ public class Credential {
     @ColumnInfo(name = "password")
     private String password;
 
+    @ColumnInfo(name = "belongs_to")
+    private String belongsTo;
+
     public int getCid() {
         return cid;
     }
@@ -50,5 +53,13 @@ public class Credential {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getBelongsTo() {
+        return belongsTo;
+    }
+
+    public void setBelongsTo(String belongsTo) {
+        this.belongsTo = belongsTo;
     }
 }

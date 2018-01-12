@@ -185,6 +185,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             if (registration) {
+                sharedPreferenceUtils.putData(USER_NAME_KEY, mEmail);
                 return authorizationService.register(mEmail, mPassword);
             } else {
                 sharedPreferenceUtils.putData(USER_NAME_KEY, mEmail);

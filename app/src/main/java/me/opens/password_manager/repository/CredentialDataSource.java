@@ -34,4 +34,9 @@ public class CredentialDataSource implements CredentialRepository {
     public List<Credential> getAllFor(String username) {
         return credentialDao.getAllFor(username);
     }
+
+    @Override
+    public void addNew(Credential credential) {
+        credentialDao.insert(credential);
+    }
 }

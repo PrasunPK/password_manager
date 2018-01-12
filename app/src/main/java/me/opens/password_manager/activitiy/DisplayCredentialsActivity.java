@@ -62,8 +62,8 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
 
         recycleView = findViewById(R.id.recycler_view);
 
+        String username = sharedPreferenceUtils.getData(USER_NAME_KEY);
         new Thread(() -> {
-            String username = sharedPreferenceUtils.getData(USER_NAME_KEY);
             List<Credential> all = authorizationService
                     .getAllCredentialsFor(username);
             if (!all.isEmpty()) {
@@ -82,6 +82,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
             dialog.setContentView(R.layout.dialog_layout);
             dialog.setTitle("Save credential here");
 
+            String username = sharedPreferenceUtils.getData(USER_NAME_KEY);
             Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
             dialogButton.setOnClickListener(v1 -> {
                 String domain = ((EditText) dialog.findViewById(R.id.text_domain)).getText().toString();
@@ -91,9 +92,10 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                 credential.setDomain(domain);
                 credential.setUsername(identifier);
                 credential.setPassword(password);
+                credential.setBelongsTo(username);
 
                 new Thread(() -> {
-                    String username = sharedPreferenceUtils.getData(USER_NAME_KEY);
+                    authorizationService.addCredential(credential);
                     List<Credential> all = authorizationService
                             .getAllCredentialsFor(username);
                     if (!all.isEmpty()) {

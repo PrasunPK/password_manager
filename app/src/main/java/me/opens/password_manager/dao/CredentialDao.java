@@ -23,6 +23,6 @@ public interface CredentialDao {
     @Query("SELECT * FROM Credential WHERE domain='LOGIN'")
     List<Credential> getLoginCredentials();
 
-    @Query("SELECT * FROM Credential WHERE username=:username")
+    @Query("SELECT * FROM Credential WHERE belongs_to=:username")
     List<Credential> getAllFor(String username);
 }

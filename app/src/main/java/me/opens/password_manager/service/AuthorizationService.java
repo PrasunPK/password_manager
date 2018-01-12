@@ -37,4 +37,8 @@ public class AuthorizationService {
     public List<Credential> getAllCredentialsFor(String username) {
         return dataSource.getAllFor(username);
     }
+
+    public void addCredential(Credential credential) {
+        dataSource.addNew(credential);
+    }
 }
