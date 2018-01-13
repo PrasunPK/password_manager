@@ -23,8 +23,8 @@ import me.opens.password_manager.entity.Credential;
 import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
-import me.opens.password_manager.service.AuthorizationService;
-import me.opens.password_manager.service.KeyCheckerService;
+import me.opens.password_manager.service.AuthenticationService;
+import me.opens.password_manager.service.CredentialService;
 
 import static me.opens.password_manager.activitiy.LoginActivity.EXTRA_MESSAGE;
 import static me.opens.password_manager.util.Constants.DOMAIN;
@@ -39,10 +39,10 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
     private Intent intent;
 
     @Inject
-    KeyCheckerService keyCheckerService;
+    CredentialService credentialService;
 
     @Inject
-    AuthorizationService authorizationService;
+    AuthenticationService authenticationService;
 
     @Inject
     SharedPreferenceUtils sharedPreferenceUtils;
@@ -51,26 +51,30 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_credentials);
-        DaggerAppComponent.builder()
-                .appModule(new AppModule(getApplication()))
-                .roomModule(new RoomModule(getApplication()))
-                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
-                .build()
-                .inject(this);
+        injectModules();
         intent = new Intent(this, RevealCredentialActivity.class);
 
         recycleView = findViewById(R.id.recycler_view);
 
         String username = sharedPreferenceUtils.getUserName(USER_NAME);
         new Thread(() -> {
-            List<Credential> all = authorizationService
+            List<Credential> credentials = credentialService
                     .getAllCredentialsFor(username);
-            if (!all.isEmpty()) {
-                populateAll(all);
+            if (!credentials.isEmpty()) {
+                populateCredentials(credentials);
             }
         }).start();
 
         setFavAction();
+    }
+
+    private void injectModules() {
+        DaggerAppComponent.builder()
+                .appModule(new AppModule(getApplication()))
+                .roomModule(new RoomModule(getApplication()))
+                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
+                .build()
+                .inject(this);
     }
 
     private void setFavAction() {
@@ -87,18 +91,15 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                 String domain = ((EditText) dialog.findViewById(R.id.text_domain)).getText().toString();
                 String identifier = ((EditText) dialog.findViewById(R.id.text_identifier)).getText().toString();
                 String password = ((EditText) dialog.findViewById(R.id.text_credential)).getText().toString();
-                final Credential credential = new Credential();
-                credential.setDomain(domain);
-                credential.setUsername(identifier);
-                credential.setPassword(password);
-                credential.setBelongsTo(username);
+                final Credential credential =
+                        prepareCredential(username, domain, identifier, password);
 
                 new Thread(() -> {
-                    authorizationService.addCredential(credential);
-                    List<Credential> all = authorizationService
+                    authenticationService.addCredential(credential);
+                    List<Credential> credentials = credentialService
                             .getAllCredentialsFor(username);
-                    if (!all.isEmpty()) {
-                        populateAll(all);
+                    if (!credentials.isEmpty()) {
+                        populateCredentials(credentials);
                     }
                 }).start();
 
@@ -109,7 +110,16 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
         });
     }
 
-    private void populateAll(final List<Credential> list) {
+    private Credential prepareCredential(String username, String domain, String identifier, String password) {
+        Credential credential = new Credential();
+        credential.setDomain(domain);
+        credential.setUsername(identifier);
+        credential.setPassword(password);
+        credential.setBelongsTo(username);
+        return credential;
+    }
+
+    private void populateCredentials(final List<Credential> list) {
         runOnUiThread(() -> recycleView.setAdapter(new CredentialAdapter(list, item -> {
             Toast.makeText(getBaseContext(), "Item Clicked", Toast.LENGTH_LONG).show();
             final Dialog dialog = new Dialog(context);
@@ -118,11 +128,8 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
             Button dialogButton = dialog.findViewById(R.id.dialogButtonReveal);
             dialogButton.setOnClickListener(view -> {
                 String passedInKey = ((EditText) dialog.findViewById(R.id.text_key)).getText().toString();
-                if (keyCheckerService.isKeyMatched(passedInKey)) {
-                    intent.putExtra(EXTRA_MESSAGE, "Display Credential Activity");
-                    intent.putExtra(DOMAIN, item.getDomain());
-                    intent.putExtra(USERNAME, item.getUsername());
-                    intent.putExtra(PASSWORD, item.getPassword());
+                if (credentialService.isKeyMatched(passedInKey)) {
+                    setIntent(item);
                     startActivity(intent);
                 }
                 dialog.dismiss();
@@ -130,5 +137,12 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
             dialog.show();
         }
         )));
+    }
+
+    private void setIntent(Credential item) {
+        intent.putExtra(EXTRA_MESSAGE, "Display Credential Activity");
+        intent.putExtra(DOMAIN, item.getDomain());
+        intent.putExtra(USERNAME, item.getUsername());
+        intent.putExtra(PASSWORD, item.getPassword());
     }
 }

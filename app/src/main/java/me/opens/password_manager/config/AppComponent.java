@@ -13,8 +13,8 @@ import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
 import me.opens.password_manager.repository.CredentialRepository;
-import me.opens.password_manager.service.AuthorizationService;
-import me.opens.password_manager.service.KeyCheckerService;
+import me.opens.password_manager.service.AuthenticationService;
+import me.opens.password_manager.service.CredentialService;
 import me.opens.password_manager.storage.CredentialDatabase;
 
 @Singleton
@@ -33,9 +33,9 @@ public interface AppComponent {
 
     CredentialRepository credentialRepository();
 
-    AuthorizationService loginService();
+    AuthenticationService loginService();
 
-    KeyCheckerService keyCheckerService();
+    CredentialService keyCheckerService();
 
     Application application();
 

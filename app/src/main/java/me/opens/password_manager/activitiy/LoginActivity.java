@@ -22,7 +22,7 @@ import me.opens.password_manager.config.SharedPreferenceUtils;
 import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
-import me.opens.password_manager.service.AuthorizationService;
+import me.opens.password_manager.service.AuthenticationService;
 
 import static me.opens.password_manager.util.Constants.USER_KEY;
 import static me.opens.password_manager.util.Constants.USER_NAME;
@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private Intent intent;
 
     @Inject
-    AuthorizationService authorizationService;
+    AuthenticationService authenticationService;
 
     @Inject
     SharedPreferenceUtils sharedPreferenceUtils;
@@ -187,10 +187,10 @@ public class LoginActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             if (registration) {
                 updateSharedPreferences();
-                return authorizationService.register(mEmail, mPassword);
+                return authenticationService.register(mEmail, mPassword);
             } else {
                 updateSharedPreferences();
-                return authorizationService.isValidUser(mEmail, mPassword);
+                return authenticationService.isValidUser(mEmail, mPassword);
             }
         }
 

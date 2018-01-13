@@ -18,10 +18,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AuthorizationServiceTest {
+public class AuthenticationServiceTest {
 
     @InjectMocks
-    private AuthorizationService authorizationService;
+    private AuthenticationService authenticationService;
 
     @Mock
     private CredentialDataSource credentialDataSource;
@@ -36,41 +36,28 @@ public class AuthorizationServiceTest {
     }
 
     @Test
-    public void shouldReturnTrueIfTheKeysMatch() throws Exception {
-        when(credentialDataSource.getLoginCredentials()).thenReturn(asList(credential));
-        boolean matched = authorizationService.validate("1234", "1234");
-        assertTrue(matched);
-    }
-
-    @Test
-    public void shouldReturnFalseIfTheKeysDonotMatch() throws Exception {
-        boolean matched = authorizationService.validate("134", "abcd");
-        assertFalse(matched);
-    }
-
-    @Test
     public void shouldReturnTrueIfTheCredentialsMatch() throws Exception {
         when(credentialDataSource.getLoginCredentials()).thenReturn(asList(credential));
-        assertTrue(authorizationService.isValidUser("user", "password"));
+        assertTrue(authenticationService.isValidUser("user", "password"));
     }
 
     @Test
     public void shouldReturnFalseIfTheCredentialsDoNotMatch() throws Exception {
         when(credentialDataSource.getLoginCredentials()).thenReturn(asList(credential));
-        assertFalse(authorizationService.isValidUser("user", "pwd"));
+        assertFalse(authenticationService.isValidUser("user", "pwd"));
     }
 
     @Test
     public void shouldRegisterIfTheAccountDoesNotExists() throws Exception {
         when(credentialDataSource.registerAccount("username", "password")).thenReturn(true);
-        boolean registered = authorizationService.register("username", "password");
+        boolean registered = authenticationService.register("username", "password");
         assertTrue(registered);
     }
 
     @Test
     public void shouldNotRegisterWhenTheUserExists() throws Exception {
         when(credentialDataSource.getLoginCredentials()).thenReturn(asList(credential));
-        boolean canBeRegistered = authorizationService.register("user", "password");
+        boolean canBeRegistered = authenticationService.register("user", "password");
         verify(credentialDataSource, times(0)).registerAccount("user", "password");
         assertFalse(canBeRegistered);
     }
