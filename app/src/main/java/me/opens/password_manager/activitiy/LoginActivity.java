@@ -5,14 +5,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import javax.inject.Inject;
 
@@ -30,6 +28,7 @@ import static me.opens.password_manager.util.Constants.USER_NAME;
 public class LoginActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "me.opens.password_manager.MESSAGE";
+    private static final String TAG = LoginActivity.class.getCanonicalName();
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -53,25 +52,17 @@ public class LoginActivity extends AppCompatActivity {
         intent = new Intent(this, DisplayCredentialsActivity.class);
 
         setContentView(R.layout.activity_login);
-        DaggerAppComponent.builder()
-                .appModule(new AppModule(getApplication()))
-                .roomModule(new RoomModule(getApplication()))
-                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
-                .build()
-                .inject(this);
+        injectModules();
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = findViewById(R.id.email);
 
         mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
+        mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> {
+            if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
+                attemptLogin();
+                return true;
             }
+            return false;
         });
 
         setUpLoginAttempt();
@@ -79,14 +70,18 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private void injectModules() {
+        DaggerAppComponent.builder()
+                .appModule(new AppModule(getApplication()))
+                .roomModule(new RoomModule(getApplication()))
+                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
+                .build()
+                .inject(this);
+    }
+
     private void setUpRegistrationAttempt() {
         Button mEmailSignInButton = (Button) findViewById(R.id.email_register_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptRegistration();
-            }
-        });
+        mEmailSignInButton.setOnClickListener(view -> attemptRegistration());
     }
 
     private void attemptRegistration() {
@@ -98,12 +93,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setUpLoginAttempt() {
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+        mEmailSignInButton.setOnClickListener(view -> attemptLogin());
     }
 
     /**
@@ -206,6 +196,7 @@ public class LoginActivity extends AppCompatActivity {
             if (success) {
                 finish();
                 intent.putExtra(EXTRA_MESSAGE, "Login Activity");
+                Log.i(TAG, "starting diaplay credentials activity");
                 startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

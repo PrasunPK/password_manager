@@ -22,12 +22,7 @@ public class RevealCredentialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reveal_credential);
 
-        DaggerAppComponent.builder()
-                .appModule(new AppModule(getApplication()))
-                .roomModule(new RoomModule(getApplication()))
-                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
-                .build()
-                .inject(this);
+        injectModules();
 
         TextView domainTextView = findViewById(R.id.revealed_domain);
         TextView userNameTextView = findViewById(R.id.revealed_username);
@@ -36,5 +31,14 @@ public class RevealCredentialActivity extends AppCompatActivity {
         domainTextView.setText(getIntent().getStringExtra(DOMAIN));
         userNameTextView.setText(getIntent().getStringExtra(USERNAME));
         passwordTextView.setText(getIntent().getStringExtra(PASSWORD));
+    }
+
+    private void injectModules() {
+        DaggerAppComponent.builder()
+                .appModule(new AppModule(getApplication()))
+                .roomModule(new RoomModule(getApplication()))
+                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
+                .build()
+                .inject(this);
     }
 }

@@ -7,9 +7,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -34,6 +34,7 @@ import static me.opens.password_manager.util.Constants.USER_NAME;
 
 public class DisplayCredentialsActivity extends AppCompatActivity {
 
+    private static final String TAG = DisplayCredentialsActivity.class.getCanonicalName();
     private RecyclerView recycleView;
     final Context context = this;
     private Intent intent;
@@ -56,6 +57,12 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
 
         recycleView = findViewById(R.id.recycler_view);
 
+        populateCredentialsForUser();
+
+        setFavAction();
+    }
+
+    private void populateCredentialsForUser() {
         String username = sharedPreferenceUtils.getUserName(USER_NAME);
         new Thread(() -> {
             List<Credential> credentials = credentialService
@@ -64,8 +71,6 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                 populateCredentials(credentials);
             }
         }).start();
-
-        setFavAction();
     }
 
     private void injectModules() {
@@ -80,7 +85,6 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
     private void setFavAction() {
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
-            Toast.makeText(getBaseContext(), "Clicked to add an item", Toast.LENGTH_LONG).show();
             final Dialog dialog = new Dialog(context);
             dialog.setContentView(R.layout.dialog_layout);
             dialog.setTitle("Save credential here");
@@ -94,20 +98,24 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                 final Credential credential =
                         prepareCredential(username, domain, identifier, password);
 
-                new Thread(() -> {
-                    authenticationService.addCredential(credential);
-                    List<Credential> credentials = credentialService
-                            .getAllCredentialsFor(username);
-                    if (!credentials.isEmpty()) {
-                        populateCredentials(credentials);
-                    }
-                }).start();
+                saveCredentialAndRepopulate(username, credential);
 
                 dialog.dismiss();
 
             });
             dialog.show();
         });
+    }
+
+    private void saveCredentialAndRepopulate(String username, Credential credential) {
+        new Thread(() -> {
+            authenticationService.addCredential(credential);
+            List<Credential> credentials = credentialService
+                    .getAllCredentialsFor(username);
+            if (!credentials.isEmpty()) {
+                populateCredentials(credentials);
+            }
+        }).start();
     }
 
     private Credential prepareCredential(String username, String domain, String identifier, String password) {
@@ -121,7 +129,6 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
 
     private void populateCredentials(final List<Credential> list) {
         runOnUiThread(() -> recycleView.setAdapter(new CredentialAdapter(list, item -> {
-            Toast.makeText(getBaseContext(), "Item Clicked", Toast.LENGTH_LONG).show();
             final Dialog dialog = new Dialog(context);
             dialog.setContentView(R.layout.dialog_reveal_with_key);
 
@@ -130,6 +137,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                 String passedInKey = ((EditText) dialog.findViewById(R.id.text_key)).getText().toString();
                 if (credentialService.isKeyMatched(passedInKey)) {
                     setIntent(item);
+                    Log.i(TAG, "starting reveal credential activity");
                     startActivity(intent);
                 }
                 dialog.dismiss();
