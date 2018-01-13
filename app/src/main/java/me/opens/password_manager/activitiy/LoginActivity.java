@@ -24,7 +24,8 @@ import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
 import me.opens.password_manager.service.AuthorizationService;
 
-import static me.opens.password_manager.util.Constants.USER_NAME_KEY;
+import static me.opens.password_manager.util.Constants.USER_KEY;
+import static me.opens.password_manager.util.Constants.USER_NAME;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -185,12 +186,17 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             if (registration) {
-                sharedPreferenceUtils.putData(USER_NAME_KEY, mEmail);
+                updateSharedPreferences();
                 return authorizationService.register(mEmail, mPassword);
             } else {
-                sharedPreferenceUtils.putData(USER_NAME_KEY, mEmail);
+                updateSharedPreferences();
                 return authorizationService.isValidUser(mEmail, mPassword);
             }
+        }
+
+        private void updateSharedPreferences() {
+            sharedPreferenceUtils.setUserName(USER_NAME, mEmail);
+            sharedPreferenceUtils.setUserKey(USER_KEY, mPassword);
         }
 
         @Override

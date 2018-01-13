@@ -29,9 +29,8 @@ import me.opens.password_manager.service.KeyCheckerService;
 import static me.opens.password_manager.activitiy.LoginActivity.EXTRA_MESSAGE;
 import static me.opens.password_manager.util.Constants.DOMAIN;
 import static me.opens.password_manager.util.Constants.PASSWORD;
-import static me.opens.password_manager.util.Constants.UNLOCK_KEY;
 import static me.opens.password_manager.util.Constants.USERNAME;
-import static me.opens.password_manager.util.Constants.USER_NAME_KEY;
+import static me.opens.password_manager.util.Constants.USER_NAME;
 
 public class DisplayCredentialsActivity extends AppCompatActivity {
 
@@ -62,7 +61,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
 
         recycleView = findViewById(R.id.recycler_view);
 
-        String username = sharedPreferenceUtils.getData(USER_NAME_KEY);
+        String username = sharedPreferenceUtils.getUserName(USER_NAME);
         new Thread(() -> {
             List<Credential> all = authorizationService
                     .getAllCredentialsFor(username);
@@ -82,7 +81,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
             dialog.setContentView(R.layout.dialog_layout);
             dialog.setTitle("Save credential here");
 
-            String username = sharedPreferenceUtils.getData(USER_NAME_KEY);
+            String username = sharedPreferenceUtils.getUserName(USER_NAME);
             Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
             dialogButton.setOnClickListener(v1 -> {
                 String domain = ((EditText) dialog.findViewById(R.id.text_domain)).getText().toString();
@@ -119,7 +118,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
             Button dialogButton = dialog.findViewById(R.id.dialogButtonReveal);
             dialogButton.setOnClickListener(view -> {
                 String passedInKey = ((EditText) dialog.findViewById(R.id.text_key)).getText().toString();
-                if (keyCheckerService.isKeyMatched(UNLOCK_KEY, passedInKey)) {
+                if (keyCheckerService.isKeyMatched(passedInKey)) {
                     intent.putExtra(EXTRA_MESSAGE, "Display Credential Activity");
                     intent.putExtra(DOMAIN, item.getDomain());
                     intent.putExtra(USERNAME, item.getUsername());
