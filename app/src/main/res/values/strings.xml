@@ -19,4 +19,13 @@
     <!--Action Buttons-->
     <string name="action_save">Save</string>
     <string name="action_reveal">Reveal</string>
+    <string name="domain">domain</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="enter_domain">Enter domain</string>
+    <string name="enter_identifier">Enter identifier</string>
+    <string name="enter_password">Enter password</string>
+    <string name="password_revealed">Password has been revealed</string>
+    <string name="enter_key">Enter key</string>
+
 </resources>

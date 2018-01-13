@@ -13,7 +13,7 @@
             android:id="@+id/text_domain"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter domain" />
+            android:hint="@string/enter_domain" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -24,7 +24,7 @@
             android:id="@+id/text_identifier"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter identifier" />
+            android:hint="@string/enter_identifier" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -35,14 +35,13 @@
             android:id="@+id/text_credential"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter password" />
+            android:hint="@string/enter_password" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/dialogButtonOK"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText2"
         android:layout_marginTop="10dp"
         android:text="@string/action_save" />
 

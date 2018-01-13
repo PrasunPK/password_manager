@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="65dp"
     android:gravity="center"
@@ -22,8 +23,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="cnsdsdsf:"
-            android:textStyle="bold" />
+            android:text="@string/domain"
+            android:textStyle="bold"
+            tools:ignore="NestedWeights" />
 
         <TextView
             android:id="@+id/username"
@@ -31,7 +33,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="TextView" />
+            android:text="@string/username" />
 
         <TextView
             android:id="@+id/password"
@@ -40,7 +42,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:inputType="textPassword"
-            android:text="TextView" />
+            android:text="@string/password"
+            tools:ignore="TextViewEdits" />
     </LinearLayout>
 
 </LinearLayout>
