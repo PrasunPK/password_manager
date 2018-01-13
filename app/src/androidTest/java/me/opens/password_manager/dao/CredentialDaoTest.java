@@ -26,6 +26,17 @@ public class CredentialDaoTest {
     private CredentialDao mCredentialDao;
 
     private CredentialDatabase mDb;
+    private Credential credential;
+    private Credential anotherCredential;
+
+    @Before
+    public void setUp() throws Exception {
+        credential =
+                createCredential("LOGIN", "user", "password", null);
+        anotherCredential =
+                createCredential("BANK", "user", "password", "user1");
+        mCredentialDao.insertAll(asList(credential, anotherCredential));
+    }
 
     @Before
     public void createDb() {
@@ -41,16 +52,6 @@ public class CredentialDaoTest {
 
     @Test
     public void shouldGetAllLoginCredentials() throws Exception {
-        Credential credential = new Credential();
-        credential.setDomain("LOGIN");
-        credential.setUsername("user");
-        credential.setPassword("password");
-        Credential anotherCredential = new Credential();
-        anotherCredential.setDomain("BANK");
-        anotherCredential.setUsername("user");
-        anotherCredential.setPassword("password");
-        mCredentialDao.insertAll(asList(credential,anotherCredential));
-
         List<Credential> loginCreds = mCredentialDao.getLoginCredentials();
         Credential actualCredential = loginCreds.get(0);
         assertNotNull(actualCredential);
@@ -58,5 +59,41 @@ public class CredentialDaoTest {
         assertThat(actualCredential.getDomain(), is(credential.getDomain()));
         assertThat(actualCredential.getUsername(), is(credential.getUsername()));
         assertThat(actualCredential.getPassword(), is(credential.getPassword()));
+    }
+
+    @Test
+    public void shouldInsertACredential() throws Exception {
+        Credential credential =
+                createCredential("EDUCATION", "usern", "pword", null);
+        mCredentialDao.insert(credential);
+
+        assertThat(mCredentialDao.getAll().size(), is(3));
+    }
+
+    @Test
+    public void shouldGetCredentialsForASpecificUser() throws Exception {
+        Credential credential =
+                createCredential("NOTHING", "usern", "pasword", "user1");
+        mCredentialDao.insert(credential);
+
+        List<Credential> credentials = mCredentialDao.getAllFor("user1");
+        assertThat(credentials.size(), is(2));
+        assertThat(credentials.get(0).getDomain(), is("BANK"));
+        assertThat(credentials.get(1).getDomain(), is("NOTHING"));
+    }
+
+    @Test
+    public void shouldGetEmptyListOfCredentialsForASpecificUserWhenThereAreNothingForAUser() throws Exception {
+        List<Credential> credentials = mCredentialDao.getAllFor("noone");
+        assertThat(credentials.size(), is(0));
+    }
+
+    private Credential createCredential(String domain, String username, String password, String belongsTo) {
+        Credential credential = new Credential();
+        credential.setDomain(domain);
+        credential.setUsername(username);
+        credential.setPassword(password);
+        credential.setBelongsTo(belongsTo);
+        return credential;
     }
 }
