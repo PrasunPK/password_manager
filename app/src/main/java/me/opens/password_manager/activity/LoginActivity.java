@@ -87,8 +87,27 @@ public class LoginActivity extends AppCompatActivity {
     private void attemptRegistration() {
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-        mAuthTask = new UserLoginTask(email, password, true);
-        mAuthTask.execute((Void) null);
+        resetErrorState();
+        boolean cancel = false;
+        View focusView = null;
+
+        if (TextUtils.isEmpty(email)) {
+            mEmailView.setError(getString(R.string.error_field_required));
+            focusView = mEmailView;
+            cancel = true;
+        } else if (!isUsernameValid(email)) {
+            mEmailView.setError(getString(R.string.error_invalid_email));
+            focusView = mEmailView;
+            cancel = true;
+        }
+        if (cancel) {
+            focusView.requestFocus();
+        } else {
+            mAuthTask = new UserLoginTask(email, password, true);
+            mAuthTask.execute((Void) null);
+        }
+
+
     }
 
     private void setUpLoginAttempt() {
@@ -96,19 +115,12 @@ public class LoginActivity extends AppCompatActivity {
         mEmailSignInButton.setOnClickListener(view -> attemptLogin());
     }
 
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;
         }
 
-        // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
+        resetErrorState();
 
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
@@ -129,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
+        } else if (!isUsernameValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
@@ -146,21 +158,21 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isEmailValid(String email) {
+    private void resetErrorState() {
+        mEmailView.setError(null);
+        mPasswordView.setError(null);
+    }
+
+    private boolean isUsernameValid(String email) {
         //TODO: Replace this with your own logic
         return true;
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() == 4;
+        return password.length() == 4 && TextUtils.isDigitsOnly(password);
     }
 
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
