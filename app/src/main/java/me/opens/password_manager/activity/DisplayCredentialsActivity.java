@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -108,14 +109,18 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
     }
 
     private void saveCredentialAndRepopulate(String username, Credential credential) {
+        final boolean[] credentialAdded = {false};
         new Thread(() -> {
-            authenticationService.addCredential(credential);
+            credentialAdded[0] = authenticationService.addCredential(credential);
             List<Credential> credentials = credentialService
                     .getAllCredentialsFor(username);
             if (!credentials.isEmpty()) {
                 populateCredentials(credentials);
             }
         }).start();
+        if (!credentialAdded[0]) {
+            Toast.makeText(context, "Can not save credential", Toast.LENGTH_LONG).show();
+        }
     }
 
     private Credential prepareCredential(String username, String domain, String identifier, String password) {

@@ -1,5 +1,7 @@
 package me.opens.password_manager.service;
 
+import android.text.TextUtils;
+
 import javax.inject.Inject;
 
 import me.opens.password_manager.entity.Credential;
@@ -28,7 +30,18 @@ public class AuthenticationService {
                 dataSource.registerAccount(username, password);
     }
 
-    public void addCredential(Credential credential) {
-        dataSource.addNew(credential);
+    public boolean addCredential(Credential credential) {
+        if (!isEmpty(credential)) {
+            dataSource.addNew(credential);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isEmpty(Credential credential) {
+        return TextUtils.isEmpty(credential.getDomain())
+                && TextUtils.isEmpty(credential.getUsername())
+                && TextUtils.isEmpty(credential.getPassword());
     }
 }
