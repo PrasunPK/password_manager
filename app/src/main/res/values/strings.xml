@@ -27,5 +27,8 @@
     <string name="enter_password">Enter password</string>
     <string name="password_revealed">Password has been revealed</string>
     <string name="enter_key">Enter key</string>
+    <string name="edit">edit</string>
+    <string name="delete">delete</string>
+    <string name="caution">Warning : You are seeing your password and username because you have entered the key correctly</string>
 
 </resources>

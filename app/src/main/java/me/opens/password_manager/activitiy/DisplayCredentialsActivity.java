@@ -86,7 +86,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
             final Dialog dialog = new Dialog(context);
-            dialog.setContentView(R.layout.dialog_layout);
+            dialog.setContentView(R.layout.dialog_enter_new_credential);
             dialog.setTitle("Save credential here");
 
             String username = sharedPreferenceUtils.getUserName(USER_NAME);
