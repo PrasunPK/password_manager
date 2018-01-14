@@ -5,9 +5,9 @@ import android.app.Application;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import me.opens.password_manager.activitiy.DisplayCredentialsActivity;
-import me.opens.password_manager.activitiy.LoginActivity;
-import me.opens.password_manager.activitiy.RevealCredentialActivity;
+import me.opens.password_manager.activity.DisplayCredentialsActivity;
+import me.opens.password_manager.activity.LoginActivity;
+import me.opens.password_manager.activity.RevealCredentialActivity;
 import me.opens.password_manager.dao.CredentialDao;
 import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;

@@ -1,4 +1,4 @@
-package me.opens.password_manager.activitiy;
+package me.opens.password_manager.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;

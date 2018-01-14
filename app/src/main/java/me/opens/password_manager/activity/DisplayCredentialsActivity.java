@@ -1,4 +1,4 @@
-package me.opens.password_manager.activitiy;
+package me.opens.password_manager.activity;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -26,7 +26,7 @@ import me.opens.password_manager.module.SharedPreferencesModule;
 import me.opens.password_manager.service.AuthenticationService;
 import me.opens.password_manager.service.CredentialService;
 
-import static me.opens.password_manager.activitiy.LoginActivity.EXTRA_MESSAGE;
+import static me.opens.password_manager.activity.LoginActivity.EXTRA_MESSAGE;
 import static me.opens.password_manager.util.Constants.DOMAIN;
 import static me.opens.password_manager.util.Constants.PASSWORD;
 import static me.opens.password_manager.util.Constants.USERNAME;

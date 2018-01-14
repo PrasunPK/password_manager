@@ -17,23 +17,23 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activitiy.DisplayCredentialsActivity"
-            android:parentActivityName=".activitiy.LoginActivity">
+            android:name=".activity.DisplayCredentialsActivity"
+            android:parentActivityName=".activity.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activitiy.LoginActivity" />
+                android:value=".activity.LoginActivity" />
         </activity>
 
         <activity
-            android:name=".activitiy.RevealCredentialActivity"
-            android:parentActivityName=".activitiy.DisplayCredentialsActivity">
+            android:name=".activity.RevealCredentialActivity"
+            android:parentActivityName=".activity.DisplayCredentialsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activitiy.DisplayCredentialsActivity" />
+                android:value=".activity.DisplayCredentialsActivity" />
         </activity>
 
         <activity
-            android:name=".activitiy.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
