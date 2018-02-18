@@ -2,6 +2,7 @@ package me.opens.password_manager.activity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -57,9 +58,8 @@ public class RevealCredentialActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostResume() {
-        super.onRestart();
-        super.onPostResume();
+    public void onBackPressed() {
+        startActivity(new Intent(this, DisplayCredentialsActivity.class));
     }
 
     private void setDeleteAction(String domain, String username, String password) {
@@ -74,9 +74,9 @@ public class RevealCredentialActivity extends AppCompatActivity {
                 new Thread(() -> {
                     credentialService.deleteCredential(domain, username, password);
                     Log.i(TAG, "DELETING CREDENTIAL");
-                    finish();
                 }).start();
                 dialog.dismiss();
+                onBackPressed();
             });
             dialog.show();
         });
