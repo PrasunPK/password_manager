@@ -39,4 +39,9 @@ public class CredentialDataSource implements CredentialRepository {
     public void addNew(Credential credential) {
         credentialDao.insert(credential);
     }
+
+    @Override
+    public void deleteFor(String userKey, String domain, String username, String password) {
+        credentialDao.delete(userKey, domain, username, password);
+    }
 }

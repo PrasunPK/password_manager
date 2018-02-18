@@ -12,4 +12,6 @@ public interface CredentialRepository {
     List<Credential> getAllFor(String username);
 
     void addNew(Credential credential);
+
+    void deleteFor(String userKey, String domain, String username, String password);
 }

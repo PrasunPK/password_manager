@@ -25,4 +25,8 @@ public interface CredentialDao {
 
     @Query("SELECT * FROM Credential WHERE belongs_to=:username")
     List<Credential> getAllFor(String username);
+
+    @Query("DELETE FROM Credential WHERE belongs_to=:userKey AND domain=:domain " +
+            "AND username=:username AND password=:password")
+    void delete(String userKey, String domain, String username, String password);
 }

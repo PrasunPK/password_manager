@@ -17,8 +17,11 @@
     </string>
 
     <!--Action Buttons-->
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Cancel</string>
     <string name="action_save">Save</string>
     <string name="action_reveal">Reveal</string>
+
     <string name="domain">domain</string>
     <string name="username">username</string>
     <string name="password">password</string>
@@ -30,5 +33,7 @@
     <string name="edit">edit</string>
     <string name="delete">delete</string>
     <string name="caution">Warning : You are seeing your password and username because you have entered the key correctly</string>
+
+    <string name="delete_warning">You are in process of deleting a credential. Are you sure?</string>
 
 </resources>

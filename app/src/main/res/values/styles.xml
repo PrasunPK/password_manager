@@ -14,4 +14,10 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
+    <style name="PrimaryFlatButtonDanger" parent="Theme.AppCompat.Light">
+        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="colorAccent">@color/danger</item>
+    </style>
+
 </resources>

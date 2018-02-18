@@ -30,4 +30,13 @@ public class CredentialService {
     public List<Credential> getAllCredentialsFor(String username) {
         return dataSource.getAllFor(username);
     }
+
+    public void deleteCredential(String domain, String username, String password) {
+        dataSource.deleteFor(
+                sharedPreferenceUtils.getUserKey(USER_KEY),
+                domain,
+                username,
+                password
+        );
+    }
 }
