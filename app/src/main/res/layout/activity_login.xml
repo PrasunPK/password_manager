@@ -56,8 +56,9 @@
                 android:imeActionId="6"
                 android:imeActionLabel="@string/action_sign_in_short"
                 android:imeOptions="actionUnspecified"
-                android:inputType="textPassword"
+                android:inputType="numberPassword"
                 android:maxLines="1"
+                android:maxLength="4"
                 android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>
