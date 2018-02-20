@@ -76,7 +76,9 @@ public class RevealCredentialActivity extends AppCompatActivity {
             mIdentifier.setText(identifier);
             mPassword.setText(password);
 
-            String username = sharedPreferenceUtils.getUserName(USER_NAME);
+            mDomain.setEnabled(false);
+            mIdentifier.setEnabled(false);
+
             Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
             dialogButton.setOnClickListener(v1 -> {
                 showError(mDomain, mIdentifier, mPassword);
