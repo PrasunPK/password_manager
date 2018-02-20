@@ -56,4 +56,9 @@ public class CredentialService {
                 || TextUtils.isEmpty(credential.getUsername())
                 || TextUtils.isEmpty(credential.getPassword());
     }
+
+    public void updateCredential(String domain, String identifier, String password) {
+        dataSource.update(sharedPreferenceUtils.getUserKey(USER_KEY),
+                domain, identifier, password);
+    }
 }

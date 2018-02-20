@@ -29,4 +29,8 @@ public interface CredentialDao {
     @Query("DELETE FROM Credential WHERE belongs_to=:userKey AND domain=:domain " +
             "AND username=:username AND password=:password")
     void delete(String userKey, String domain, String username, String password);
+
+    @Query("UPDATE Credential SET password=:password " +
+            "WHERE domain=:domain AND username=:username AND belongs_to=:userKey")
+    void update(String userKey, String domain, String username, String password);
 }

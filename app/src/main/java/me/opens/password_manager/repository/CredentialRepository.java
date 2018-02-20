@@ -14,4 +14,6 @@ public interface CredentialRepository {
     void addNew(Credential credential);
 
     void deleteFor(String userKey, String domain, String username, String password);
+
+    void update(String userKey, String domain, String username, String password);
 }

@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -141,9 +140,6 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                 populateCredentials(credentials);
             }
         }).start();
-        if (!credentialAdded[0]) {
-            Toast.makeText(context, "Can not save credential", Toast.LENGTH_LONG).show();
-        }
     }
 
     private Credential prepareCredential(String username, String domain, String identifier, String password) {

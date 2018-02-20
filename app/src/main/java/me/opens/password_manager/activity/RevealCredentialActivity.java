@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import javax.inject.Inject;
@@ -21,9 +22,11 @@ import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
 import me.opens.password_manager.service.CredentialService;
 
+import static android.text.TextUtils.isEmpty;
 import static me.opens.password_manager.util.Constants.DOMAIN;
 import static me.opens.password_manager.util.Constants.PASSWORD;
 import static me.opens.password_manager.util.Constants.USERNAME;
+import static me.opens.password_manager.util.Constants.USER_NAME;
 
 public class RevealCredentialActivity extends AppCompatActivity {
     final Context context = this;
@@ -55,11 +58,60 @@ public class RevealCredentialActivity extends AppCompatActivity {
         passwordTextView.setText(password);
 
         setDeleteAction(domain, username, password);
+        setEditAction(domain, username, password);
+    }
+
+    private void setEditAction(String domain, String identifier, String password) {
+        View editButton = findViewById(R.id.edit_credential);
+        editButton.setOnClickListener(v -> {
+            final Dialog dialog = new Dialog(context);
+            dialog.setContentView(R.layout.dialog_enter_new_credential);
+            dialog.setTitle("Save credential here");
+
+            EditText mDomain = (EditText) dialog.findViewById(R.id.text_domain);
+            EditText mIdentifier = (EditText) dialog.findViewById(R.id.text_identifier);
+            EditText mPassword = (EditText) dialog.findViewById(R.id.text_credential);
+
+            mDomain.setText(domain);
+            mIdentifier.setText(identifier);
+            mPassword.setText(password);
+
+            String username = sharedPreferenceUtils.getUserName(USER_NAME);
+            Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
+            dialogButton.setOnClickListener(v1 -> {
+                showError(mDomain, mIdentifier, mPassword);
+
+                new Thread(() -> {
+                    credentialService.updateCredential(
+                            mDomain.getText().toString(),
+                            mIdentifier.getText().toString(),
+                            mPassword.getText().toString());
+                }).start();
+                getIntent().putExtra(PASSWORD, mPassword.getText().toString());
+
+                dialog.dismiss();
+                finish();
+                startActivity(getIntent());
+            });
+            dialog.show();
+        });
     }
 
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, DisplayCredentialsActivity.class));
+    }
+
+    private void showError(EditText mDomain, EditText mIdentifier, EditText mPassword) {
+        if (isEmpty(mDomain.getText().toString())) {
+            mDomain.setError("Field can not be empty");
+        }
+        if (isEmpty(mIdentifier.getText().toString())) {
+            mIdentifier.setError("Field can not be empty");
+        }
+        if (isEmpty(mPassword.getText().toString())) {
+            mPassword.setError("Field can not be empty");
+        }
     }
 
     private void setDeleteAction(String domain, String username, String password) {
