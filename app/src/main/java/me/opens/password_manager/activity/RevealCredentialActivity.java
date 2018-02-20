@@ -26,7 +26,6 @@ import static android.text.TextUtils.isEmpty;
 import static me.opens.password_manager.util.Constants.DOMAIN;
 import static me.opens.password_manager.util.Constants.PASSWORD;
 import static me.opens.password_manager.util.Constants.USERNAME;
-import static me.opens.password_manager.util.Constants.USER_NAME;
 
 public class RevealCredentialActivity extends AppCompatActivity {
     final Context context = this;
@@ -81,7 +80,7 @@ public class RevealCredentialActivity extends AppCompatActivity {
 
             Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
             dialogButton.setOnClickListener(v1 -> {
-                showError(mDomain, mIdentifier, mPassword);
+                showError(mPassword);
 
                 new Thread(() -> {
                     credentialService.updateCredential(
@@ -91,9 +90,11 @@ public class RevealCredentialActivity extends AppCompatActivity {
                 }).start();
                 getIntent().putExtra(PASSWORD, mPassword.getText().toString());
 
-                dialog.dismiss();
-                finish();
-                startActivity(getIntent());
+                if (!isEmpty(mPassword.getText().toString())) {
+                    dialog.dismiss();
+                    finish();
+                    startActivity(getIntent());
+                }
             });
             dialog.show();
         });
@@ -104,13 +105,7 @@ public class RevealCredentialActivity extends AppCompatActivity {
         startActivity(new Intent(this, DisplayCredentialsActivity.class));
     }
 
-    private void showError(EditText mDomain, EditText mIdentifier, EditText mPassword) {
-        if (isEmpty(mDomain.getText().toString())) {
-            mDomain.setError("Field can not be empty");
-        }
-        if (isEmpty(mIdentifier.getText().toString())) {
-            mIdentifier.setError("Field can not be empty");
-        }
+    private void showError(EditText mPassword) {
         if (isEmpty(mPassword.getText().toString())) {
             mPassword.setError("Field can not be empty");
         }
