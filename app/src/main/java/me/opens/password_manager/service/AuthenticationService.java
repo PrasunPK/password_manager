@@ -23,8 +23,9 @@ public class AuthenticationService {
         return false;
     }
 
-    public boolean register(String username, String password) {
-        return !isValidUser(username, password) &&
-                dataSource.registerAccount(username, password);
+    public void register(String username, String password) {
+        if (!isValidUser(username, password)) {
+            dataSource.registerAccount(username, password);
+        }
     }
 }

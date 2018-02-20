@@ -170,7 +170,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() == 4 && TextUtils.isDigitsOnly(password);
+        return password.length() == 4;
     }
 
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
@@ -189,7 +189,8 @@ public class LoginActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             if (registration) {
                 updateSharedPreferences();
-                return authenticationService.register(mEmail, mPassword);
+                authenticationService.register(mEmail, mPassword);
+                return true;
             } else {
                 updateSharedPreferences();
                 return authenticationService.isValidUser(mEmail, mPassword);
@@ -204,11 +205,11 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-
+            Log.i(TAG, "OnPostExecute [" + success.toString() + "]");
             if (success) {
                 finish();
                 intent.putExtra(EXTRA_MESSAGE, "Login Activity");
-                Log.i(TAG, "starting diaplay credentials activity");
+                Log.i(TAG, "starting display credentials activity");
                 startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

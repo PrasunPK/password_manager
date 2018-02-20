@@ -21,13 +21,12 @@ public class CredentialDataSource implements CredentialRepository {
     }
 
     @Override
-    public boolean registerAccount(String username, String password) {
+    public void registerAccount(String username, String password) {
         Credential credential = new Credential();
         credential.setDomain("LOGIN");
         credential.setUsername(username);
         credential.setPassword(password);
-        credentialDao.insert(credential);
-        return true;
+        addNew(credential);
     }
 
     @Override
