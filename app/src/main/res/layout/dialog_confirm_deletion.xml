@@ -14,9 +14,10 @@
             android:id="@+id/text_key"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/delete_warning"
             android:hint="@string/enter_key"
-            android:textColor="@color/danger"/>
+            android:text="@string/delete_warning"
+            android:textColor="@color/danger"
+            android:textSize="18sp" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
