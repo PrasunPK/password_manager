@@ -13,8 +13,6 @@ import me.opens.password_manager.repository.CredentialDataSource;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -45,20 +43,5 @@ public class AuthenticationServiceTest {
     public void shouldReturnFalseIfTheCredentialsDoNotMatch() throws Exception {
         when(credentialDataSource.getLoginCredentials()).thenReturn(asList(credential));
         assertFalse(authenticationService.isValidUser("user", "pwd"));
-    }
-
-    @Test
-    public void shouldRegisterIfTheAccountDoesNotExists() throws Exception {
-        when(credentialDataSource.registerAccount("username", "password")).thenReturn(true);
-        boolean registered = authenticationService.register("username", "password");
-        assertTrue(registered);
-    }
-
-    @Test
-    public void shouldNotRegisterWhenTheUserExists() throws Exception {
-        when(credentialDataSource.getLoginCredentials()).thenReturn(asList(credential));
-        boolean canBeRegistered = authenticationService.register("user", "password");
-        verify(credentialDataSource, times(0)).registerAccount("user", "password");
-        assertFalse(canBeRegistered);
     }
 }
