@@ -14,8 +14,11 @@
             android:id="@+id/text_key"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="@string/enter_key" />
+            android:hint="@string/enter_key"
+            android:inputType="numberPassword"
+            android:maxLength="4"
+            android:maxLines="1"
+            android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button
