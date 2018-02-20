@@ -9,25 +9,25 @@
     <LinearLayout
         android:id="@+id/image_view"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="200dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/ic_lock_open_black_48dp"
-            />
+            android:src="@mipmap/ic_lock_open_black_48dp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/email_login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:gravity="center"
-        android:padding="16dp"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -46,7 +46,8 @@
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
 
             <EditText
                 android:id="@+id/password"
@@ -57,8 +58,8 @@
                 android:imeActionLabel="@string/action_sign_in_short"
                 android:imeOptions="actionUnspecified"
                 android:inputType="numberPassword"
-                android:maxLines="1"
                 android:maxLength="4"
+                android:maxLines="1"
                 android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>
@@ -67,8 +68,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="end"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
             android:padding="16dp">
+
+            <Button
+                android:id="@+id/email_register_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_register"
+                android:textStyle="bold"
+                android:theme="@style/PrimaryFlatButton" />
 
             <Button
                 android:id="@+id/email_sign_in_button"
@@ -79,14 +90,6 @@
                 android:textStyle="bold"
                 android:theme="@style/PrimaryFlatButton" />
 
-            <Button
-                android:id="@+id/email_register_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/action_register"
-                android:textStyle="bold"
-                android:theme="@style/PrimaryFlatButton" />
 
         </LinearLayout>
 
