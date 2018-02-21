@@ -19,7 +19,7 @@ import me.opens.password_manager.R;
 import me.opens.password_manager.adapter.CredentialAdapter;
 import me.opens.password_manager.config.DaggerAppComponent;
 import me.opens.password_manager.config.SharedPreferenceUtils;
-import me.opens.password_manager.entity.Credential;
+import me.opens.password_manager.data.Credential;
 import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;

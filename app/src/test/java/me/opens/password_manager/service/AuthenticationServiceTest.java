@@ -7,8 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import me.opens.password_manager.entity.Credential;
-import me.opens.password_manager.repository.CredentialDataSource;
+import me.opens.password_manager.data.Credential;
+import me.opens.password_manager.data.CredentialDataSource;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertFalse;

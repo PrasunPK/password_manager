@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import me.opens.password_manager.R;
-import me.opens.password_manager.entity.Credential;
+import me.opens.password_manager.data.Credential;
 import me.opens.password_manager.listener.OnItemClickListener;
 
 public class CredentialAdapter extends RecyclerView.Adapter<CredentialAdapter.CredentialViewHolder> {

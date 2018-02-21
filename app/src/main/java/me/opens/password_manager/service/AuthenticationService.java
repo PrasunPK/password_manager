@@ -2,8 +2,8 @@ package me.opens.password_manager.service;
 
 import javax.inject.Inject;
 
-import me.opens.password_manager.entity.Credential;
-import me.opens.password_manager.repository.CredentialDataSource;
+import me.opens.password_manager.data.Credential;
+import me.opens.password_manager.data.CredentialDataSource;
 
 public class AuthenticationService {
 

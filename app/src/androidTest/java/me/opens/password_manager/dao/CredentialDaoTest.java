@@ -13,8 +13,9 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.List;
 
-import me.opens.password_manager.entity.Credential;
-import me.opens.password_manager.storage.CredentialDatabase;
+import me.opens.password_manager.data.Credential;
+import me.opens.password_manager.data.CredentialDao;
+import me.opens.password_manager.data.CredentialDatabase;
 
 import static java.util.Arrays.asList;
 import static junit.framework.Assert.assertNotNull;

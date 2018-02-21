@@ -1,4 +1,4 @@
-package me.opens.password_manager.dao;
+package me.opens.password_manager.data;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
@@ -6,7 +6,7 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-import me.opens.password_manager.entity.Credential;
+import me.opens.password_manager.data.Credential;
 
 @Dao
 public interface CredentialDao {

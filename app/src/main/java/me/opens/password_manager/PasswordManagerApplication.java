@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
-import me.opens.password_manager.storage.CredentialDatabase;
+import me.opens.password_manager.data.CredentialDatabase;
 
 import static me.opens.password_manager.util.Constants.DATABASE_NAME;
 

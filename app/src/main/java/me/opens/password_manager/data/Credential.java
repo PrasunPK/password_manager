@@ -1,4 +1,4 @@
-package me.opens.password_manager.entity;
+package me.opens.password_manager.data;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;

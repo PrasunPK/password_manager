@@ -1,8 +1,8 @@
-package me.opens.password_manager.repository;
+package me.opens.password_manager.data;
 
 import java.util.List;
 
-import me.opens.password_manager.entity.Credential;
+import me.opens.password_manager.data.Credential;
 
 public interface CredentialRepository {
     List<Credential> getLoginCredentials();

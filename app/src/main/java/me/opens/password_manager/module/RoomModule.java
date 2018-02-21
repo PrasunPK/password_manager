@@ -7,10 +7,10 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import me.opens.password_manager.dao.CredentialDao;
-import me.opens.password_manager.repository.CredentialDataSource;
-import me.opens.password_manager.repository.CredentialRepository;
-import me.opens.password_manager.storage.CredentialDatabase;
+import me.opens.password_manager.data.CredentialDao;
+import me.opens.password_manager.data.CredentialDataSource;
+import me.opens.password_manager.data.CredentialRepository;
+import me.opens.password_manager.data.CredentialDatabase;
 
 import static me.opens.password_manager.util.Constants.DATABASE_NAME;
 
