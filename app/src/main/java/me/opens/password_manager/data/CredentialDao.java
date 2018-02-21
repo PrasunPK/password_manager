@@ -6,8 +6,6 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-import me.opens.password_manager.data.Credential;
-
 @Dao
 public interface CredentialDao {
 
@@ -31,6 +29,8 @@ public interface CredentialDao {
     void delete(String userKey, String domain, String username, String password);
 
     @Query("UPDATE Credential SET password=:password " +
-            "WHERE domain=:domain AND username=:username AND belongs_to=:userKey")
-    void update(String userKey, String domain, String username, String password);
+            "WHERE domain=:domain AND username=:username " +
+            "AND belongs_to=:userKey AND updated_at=:updatedTime")
+    void update(String userKey, String domain, String username,
+                String password, Long updatedTime);
 }

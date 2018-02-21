@@ -57,8 +57,8 @@ public class CredentialService {
                 || TextUtils.isEmpty(credential.getPassword());
     }
 
-    public void updateCredential(String domain, String identifier, String password) {
+    public void updateCredential(String domain, String identifier, String password, Long updatedTime) {
         dataSource.update(sharedPreferenceUtils.getUserKey(USER_KEY),
-                domain, identifier, password);
+                domain, identifier, password, updatedTime);
     }
 }

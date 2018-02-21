@@ -42,7 +42,7 @@ public class CredentialDataSource implements CredentialRepository {
     }
 
     @Override
-    public void update(String userKey, String domain, String username, String password) {
-        credentialDao.update(userKey, domain, username, password);
+    public void update(String userKey, String domain, String username, String password, Long updatedTime) {
+        credentialDao.update(userKey, domain, username, password, updatedTime);
     }
 }

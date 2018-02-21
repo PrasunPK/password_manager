@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -143,11 +144,15 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
     }
 
     private Credential prepareCredential(String username, String domain, String identifier, String password) {
+        Date date = new Date();
+
         Credential credential = new Credential();
         credential.setDomain(domain);
         credential.setUsername(identifier);
         credential.setPassword(password);
         credential.setBelongsTo(username);
+        credential.setCreatedAt(date.getTime());
+        credential.setUpdatedAt(date.getTime());
         return credential;
     }
 

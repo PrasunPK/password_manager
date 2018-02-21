@@ -22,6 +22,12 @@ public class Credential {
     @ColumnInfo(name = "belongs_to")
     private String belongsTo;
 
+    @ColumnInfo(name = "created_at")
+    private Long createdAt;
+
+    @ColumnInfo(name = "updated_at")
+    private Long updatedAt;
+
     public int getCid() {
         return cid;
     }
@@ -61,5 +67,21 @@ public class Credential {
 
     public void setBelongsTo(String belongsTo) {
         this.belongsTo = belongsTo;
+    }
+
+    public Long getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Long updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Long createdAt) {
+        this.createdAt = createdAt;
     }
 }

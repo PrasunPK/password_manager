@@ -2,8 +2,6 @@ package me.opens.password_manager.data;
 
 import java.util.List;
 
-import me.opens.password_manager.data.Credential;
-
 public interface CredentialRepository {
     List<Credential> getLoginCredentials();
 
@@ -15,5 +13,5 @@ public interface CredentialRepository {
 
     void deleteFor(String userKey, String domain, String username, String password);
 
-    void update(String userKey, String domain, String username, String password);
+    void update(String userKey, String domain, String username, String password, Long updatedTime);
 }

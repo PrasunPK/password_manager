@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 
 import me.opens.password_manager.R;
@@ -81,12 +83,15 @@ public class RevealCredentialActivity extends AppCompatActivity {
             Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
             dialogButton.setOnClickListener(v1 -> {
                 showError(mPassword);
+                Date date = new Date();
 
                 new Thread(() -> {
                     credentialService.updateCredential(
                             mDomain.getText().toString(),
                             mIdentifier.getText().toString(),
-                            mPassword.getText().toString());
+                            mPassword.getText().toString(),
+                            date.getTime()
+                    );
                 }).start();
                 getIntent().putExtra(PASSWORD, mPassword.getText().toString());
 
