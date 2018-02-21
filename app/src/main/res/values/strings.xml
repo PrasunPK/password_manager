@@ -32,6 +32,7 @@
     <string name="enter_key">Enter key</string>
     <string name="edit">edit</string>
     <string name="delete">delete</string>
+    <string name="last_updated">Last updated</string>
     <string name="caution">Warning : You are seeing your password and username because you have entered the key correctly</string>
 
     <string name="delete_warning">You are in process of deleting a credential. Are you sure?</string>

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.inject.Inject;
@@ -26,6 +27,7 @@ import me.opens.password_manager.service.CredentialService;
 
 import static android.text.TextUtils.isEmpty;
 import static me.opens.password_manager.util.Constants.DOMAIN;
+import static me.opens.password_manager.util.Constants.LAST_UPDATED;
 import static me.opens.password_manager.util.Constants.PASSWORD;
 import static me.opens.password_manager.util.Constants.USERNAME;
 
@@ -49,14 +51,17 @@ public class RevealCredentialActivity extends AppCompatActivity {
         TextView domainTextView = findViewById(R.id.revealed_domain);
         TextView userNameTextView = findViewById(R.id.revealed_username);
         TextView passwordTextView = findViewById(R.id.revealed_password);
+        TextView lastUpdatedTextView = findViewById(R.id.last_update_time);
 
         String domain = getIntent().getStringExtra(DOMAIN);
         String username = getIntent().getStringExtra(USERNAME);
         String password = getIntent().getStringExtra(PASSWORD);
+        String lastUpdated = getIntent().getStringExtra(LAST_UPDATED);
 
         domainTextView.setText(domain);
         userNameTextView.setText(username);
         passwordTextView.setText(password);
+        lastUpdatedTextView.setText(lastUpdated);
 
         setDeleteAction(domain, username, password);
         setEditAction(domain, username, password);
@@ -93,7 +98,10 @@ public class RevealCredentialActivity extends AppCompatActivity {
                             date.getTime()
                     );
                 }).start();
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
                 getIntent().putExtra(PASSWORD, mPassword.getText().toString());
+                getIntent().putExtra(LAST_UPDATED, dateFormat.format(date.getTime()));
 
                 if (!isEmpty(mPassword.getText().toString())) {
                     dialog.dismiss();

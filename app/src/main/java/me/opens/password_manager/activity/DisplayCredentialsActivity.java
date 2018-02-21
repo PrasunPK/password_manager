@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import me.opens.password_manager.service.CredentialService;
 import static android.text.TextUtils.isEmpty;
 import static me.opens.password_manager.activity.LoginActivity.EXTRA_MESSAGE;
 import static me.opens.password_manager.util.Constants.DOMAIN;
+import static me.opens.password_manager.util.Constants.LAST_UPDATED;
 import static me.opens.password_manager.util.Constants.PASSWORD;
 import static me.opens.password_manager.util.Constants.USERNAME;
 import static me.opens.password_manager.util.Constants.USER_NAME;
@@ -177,9 +179,13 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
     }
 
     private void setIntent(Credential item) {
+        Date date = new Date(item.getUpdatedAt());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
+
         intent.putExtra(EXTRA_MESSAGE, "Display Credential Activity");
         intent.putExtra(DOMAIN, item.getDomain());
         intent.putExtra(USERNAME, item.getUsername());
         intent.putExtra(PASSWORD, item.getPassword());
+        intent.putExtra(LAST_UPDATED, dateFormat.format(date));
     }
 }

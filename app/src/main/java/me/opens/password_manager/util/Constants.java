@@ -13,6 +13,7 @@ public class Constants {
     public static final String DATABASE_NAME = "CredentialDatabase";
     public static final String USER_NAME = "USER_NAME";
     public static final String USER_KEY = "USER_NAME";
+    public static final String LAST_UPDATED = "LAST_UPDATED";
 
 
 }
