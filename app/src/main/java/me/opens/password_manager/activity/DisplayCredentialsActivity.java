@@ -93,23 +93,28 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
     }
 
     public void populateCredentials(final List<Credential> list) {
-        runOnUiThread(() -> recycleView.setAdapter(new CredentialAdapter(list, item -> {
-            final Dialog dialog = new Dialog(context);
-            dialog.setContentView(R.layout.dialog_reveal_with_key);
+        runOnUiThread(() -> {
+            try {
+                recycleView.setAdapter(new CredentialAdapter(list, item -> {
+                    final Dialog dialog = new Dialog(context);
+                    dialog.setContentView(R.layout.dialog_reveal_with_key);
 
-            Button dialogButton = dialog.findViewById(R.id.dialogButtonReveal);
-            dialogButton.setOnClickListener(view -> {
-                String passedInKey = ((EditText) dialog.findViewById(R.id.text_key)).getText().toString();
-                if (credentialService.isKeyMatched(passedInKey)) {
-                    setIntent(item);
-                    Log.i(TAG, "starting reveal credential activity");
-                    startActivity(intent);
-                }
-                dialog.dismiss();
-            });
-            dialog.show();
-        }
-        )));
+                    Button dialogButton = dialog.findViewById(R.id.dialogButtonReveal);
+                    dialogButton.setOnClickListener(view -> {
+                        String passedInKey = ((EditText) dialog.findViewById(R.id.text_key)).getText().toString();
+                        if (credentialService.isKeyMatched(passedInKey)) {
+                            setIntent(item);
+                            Log.i(TAG, "starting reveal credential activity");
+                            startActivity(intent);
+                        }
+                        dialog.dismiss();
+                    });
+                    dialog.show();
+                }, new CryptService(sharedPreferenceUtils.getUserName(USER_NAME))));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void setIntent(Credential item) {
