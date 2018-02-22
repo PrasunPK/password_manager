@@ -28,17 +28,19 @@ import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
 import me.opens.password_manager.service.AuthenticationService;
 import me.opens.password_manager.service.CredentialService;
+import me.opens.password_manager.service.EncryptionService;
 
 import static me.opens.password_manager.activity.LoginActivity.EXTRA_MESSAGE;
 import static me.opens.password_manager.util.Constants.DOMAIN;
 import static me.opens.password_manager.util.Constants.LAST_UPDATED;
 import static me.opens.password_manager.util.Constants.PASSWORD;
 import static me.opens.password_manager.util.Constants.USERNAME;
+import static me.opens.password_manager.util.Constants.USER_KEY;
 import static me.opens.password_manager.util.Constants.USER_NAME;
 
 public class DisplayCredentialsActivity extends AppCompatActivity {
 
-    private static final String TAG = DisplayCredentialsActivity.class.getCanonicalName();
+    public static final String TAG = DisplayCredentialsActivity.class.getCanonicalName();
     private RecyclerView recycleView;
     final Context context = this;
     private Intent intent;
@@ -79,9 +81,15 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
 
     private void setFavAction() {
         String username = sharedPreferenceUtils.getUserName(USER_NAME);
+        String userKey = sharedPreferenceUtils.getUserName(USER_KEY);
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new FabClickListener(DisplayCredentialsActivity.this, context, credentialService, username));
+        try {
+            fab.setOnClickListener(new FabClickListener(DisplayCredentialsActivity.this, context,
+                    credentialService, new EncryptionService(userKey), username));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void populateCredentials(final List<Credential> list) {
