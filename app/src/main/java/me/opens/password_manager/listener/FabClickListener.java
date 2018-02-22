@@ -38,28 +38,7 @@ public class FabClickListener implements View.OnClickListener {
         dialog.setTitle("Save credential here");
 
         Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
-        dialogButton.setOnClickListener(v1 -> {
-            EditText mDomain = (EditText) dialog.findViewById(R.id.text_domain);
-            EditText mIdentifier = (EditText) dialog.findViewById(R.id.text_identifier);
-            EditText mPassword = (EditText) dialog.findViewById(R.id.text_credential);
-
-            showError(mDomain, mIdentifier, mPassword);
-
-            final Credential credential =
-                    prepareCredential(username,
-                            mDomain.getText().toString(),
-                            mIdentifier.getText().toString(),
-                            mPassword.getText().toString());
-
-            saveCredentialAndRepopulate(username, credential);
-
-            if (!isEmpty(mDomain.getText().toString())
-                    && !isEmpty(mIdentifier.getText().toString())
-                    && !isEmpty(mPassword.getText().toString())) {
-                dialog.dismiss();
-            }
-
-        });
+        dialogButton.setOnClickListener(new DialogButtonListener(dialog));
         dialog.show();
     }
 
@@ -98,5 +77,37 @@ public class FabClickListener implements View.OnClickListener {
         credential.setCreatedAt(date.getTime());
         credential.setUpdatedAt(date.getTime());
         return credential;
+    }
+
+    private class DialogButtonListener implements View.OnClickListener {
+
+        private Dialog dialog;
+
+        DialogButtonListener(Dialog dialog) {
+            this.dialog = dialog;
+        }
+
+        @Override
+        public void onClick(View view) {
+            EditText mDomain = (EditText) dialog.findViewById(R.id.text_domain);
+            EditText mIdentifier = (EditText) dialog.findViewById(R.id.text_identifier);
+            EditText mPassword = (EditText) dialog.findViewById(R.id.text_credential);
+
+            showError(mDomain, mIdentifier, mPassword);
+
+            final Credential credential =
+                    prepareCredential(username,
+                            mDomain.getText().toString(),
+                            mIdentifier.getText().toString(),
+                            mPassword.getText().toString());
+
+            saveCredentialAndRepopulate(username, credential);
+
+            if (!isEmpty(mDomain.getText().toString())
+                    && !isEmpty(mIdentifier.getText().toString())
+                    && !isEmpty(mPassword.getText().toString())) {
+                dialog.dismiss();
+            }
+        }
     }
 }

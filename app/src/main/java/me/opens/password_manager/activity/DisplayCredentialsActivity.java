@@ -108,11 +108,11 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
         Date date = new Date(item.getUpdatedAt());
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
 
-        intent.putExtra(EXTRA_MESSAGE, "Display Credential Activity");
-        intent.putExtra(DOMAIN, item.getDomain());
-        intent.putExtra(USERNAME, item.getUsername());
-        intent.putExtra(PASSWORD, item.getPassword());
-        intent.putExtra(LAST_UPDATED, dateFormat.format(date));
+        intent.putExtra(EXTRA_MESSAGE, "Display Credential Activity")
+                .putExtra(DOMAIN, item.getDomain())
+                .putExtra(USERNAME, item.getUsername())
+                .putExtra(PASSWORD, item.getPassword())
+                .putExtra(LAST_UPDATED, dateFormat.format(date));
     }
 
     private void injectModules() {

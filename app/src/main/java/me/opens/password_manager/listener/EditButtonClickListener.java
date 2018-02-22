@@ -62,8 +62,8 @@ public class EditButtonClickListener implements View.OnClickListener {
             }).start();
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
-            activity.getIntent().putExtra(PASSWORD, mPassword.getText().toString());
-            activity.getIntent().putExtra(LAST_UPDATED, dateFormat.format(date.getTime()));
+            activity.getIntent().putExtra(PASSWORD, mPassword.getText().toString())
+                    .putExtra(LAST_UPDATED, dateFormat.format(date.getTime()));
 
             if (!isEmpty(mPassword.getText().toString())) {
                 dialog.dismiss();

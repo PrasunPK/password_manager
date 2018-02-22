@@ -88,7 +88,32 @@ public class RevealCredentialActivity extends AppCompatActivity {
 
     private void setDeleteAction(String domain, String username, String password) {
         View deleteButton = findViewById(R.id.delete_credential);
-        deleteButton.setOnClickListener(view -> {
+        deleteButton.setOnClickListener(new DialogButtonClickListner(domain, username, password));
+    }
+
+    private void injectModules() {
+        DaggerAppComponent.builder()
+                .appModule(new AppModule(getApplication()))
+                .roomModule(new RoomModule(getApplication()))
+                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
+                .build()
+                .inject(this);
+    }
+
+    private class DialogButtonClickListner implements View.OnClickListener {
+
+        private final String domain;
+        private final String username;
+        private final String password;
+
+        DialogButtonClickListner(String domain, String username, String password) {
+            this.domain = domain;
+            this.username = username;
+            this.password = password;
+        }
+
+        @Override
+        public void onClick(View view) {
             final Dialog dialog = new Dialog(context);
             dialog.setContentView(R.layout.dialog_confirm_deletion);
             dialog.setTitle("Alert");
@@ -103,15 +128,6 @@ public class RevealCredentialActivity extends AppCompatActivity {
                 onBackPressed();
             });
             dialog.show();
-        });
-    }
-
-    private void injectModules() {
-        DaggerAppComponent.builder()
-                .appModule(new AppModule(getApplication()))
-                .roomModule(new RoomModule(getApplication()))
-                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
-                .build()
-                .inject(this);
+        }
     }
 }
