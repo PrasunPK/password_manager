@@ -28,7 +28,7 @@ import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
 import me.opens.password_manager.service.AuthenticationService;
 import me.opens.password_manager.service.CredentialService;
-import me.opens.password_manager.service.EncryptionService;
+import me.opens.password_manager.service.CryptService;
 
 import static me.opens.password_manager.activity.LoginActivity.EXTRA_MESSAGE;
 import static me.opens.password_manager.util.Constants.DOMAIN;
@@ -86,7 +86,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.fab);
         try {
             fab.setOnClickListener(new FabClickListener(DisplayCredentialsActivity.this, context,
-                    credentialService, new EncryptionService(userKey), username));
+                    credentialService, new CryptService(userKey), username));
         } catch (Exception e) {
             e.printStackTrace();
         }

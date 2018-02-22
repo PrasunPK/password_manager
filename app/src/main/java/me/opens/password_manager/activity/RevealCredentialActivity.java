@@ -21,7 +21,7 @@ import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
 import me.opens.password_manager.service.CredentialService;
-import me.opens.password_manager.service.EncryptionService;
+import me.opens.password_manager.service.CryptService;
 
 import static me.opens.password_manager.util.Constants.DOMAIN;
 import static me.opens.password_manager.util.Constants.LAST_UPDATED;
@@ -38,7 +38,7 @@ public class RevealCredentialActivity extends AppCompatActivity {
     @Inject
     CredentialService credentialService;
     private static final String TAG = RevealCredentialActivity.class.getCanonicalName();
-    private EncryptionService encryptionService;
+    private CryptService cryptService;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,9 +47,9 @@ public class RevealCredentialActivity extends AppCompatActivity {
 
         injectModules();
         try {
-            encryptionService = new EncryptionService(sharedPreferenceUtils.getUserKey(USER_KEY));
+            cryptService = new CryptService(sharedPreferenceUtils.getUserKey(USER_KEY));
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         }
 
         String domain = getIntent().getStringExtra(DOMAIN);
@@ -59,11 +59,11 @@ public class RevealCredentialActivity extends AppCompatActivity {
 
         updateTextViewsWithCredential(domain, username, password, lastUpdated);
 
-        setDeleteAction(domain, username, password);
         try {
+            setDeleteAction(domain, username, password);
             setEditAction(domain, username, password);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         }
     }
 
@@ -74,8 +74,8 @@ public class RevealCredentialActivity extends AppCompatActivity {
         TextView lastUpdatedTextView = findViewById(R.id.last_update_time);
 
         domainTextView.setText(domain);
-        userNameTextView.setText(encryptionService.decrypt(username));
-        passwordTextView.setText(encryptionService.decrypt(password));
+        userNameTextView.setText(cryptService.decrypt(username));
+        passwordTextView.setText(cryptService.decrypt(password));
         lastUpdatedTextView.setText(lastUpdated);
     }
 
@@ -86,7 +86,7 @@ public class RevealCredentialActivity extends AppCompatActivity {
                         context,
                         RevealCredentialActivity.this,
                         credentialService,
-                        encryptionService,
+                        cryptService,
                         domain,
                         identifier,
                         password

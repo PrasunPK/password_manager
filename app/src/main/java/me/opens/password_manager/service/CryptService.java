@@ -14,24 +14,24 @@ import static me.opens.password_manager.util.Constants.KEY_PREFIX;
 import static me.opens.password_manager.util.Constants.KEY_SUFFIX;
 import static me.opens.password_manager.util.Constants.UNICODE_FORMAT;
 
-public class EncryptionService {
+public class CryptService {
 
     private String encryptionScheme;
     private Cipher cipher;
     SecretKey key;
-    private SecretKeyFactory skf;
-    private KeySpec ks;
+    private SecretKeyFactory keyFactory;
+    private KeySpec keySpec;
     private final String encryptionKey;
     private final byte[] arrayBytes;
 
-    public EncryptionService(String key) throws Exception {
+    public CryptService(String key) throws Exception {
         encryptionKey = String.format("%s%s%s", KEY_PREFIX, key, KEY_SUFFIX);
         arrayBytes = encryptionKey.getBytes(UNICODE_FORMAT);
-        ks = new DESedeKeySpec(arrayBytes);
+        keySpec = new DESedeKeySpec(arrayBytes);
         encryptionScheme = DESEDE_ENCRYPTION_SCHEME;
-        skf = SecretKeyFactory.getInstance(encryptionScheme);
+        keyFactory = SecretKeyFactory.getInstance(encryptionScheme);
         cipher = Cipher.getInstance(encryptionScheme);
-        this.key = skf.generateSecret(ks);
+        this.key = keyFactory.generateSecret(keySpec);
     }
 
     public String encrypt(String unencryptedString) {
