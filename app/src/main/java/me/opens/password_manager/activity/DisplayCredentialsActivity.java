@@ -22,13 +22,13 @@ import me.opens.password_manager.adapter.CredentialAdapter;
 import me.opens.password_manager.config.DaggerAppComponent;
 import me.opens.password_manager.config.SharedPreferenceUtils;
 import me.opens.password_manager.data.Credential;
+import me.opens.password_manager.listener.FabClickListener;
 import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
 import me.opens.password_manager.service.AuthenticationService;
 import me.opens.password_manager.service.CredentialService;
 
-import static android.text.TextUtils.isEmpty;
 import static me.opens.password_manager.activity.LoginActivity.EXTRA_MESSAGE;
 import static me.opens.password_manager.util.Constants.DOMAIN;
 import static me.opens.password_manager.util.Constants.LAST_UPDATED;
@@ -77,88 +77,14 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void injectModules() {
-        DaggerAppComponent.builder()
-                .appModule(new AppModule(getApplication()))
-                .roomModule(new RoomModule(getApplication()))
-                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
-                .build()
-                .inject(this);
-    }
-
     private void setFavAction() {
+        String username = sharedPreferenceUtils.getUserName(USER_NAME);
+
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(v -> {
-            final Dialog dialog = new Dialog(context);
-            dialog.setContentView(R.layout.dialog_enter_new_credential);
-            dialog.setTitle("Save credential here");
-
-            String username = sharedPreferenceUtils.getUserName(USER_NAME);
-            Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
-            dialogButton.setOnClickListener(v1 -> {
-                EditText mDomain = (EditText) dialog.findViewById(R.id.text_domain);
-                EditText mIdentifier = (EditText) dialog.findViewById(R.id.text_identifier);
-                EditText mPassword = (EditText) dialog.findViewById(R.id.text_credential);
-
-                showError(mDomain, mIdentifier, mPassword);
-
-                final Credential credential =
-                        prepareCredential(username,
-                                mDomain.getText().toString(),
-                                mIdentifier.getText().toString(),
-                                mPassword.getText().toString());
-
-                saveCredentialAndRepopulate(username, credential);
-
-                if (!isEmpty(mDomain.getText().toString())
-                        && !isEmpty(mIdentifier.getText().toString())
-                        && !isEmpty(mPassword.getText().toString())) {
-                    dialog.dismiss();
-                }
-
-            });
-            dialog.show();
-        });
+        fab.setOnClickListener(new FabClickListener(DisplayCredentialsActivity.this, context, credentialService, username));
     }
 
-    private void showError(EditText mDomain, EditText mIdentifier, EditText mPassword) {
-        if (isEmpty(mDomain.getText().toString())) {
-            mDomain.setError("Field can not be empty");
-        }
-        if (isEmpty(mIdentifier.getText().toString())) {
-            mIdentifier.setError("Field can not be empty");
-        }
-        if (isEmpty(mPassword.getText().toString())) {
-            mPassword.setError("Field can not be empty");
-        }
-    }
-
-    private void saveCredentialAndRepopulate(String username, Credential credential) {
-        final boolean[] credentialAdded = {false};
-        new Thread(() -> {
-            credentialAdded[0] = credentialService.addCredential(credential);
-            List<Credential> credentials = credentialService
-                    .getAllCredentialsFor(username);
-            if (!credentials.isEmpty()) {
-                populateCredentials(credentials);
-            }
-        }).start();
-    }
-
-    private Credential prepareCredential(String username, String domain, String identifier, String password) {
-        Date date = new Date();
-
-        Credential credential = new Credential();
-        credential.setDomain(domain);
-        credential.setUsername(identifier);
-        credential.setPassword(password);
-        credential.setBelongsTo(username);
-        credential.setCreatedAt(date.getTime());
-        credential.setUpdatedAt(date.getTime());
-        return credential;
-    }
-
-    private void populateCredentials(final List<Credential> list) {
+    public void populateCredentials(final List<Credential> list) {
         runOnUiThread(() -> recycleView.setAdapter(new CredentialAdapter(list, item -> {
             final Dialog dialog = new Dialog(context);
             dialog.setContentView(R.layout.dialog_reveal_with_key);
@@ -187,5 +113,14 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
         intent.putExtra(USERNAME, item.getUsername());
         intent.putExtra(PASSWORD, item.getPassword());
         intent.putExtra(LAST_UPDATED, dateFormat.format(date));
+    }
+
+    private void injectModules() {
+        DaggerAppComponent.builder()
+                .appModule(new AppModule(getApplication()))
+                .roomModule(new RoomModule(getApplication()))
+                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
+                .build()
+                .inject(this);
     }
 }
