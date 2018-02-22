@@ -9,23 +9,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.inject.Inject;
 
 import me.opens.password_manager.R;
 import me.opens.password_manager.config.DaggerAppComponent;
 import me.opens.password_manager.config.SharedPreferenceUtils;
+import me.opens.password_manager.listener.EditButtonClickListener;
 import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
 import me.opens.password_manager.service.CredentialService;
 
-import static android.text.TextUtils.isEmpty;
 import static me.opens.password_manager.util.Constants.DOMAIN;
 import static me.opens.password_manager.util.Constants.LAST_UPDATED;
 import static me.opens.password_manager.util.Constants.PASSWORD;
@@ -48,80 +44,46 @@ public class RevealCredentialActivity extends AppCompatActivity {
 
         injectModules();
 
-        TextView domainTextView = findViewById(R.id.revealed_domain);
-        TextView userNameTextView = findViewById(R.id.revealed_username);
-        TextView passwordTextView = findViewById(R.id.revealed_password);
-        TextView lastUpdatedTextView = findViewById(R.id.last_update_time);
-
         String domain = getIntent().getStringExtra(DOMAIN);
         String username = getIntent().getStringExtra(USERNAME);
         String password = getIntent().getStringExtra(PASSWORD);
         String lastUpdated = getIntent().getStringExtra(LAST_UPDATED);
 
-        domainTextView.setText(domain);
-        userNameTextView.setText(username);
-        passwordTextView.setText(password);
-        lastUpdatedTextView.setText(lastUpdated);
+        updateTextViewsWithCredential(domain, username, password, lastUpdated);
 
         setDeleteAction(domain, username, password);
         setEditAction(domain, username, password);
     }
 
+    private void updateTextViewsWithCredential(String domain, String username, String password, String lastUpdated) {
+        TextView domainTextView = findViewById(R.id.revealed_domain);
+        TextView userNameTextView = findViewById(R.id.revealed_username);
+        TextView passwordTextView = findViewById(R.id.revealed_password);
+        TextView lastUpdatedTextView = findViewById(R.id.last_update_time);
+
+        domainTextView.setText(domain);
+        userNameTextView.setText(username);
+        passwordTextView.setText(password);
+        lastUpdatedTextView.setText(lastUpdated);
+    }
+
     private void setEditAction(String domain, String identifier, String password) {
         View editButton = findViewById(R.id.edit_credential);
-        editButton.setOnClickListener(v -> {
-            final Dialog dialog = new Dialog(context);
-            dialog.setContentView(R.layout.dialog_enter_new_credential);
-            dialog.setTitle("Save credential here");
-
-            EditText mDomain = (EditText) dialog.findViewById(R.id.text_domain);
-            EditText mIdentifier = (EditText) dialog.findViewById(R.id.text_identifier);
-            EditText mPassword = (EditText) dialog.findViewById(R.id.text_credential);
-
-            mDomain.setText(domain);
-            mIdentifier.setText(identifier);
-            mPassword.setText(password);
-
-            mDomain.setEnabled(false);
-            mIdentifier.setEnabled(false);
-
-            Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
-            dialogButton.setOnClickListener(v1 -> {
-                showError(mPassword);
-                Date date = new Date();
-
-                new Thread(() -> {
-                    credentialService.updateCredential(
-                            mDomain.getText().toString(),
-                            mIdentifier.getText().toString(),
-                            mPassword.getText().toString(),
-                            date.getTime()
-                    );
-                }).start();
-
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
-                getIntent().putExtra(PASSWORD, mPassword.getText().toString());
-                getIntent().putExtra(LAST_UPDATED, dateFormat.format(date.getTime()));
-
-                if (!isEmpty(mPassword.getText().toString())) {
-                    dialog.dismiss();
-                    finish();
-                    startActivity(getIntent());
-                }
-            });
-            dialog.show();
-        });
+        editButton.setOnClickListener(
+                new EditButtonClickListener(
+                        context,
+                        RevealCredentialActivity.this,
+                        credentialService,
+                        domain,
+                        identifier,
+                        password
+                )
+        );
     }
 
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, DisplayCredentialsActivity.class));
-    }
-
-    private void showError(EditText mPassword) {
-        if (isEmpty(mPassword.getText().toString())) {
-            mPassword.setError("Field can not be empty");
-        }
     }
 
     private void setDeleteAction(String domain, String username, String password) {
