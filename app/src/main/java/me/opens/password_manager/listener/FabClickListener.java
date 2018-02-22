@@ -2,6 +2,7 @@ package me.opens.password_manager.listener;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,21 +14,26 @@ import me.opens.password_manager.R;
 import me.opens.password_manager.activity.DisplayCredentialsActivity;
 import me.opens.password_manager.data.Credential;
 import me.opens.password_manager.service.CredentialService;
+import me.opens.password_manager.service.EncryptionService;
 
 import static android.text.TextUtils.isEmpty;
+import static me.opens.password_manager.activity.DisplayCredentialsActivity.TAG;
 
 public class FabClickListener implements View.OnClickListener {
 
     private DisplayCredentialsActivity activity;
     private Context context;
     private CredentialService credentialService;
+    private EncryptionService encryptionService;
     private String username;
 
     public FabClickListener(DisplayCredentialsActivity activity, Context context,
-                            CredentialService credentialService, String username) {
+                            CredentialService credentialService, EncryptionService encryptionService,
+                            String username) {
         this.activity = activity;
         this.context = context;
         this.credentialService = credentialService;
+        this.encryptionService = encryptionService;
         this.username = username;
     }
 
@@ -94,13 +100,18 @@ public class FabClickListener implements View.OnClickListener {
             EditText mPassword = (EditText) dialog.findViewById(R.id.text_credential);
 
             showError(mDomain, mIdentifier, mPassword);
+            String encryptedIdentifier = encryptionService
+                    .encrypt(mIdentifier.getText().toString());
+            String encryptedPassword = encryptionService
+                    .encrypt(mPassword.getText().toString());
+
+            Log.i(TAG, "Encrypted [" + encryptedPassword + "]");
 
             final Credential credential =
                     prepareCredential(username,
                             mDomain.getText().toString(),
-                            mIdentifier.getText().toString(),
-                            mPassword.getText().toString());
-
+                            encryptedIdentifier,
+                            encryptedPassword);
             saveCredentialAndRepopulate(username, credential);
 
             if (!isEmpty(mDomain.getText().toString())
