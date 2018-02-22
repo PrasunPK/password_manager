@@ -12,7 +12,7 @@ import java.util.Date;
 import me.opens.password_manager.R;
 import me.opens.password_manager.activity.RevealCredentialActivity;
 import me.opens.password_manager.service.CredentialService;
-import me.opens.password_manager.service.EncryptionService;
+import me.opens.password_manager.service.CryptService;
 
 import static android.text.TextUtils.isEmpty;
 import static me.opens.password_manager.util.Constants.LAST_UPDATED;
@@ -20,7 +20,7 @@ import static me.opens.password_manager.util.Constants.PASSWORD;
 
 public class EditButtonClickListener implements View.OnClickListener {
 
-    private EncryptionService encryptionService;
+    private CryptService cryptService;
     private final String domain;
     private final String identifier;
     private final String password;
@@ -28,12 +28,12 @@ public class EditButtonClickListener implements View.OnClickListener {
     private Context context;
     private RevealCredentialActivity activity;
 
-    public EditButtonClickListener(Context context, RevealCredentialActivity activity, CredentialService credentialService, EncryptionService encryptionService,
+    public EditButtonClickListener(Context context, RevealCredentialActivity activity, CredentialService credentialService, CryptService cryptService,
                                    String domain, String identifier, String password) {
         this.context = context;
         this.activity = activity;
         this.credentialService = credentialService;
-        this.encryptionService = encryptionService;
+        this.cryptService = cryptService;
         this.domain = domain;
         this.identifier = identifier;
         this.password = password;
@@ -52,12 +52,45 @@ public class EditButtonClickListener implements View.OnClickListener {
         populateDialog(mDomain, mIdentifier, mPassword);
 
         Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
-        dialogButton.setOnClickListener(v1 -> {
+        dialogButton.setOnClickListener(new DialogButtonListener(dialog, mDomain, mIdentifier, mPassword));
+        dialog.show();
+    }
+
+    private void populateDialog(EditText mDomain, EditText mIdentifier, EditText mPassword) {
+        mDomain.setText(domain);
+        mIdentifier.setText(cryptService.decrypt(identifier));
+        mPassword.setText(cryptService.decrypt(password));
+
+        mDomain.setEnabled(false);
+        mIdentifier.setEnabled(false);
+    }
+
+    private void showError(EditText mPassword) {
+        if (isEmpty(mPassword.getText().toString())) {
+            mPassword.setError("Field can not be empty");
+        }
+    }
+
+    public class DialogButtonListener implements View.OnClickListener {
+        private final Dialog dialog;
+        private final EditText mDomain;
+        private EditText mIdentifier;
+        private final EditText mPassword;
+
+        DialogButtonListener(Dialog dialog, EditText mDomain, EditText mIdentifier, EditText mPassword) {
+            this.dialog = dialog;
+            this.mDomain = mDomain;
+            this.mIdentifier = mIdentifier;
+            this.mPassword = mPassword;
+        }
+
+        @Override
+        public void onClick(View view) {
             showError(mPassword);
             Date date = new Date();
-            String encryptedIdentifier = encryptionService
+            String encryptedIdentifier = cryptService
                     .encrypt(mIdentifier.getText().toString());
-            String encryptedPassword = encryptionService
+            String encryptedPassword = cryptService
                     .encrypt(mPassword.getText().toString());
 
             new Thread(() -> {
@@ -78,22 +111,6 @@ public class EditButtonClickListener implements View.OnClickListener {
                 activity.finish();
                 activity.startActivity(activity.getIntent());
             }
-        });
-        dialog.show();
-    }
-
-    private void populateDialog(EditText mDomain, EditText mIdentifier, EditText mPassword) {
-        mDomain.setText(domain);
-        mIdentifier.setText(encryptionService.decrypt(identifier));
-        mPassword.setText(encryptionService.decrypt(password));
-
-        mDomain.setEnabled(false);
-        mIdentifier.setEnabled(false);
-    }
-
-    private void showError(EditText mPassword) {
-        if (isEmpty(mPassword.getText().toString())) {
-            mPassword.setError("Field can not be empty");
         }
     }
 }

@@ -14,7 +14,7 @@ import me.opens.password_manager.R;
 import me.opens.password_manager.activity.DisplayCredentialsActivity;
 import me.opens.password_manager.data.Credential;
 import me.opens.password_manager.service.CredentialService;
-import me.opens.password_manager.service.EncryptionService;
+import me.opens.password_manager.service.CryptService;
 
 import static android.text.TextUtils.isEmpty;
 import static me.opens.password_manager.activity.DisplayCredentialsActivity.TAG;
@@ -24,16 +24,16 @@ public class FabClickListener implements View.OnClickListener {
     private DisplayCredentialsActivity activity;
     private Context context;
     private CredentialService credentialService;
-    private EncryptionService encryptionService;
+    private CryptService cryptService;
     private String username;
 
     public FabClickListener(DisplayCredentialsActivity activity, Context context,
-                            CredentialService credentialService, EncryptionService encryptionService,
+                            CredentialService credentialService, CryptService cryptService,
                             String username) {
         this.activity = activity;
         this.context = context;
         this.credentialService = credentialService;
-        this.encryptionService = encryptionService;
+        this.cryptService = cryptService;
         this.username = username;
     }
 
@@ -100,9 +100,9 @@ public class FabClickListener implements View.OnClickListener {
             EditText mPassword = (EditText) dialog.findViewById(R.id.text_credential);
 
             showError(mDomain, mIdentifier, mPassword);
-            String encryptedIdentifier = encryptionService
+            String encryptedIdentifier = cryptService
                     .encrypt(mIdentifier.getText().toString());
-            String encryptedPassword = encryptionService
+            String encryptedPassword = cryptService
                     .encrypt(mPassword.getText().toString());
 
             Log.i(TAG, "Encrypted [" + encryptedPassword + "]");
