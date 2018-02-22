@@ -11,14 +11,17 @@ import java.util.List;
 import me.opens.password_manager.R;
 import me.opens.password_manager.data.Credential;
 import me.opens.password_manager.listener.OnItemClickListener;
+import me.opens.password_manager.service.CryptService;
 
 public class CredentialAdapter extends RecyclerView.Adapter<CredentialAdapter.CredentialViewHolder> {
     private List<Credential> list;
     private OnItemClickListener listener;
+    private static CryptService cryptService;
 
-    public CredentialAdapter(List<Credential> list, OnItemClickListener listener) {
+    public CredentialAdapter(List<Credential> list, OnItemClickListener listener, CryptService cryptService) {
         this.list = list;
         this.listener = listener;
+        CredentialAdapter.cryptService = cryptService;
     }
 
     @Override
@@ -53,7 +56,7 @@ public class CredentialAdapter extends RecyclerView.Adapter<CredentialAdapter.Cr
 
         public void bind(final Credential credential, final OnItemClickListener listener) {
             nameTextView.setText(credential.getDomain());
-            ageTextView.setText(credential.getUsername());
+            ageTextView.setText(cryptService.decrypt(credential.getUsername()));
             pwdTextView.setText(credential.getPassword());
             itemView.setOnClickListener(view -> listener.onItemClick(credential));
         }

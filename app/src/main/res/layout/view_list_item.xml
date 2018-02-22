@@ -46,6 +46,7 @@
                 android:gravity="center"
                 android:password="true"
                 android:text="@string/password"
+                android:maxLength="5"
                 tools:ignore="TextViewEdits" />
         </LinearLayout>
     </android.support.v7.widget.CardView>

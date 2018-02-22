@@ -12,6 +12,7 @@ import java.util.Date;
 import me.opens.password_manager.R;
 import me.opens.password_manager.activity.RevealCredentialActivity;
 import me.opens.password_manager.service.CredentialService;
+import me.opens.password_manager.service.CryptService;
 
 import static android.text.TextUtils.isEmpty;
 import static me.opens.password_manager.util.Constants.LAST_UPDATED;
@@ -19,6 +20,7 @@ import static me.opens.password_manager.util.Constants.PASSWORD;
 
 public class EditButtonClickListener implements View.OnClickListener {
 
+    private CryptService cryptService;
     private final String domain;
     private final String identifier;
     private final String password;
@@ -26,10 +28,12 @@ public class EditButtonClickListener implements View.OnClickListener {
     private Context context;
     private RevealCredentialActivity activity;
 
-    public EditButtonClickListener(Context context, RevealCredentialActivity activity, CredentialService credentialService, String domain, String identifier, String password) {
+    public EditButtonClickListener(Context context, RevealCredentialActivity activity, CredentialService credentialService, CryptService cryptService,
+                                   String domain, String identifier, String password) {
         this.context = context;
         this.activity = activity;
         this.credentialService = credentialService;
+        this.cryptService = cryptService;
         this.domain = domain;
         this.identifier = identifier;
         this.password = password;
@@ -48,36 +52,14 @@ public class EditButtonClickListener implements View.OnClickListener {
         populateDialog(mDomain, mIdentifier, mPassword);
 
         Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
-        dialogButton.setOnClickListener(v1 -> {
-            showError(mPassword);
-            Date date = new Date();
-
-            new Thread(() -> {
-                credentialService.updateCredential(
-                        mDomain.getText().toString(),
-                        mIdentifier.getText().toString(),
-                        mPassword.getText().toString(),
-                        date.getTime()
-                );
-            }).start();
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
-            activity.getIntent().putExtra(PASSWORD, mPassword.getText().toString())
-                    .putExtra(LAST_UPDATED, dateFormat.format(date.getTime()));
-
-            if (!isEmpty(mPassword.getText().toString())) {
-                dialog.dismiss();
-                activity.finish();
-                activity.startActivity(activity.getIntent());
-            }
-        });
+        dialogButton.setOnClickListener(new DialogButtonListener(dialog, mDomain, mIdentifier, mPassword));
         dialog.show();
     }
 
     private void populateDialog(EditText mDomain, EditText mIdentifier, EditText mPassword) {
         mDomain.setText(domain);
-        mIdentifier.setText(identifier);
-        mPassword.setText(password);
+        mIdentifier.setText(cryptService.decrypt(identifier));
+        mPassword.setText(cryptService.decrypt(password));
 
         mDomain.setEnabled(false);
         mIdentifier.setEnabled(false);
@@ -86,6 +68,49 @@ public class EditButtonClickListener implements View.OnClickListener {
     private void showError(EditText mPassword) {
         if (isEmpty(mPassword.getText().toString())) {
             mPassword.setError("Field can not be empty");
+        }
+    }
+
+    public class DialogButtonListener implements View.OnClickListener {
+        private final Dialog dialog;
+        private final EditText mDomain;
+        private EditText mIdentifier;
+        private final EditText mPassword;
+
+        DialogButtonListener(Dialog dialog, EditText mDomain, EditText mIdentifier, EditText mPassword) {
+            this.dialog = dialog;
+            this.mDomain = mDomain;
+            this.mIdentifier = mIdentifier;
+            this.mPassword = mPassword;
+        }
+
+        @Override
+        public void onClick(View view) {
+            showError(mPassword);
+            Date date = new Date();
+            String encryptedIdentifier = cryptService
+                    .encrypt(mIdentifier.getText().toString());
+            String encryptedPassword = cryptService
+                    .encrypt(mPassword.getText().toString());
+
+            new Thread(() -> {
+                credentialService.updateCredential(
+                        mDomain.getText().toString(),
+                        encryptedIdentifier,
+                        encryptedPassword,
+                        date.getTime()
+                );
+            }).start();
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
+            activity.getIntent().putExtra(PASSWORD, encryptedPassword)
+                    .putExtra(LAST_UPDATED, dateFormat.format(date.getTime()));
+
+            if (!isEmpty(mPassword.getText().toString())) {
+                dialog.dismiss();
+                activity.finish();
+                activity.startActivity(activity.getIntent());
+            }
         }
     }
 }
