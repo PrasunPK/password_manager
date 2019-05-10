@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Password Manager</string>
     <string name="title_activity_login">Password Manager</string>
+    <string name="title_activity_base">Password Manager</string>
+
 
     <!-- Strings related to login -->
     <string name="prompt_email">Username</string>
