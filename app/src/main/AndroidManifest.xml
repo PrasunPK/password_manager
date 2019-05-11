@@ -20,7 +20,8 @@
 
         <activity
             android:name=".activity.DisplayCredentialsActivity"
-            android:parentActivityName=".activity.BaseActivity">
+            android:parentActivityName=".activity.BaseActivity"
+            android:noHistory="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.BaseActivity" />
@@ -28,7 +29,8 @@
 
         <activity
             android:name=".activity.RevealCredentialActivity"
-            android:parentActivityName=".activity.DisplayCredentialsActivity">
+            android:parentActivityName=".activity.DisplayCredentialsActivity"
+            android:noHistory="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.DisplayCredentialsActivity" />
