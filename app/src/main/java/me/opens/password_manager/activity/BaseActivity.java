@@ -44,6 +44,8 @@ public class BaseActivity extends AppCompatActivity {
 
     private Activity activity = BaseActivity.this;
     private static final int PERMISSION_REQUEST_CODE = 1;
+    private static final String FALLBACK_ACCOUNT = "fallback-account@email.com";
+    ;
 
 
     @Override
@@ -120,7 +122,7 @@ public class BaseActivity extends AppCompatActivity {
     private String getEmail() {
         Pattern emailPattern = Patterns.EMAIL_ADDRESS;
         Account[] accounts = AccountManager.get(getApplicationContext()).getAccountsByType("com.google");
-        String email = null;
+        String email = FALLBACK_ACCOUNT;
         for (Account account : accounts) {
             if (emailPattern.matcher(account.name).matches()) {
                 email = account.name;
