@@ -50,4 +50,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:rules:1.0.1'
     implementation 'com.android.support:cardview-v7:26.1.0'
     implementation 'commons-codec:commons-codec:1.10'
+    implementation 'com.hanks:passcodeview:0.1.2'
 }

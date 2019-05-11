@@ -111,8 +111,6 @@ public class LoginActivity extends AppCompatActivity {
             mAuthTask = new UserLoginTask(email, password, true);
             mAuthTask.execute((Void) null);
         }
-
-
     }
 
     private void setUpLoginAttempt() {

@@ -42,7 +42,7 @@
         </activity>
 
         <activity
-            android:name=".activity.LoginActivity2"
+            android:name=".activity.PassCodeActivity"
             android:parentActivityName=".activity.BaseActivity"
             android:label="@string/title_activity_login">
             <meta-data
