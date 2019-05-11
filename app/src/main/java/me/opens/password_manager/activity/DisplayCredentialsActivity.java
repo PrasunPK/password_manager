@@ -30,7 +30,6 @@ import me.opens.password_manager.service.AuthenticationService;
 import me.opens.password_manager.service.CredentialService;
 import me.opens.password_manager.service.CryptService;
 
-import static me.opens.password_manager.activity.LoginActivity.EXTRA_MESSAGE;
 import static me.opens.password_manager.util.Constants.DOMAIN;
 import static me.opens.password_manager.util.Constants.LAST_UPDATED;
 import static me.opens.password_manager.util.Constants.PASSWORD;
@@ -121,7 +120,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
         Date date = new Date(item.getUpdatedAt());
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
 
-        intent.putExtra(EXTRA_MESSAGE, "Display Credential Activity")
+        intent.putExtra("me.opens.password_manager.MESSAGE", "Display Credential Activity")
                 .putExtra(DOMAIN, item.getDomain())
                 .putExtra(USERNAME, item.getUsername())
                 .putExtra(PASSWORD, item.getPassword())

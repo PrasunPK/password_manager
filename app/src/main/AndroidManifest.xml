@@ -34,21 +34,30 @@
                 android:value=".activity.DisplayCredentialsActivity" />
         </activity>
 
+<!--        <activity-->
+<!--            android:name=".activity.LoginActivity"-->
+<!--            android:parentActivityName=".activity.BaseActivity"-->
+<!--            android:label="@string/title_activity_login">-->
+<!--            <meta-data-->
+<!--                android:name="android.support.PARENT_ACTIVITY"-->
+<!--                android:value=".activity.BaseActivity" />-->
+<!--        </activity>-->
+
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.PassCodeActivity"
             android:parentActivityName=".activity.BaseActivity"
-            android:label="@string/title_activity_login">
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.BaseActivity" />
         </activity>
 
         <activity
-            android:name=".activity.PassCodeActivity"
+            android:name=".activity.RegistrationActivity"
             android:parentActivityName=".activity.BaseActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:noHistory="true">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.BaseActivity" />
@@ -58,8 +67,7 @@
         <activity
             android:name=".activity.BaseActivity"
             android:label="@string/title_activity_base"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:noHistory="true">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
