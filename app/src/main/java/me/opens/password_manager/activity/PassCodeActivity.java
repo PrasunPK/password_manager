@@ -1,8 +1,10 @@
 package me.opens.password_manager.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.hanks.passcodeview.PasscodeView;
@@ -18,8 +20,10 @@ import me.opens.password_manager.module.SharedPreferencesModule;
 
 public class PassCodeActivity extends AppCompatActivity {
 
-    private static final String TAG = "PassCodeActivity";
+    private static final String TAG = PassCodeActivity.class.getCanonicalName();
     private static final String USER_KEY = "USER_KEY";
+    public static final String EXTRA_MESSAGE = "me.opens.password_manager.MESSAGE";
+    private Intent intent;
 
     @Inject
     SharedPreferenceUtils sharedPreferenceUtils;
@@ -27,8 +31,13 @@ public class PassCodeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        intent = new Intent(this, DisplayCredentialsActivity.class);
         setContentView(R.layout.activity_pass_code);
+
+        setActionBar(null);
         injectModules();
+
         PasscodeView passcodeView = (PasscodeView) findViewById(R.id.passcodeView);
         passcodeView
                 .setPasscodeLength(4)
@@ -41,8 +50,9 @@ public class PassCodeActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(String number) {
-                        Toast.makeText(getApplication(), "finish", Toast.LENGTH_SHORT).show();
-                        onBackPressed();
+                        intent.putExtra(EXTRA_MESSAGE, "Login Activity");
+                        Log.i(TAG, "starting display credentials activity");
+                        startActivity(intent);
                     }
                 });
     }

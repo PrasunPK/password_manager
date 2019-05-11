@@ -63,17 +63,14 @@ public class BaseActivity extends AppCompatActivity {
 
         private SharedPreferenceUtils sharedPreferenceUtils;
 
-        public AvailabilityCheckTask(SharedPreferenceUtils sharedPreferenceUtils) {
+        AvailabilityCheckTask(SharedPreferenceUtils sharedPreferenceUtils) {
             this.sharedPreferenceUtils = sharedPreferenceUtils;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             String userName = sharedPreferenceUtils.getUserName(USER_NAME);
-            if (userName != null) {
-//                Toast.makeText(getApplicationContext(), userName, Toast.LENGTH_LONG);
-            }
-            return true;
+            return userName != null;
         }
 
         @Override
@@ -81,7 +78,10 @@ public class BaseActivity extends AppCompatActivity {
             if (success) {
                 finish();
                 intent = new Intent(BaseActivity.this, PassCodeActivity.class);
-                System.out.println("USER NAME present so starting the latest activity");
+                startActivity(intent);
+            } else {
+                finish();
+                intent = new Intent(BaseActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         }
