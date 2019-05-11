@@ -34,6 +34,16 @@
 
         <activity
             android:name=".activity.LoginActivity"
+            android:parentActivityName=".activity.BaseActivity"
+            android:label="@string/title_activity_login">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.BaseActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.LoginActivity2"
+            android:parentActivityName=".activity.BaseActivity"
             android:label="@string/title_activity_login">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
