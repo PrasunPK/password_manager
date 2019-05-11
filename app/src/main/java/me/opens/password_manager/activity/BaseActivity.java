@@ -34,7 +34,7 @@ public class BaseActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "me.opens.password_manager.MESSAGE";
     private static final String TAG = BaseActivity.class.getCanonicalName();
     private static final String USER_NAME = "USER_NAME";
-    private static final int TIME_OUT = 100;
+    private static final int TIME_OUT = 1000;
 
     @Inject
     SharedPreferenceUtils sharedPreferenceUtils;

@@ -6,7 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import me.opens.password_manager.R;
 import me.opens.password_manager.data.Credential;
@@ -46,19 +48,27 @@ public class CredentialAdapter extends RecyclerView.Adapter<CredentialAdapter.Cr
         private TextView nameTextView;
         private TextView ageTextView;
         private TextView pwdTextView;
+        private TextView elapsedTimeTextView;
 
         public CredentialViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.domain);
             ageTextView = itemView.findViewById(R.id.username);
             pwdTextView = itemView.findViewById(R.id.password);
+            elapsedTimeTextView = itemView.findViewById(R.id.elapsed_time);
         }
 
         public void bind(final Credential credential, final OnItemClickListener listener) {
             nameTextView.setText(credential.getDomain());
             ageTextView.setText(cryptService.decrypt(credential.getUsername()));
             pwdTextView.setText(credential.getPassword());
+            elapsedTimeTextView.setText(String.format("%s days", getDiffernce(credential.getUpdatedAt())));
             itemView.setOnClickListener(view -> listener.onItemClick(credential));
+        }
+
+        private long getDiffernce(Long time) {
+            Date date = new Date();
+            return TimeUnit.MILLISECONDS.toDays(date.getTime() - time);
         }
     }
 }
