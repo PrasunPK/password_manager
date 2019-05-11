@@ -72,12 +72,15 @@
                     android:text="12 days" />
 
 
-                <ImageButton
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/if_warning"
                     android:layout_gravity="end"
-                    android:src="@android:drawable/btn_star"
-                    android:background="@null"/>
+                    android:tint="@color/danger"
+                    android:visibility="gone"
+                    android:paddingTop="5dp"
+                    android:src="@android:drawable/stat_sys_warning" />
             </LinearLayout>
 
 

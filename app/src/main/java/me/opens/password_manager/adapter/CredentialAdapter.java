@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -49,6 +50,7 @@ public class CredentialAdapter extends RecyclerView.Adapter<CredentialAdapter.Cr
         private TextView ageTextView;
         private TextView pwdTextView;
         private TextView elapsedTimeTextView;
+        private ImageView warningImageView;
 
         public CredentialViewHolder(View itemView) {
             super(itemView);
@@ -56,17 +58,25 @@ public class CredentialAdapter extends RecyclerView.Adapter<CredentialAdapter.Cr
             ageTextView = itemView.findViewById(R.id.username);
             pwdTextView = itemView.findViewById(R.id.password);
             elapsedTimeTextView = itemView.findViewById(R.id.elapsed_time);
+            warningImageView = itemView.findViewById(R.id.if_warning);
         }
 
         public void bind(final Credential credential, final OnItemClickListener listener) {
             nameTextView.setText(credential.getDomain());
             ageTextView.setText(cryptService.decrypt(credential.getUsername()));
             pwdTextView.setText(credential.getPassword());
-            elapsedTimeTextView.setText(String.format("%s days", getDiffernce(credential.getUpdatedAt())));
+            long difference = getDifference(credential.getUpdatedAt());
+
+            elapsedTimeTextView.setText(String.format("%s days", difference));
+            if (difference > 90) {
+                warningImageView.setVisibility(View.VISIBLE);
+            }
+
             itemView.setOnClickListener(view -> listener.onItemClick(credential));
+
         }
 
-        private long getDiffernce(Long time) {
+        private long getDifference(Long time) {
             Date date = new Date();
             return TimeUnit.MILLISECONDS.toDays(date.getTime() - time);
         }
