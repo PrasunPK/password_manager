@@ -2,6 +2,7 @@ package me.opens.password_manager.service;
 
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import me.opens.password_manager.data.Credential;
 import me.opens.password_manager.data.CredentialDataSource;
 
 import static me.opens.password_manager.util.Constants.USER_KEY;
+import static me.opens.password_manager.util.Constants.USER_NAME;
 
 public class CredentialService {
 
@@ -34,8 +36,9 @@ public class CredentialService {
     }
 
     public void deleteCredential(String domain, String username, String password) {
+        Log.i(CredentialService.class.getName(),"Deleting credential for: " + domain + username + password);
         dataSource.deleteFor(
-                sharedPreferenceUtils.getUserKey(USER_KEY),
+                sharedPreferenceUtils.getUserKey(USER_NAME),
                 domain,
                 username,
                 password
