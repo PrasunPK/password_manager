@@ -21,7 +21,8 @@
         <activity
             android:name=".activity.DisplayCredentialsActivity"
             android:parentActivityName=".activity.BaseActivity"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.BaseActivity" />

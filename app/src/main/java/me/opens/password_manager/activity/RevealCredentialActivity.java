@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -96,7 +97,8 @@ public class RevealCredentialActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, DisplayCredentialsActivity.class));
+//        startActivity(new Intent(this, DisplayCredentialsActivity.class));
+        Toast.makeText(context, "Exiting the app", Toast.LENGTH_SHORT).show();
     }
 
     private void setDeleteAction(String domain, String username, String password) {
