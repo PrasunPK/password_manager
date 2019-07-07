@@ -61,7 +61,8 @@
     <string name="action_mark_all_read">Mark All as Read</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home_fragment_password_manager">Password Manager</string>
+    <string name="home_fragment_header">ASSIST YOURSELF</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string-array name="nav_item_activity_titles">
