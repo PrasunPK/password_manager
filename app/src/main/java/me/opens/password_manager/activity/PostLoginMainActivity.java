@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -58,9 +59,9 @@ import static me.opens.password_manager.util.Constants.USERNAME;
 import static me.opens.password_manager.util.Constants.USER_KEY;
 import static me.opens.password_manager.util.Constants.USER_NAME;
 
-public class DisplayCredentialsActivity extends AppCompatActivity {
+public class PostLoginMainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener {
 
-    public static final String TAG = DisplayCredentialsActivity.class.getCanonicalName();
+    public static final String TAG = PostLoginMainActivity.class.getCanonicalName();
     private RecyclerView recycleView;
     final Context context = this;
     private Intent intent;
@@ -106,7 +107,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_credentials);
+        setContentView(R.layout.activity_post_login_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -124,26 +125,25 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
         // load toolbar titles from string resources
         activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
         // load nav menu header data
-        fab = findViewById(R.id.fab);
+//        fab = findViewById(R.id.fab);
 
-//        loadNavHeader();
+        loadNavHeader();
 
         // initializing navigation menu
-//        setUpNavigationView();
+        setUpNavigationView();
 
-//        if (savedInstanceState == null) {
-//            navItemIndex = 0;
-//            CURRENT_TAG = TAG_HOME;
-//            loadHomeFragment();
-//        }
+        if (savedInstanceState == null) {
+            navItemIndex = 0;
+            CURRENT_TAG = TAG_HOME;
+            loadHomeFragment();
+        }
 
         injectModules();
         intent = new Intent(this, RevealCredentialActivity.class);
 
-        recycleView = findViewById(R.id.recycler_view);
+//        recycleView = findViewById(R.id.recycler_view);
 
         populateCredentialsForUser();
-        setFavAction(fab);
     }
 
     @Override
@@ -155,16 +155,16 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
 
         // This code loads home fragment when back key is pressed
         // when user is in other fragment than home
-//        if (shouldLoadHomeFragOnBackPress) {
-//            // checking if user is on other navigation menu
-//            // rather than home
-//            if (navItemIndex != 0) {
-//                navItemIndex = 0;
-//                CURRENT_TAG = TAG_HOME;
-//                loadHomeFragment();
-//                return;
-//            }
-//        }
+        if (shouldLoadHomeFragOnBackPress) {
+            // checking if user is on other navigation menu
+            // rather than home
+            if (navItemIndex != 0) {
+                navItemIndex = 0;
+                CURRENT_TAG = TAG_HOME;
+                loadHomeFragment();
+                return;
+            }
+        }
 
         super.onBackPressed();
     }
@@ -315,7 +315,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                 }
                 menuItem.setChecked(true);
 
-//                loadHomeFragment();
+                loadHomeFragment();
 
                 return true;
             }
@@ -377,7 +377,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
             drawer.closeDrawers();
 
             // show or hide the fab button
-            toggleFab();
+//            toggleFab();
             return;
         }
 
@@ -404,7 +404,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
         }
 
         // show or hide the fab button
-        toggleFab();
+//        toggleFab();
 
         //Closing drawer on item click
         drawer.closeDrawers();
@@ -445,18 +445,18 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void setFavAction(FloatingActionButton fab) {
-        String username = sharedPreferenceUtils.getUserName(USER_NAME);
-        String userKey = sharedPreferenceUtils.getUserName(USER_KEY);
-
-
-        try {
-            fab.setOnClickListener(new FabClickListener(DisplayCredentialsActivity.this, context,
-                    credentialService, new CryptService(userKey), username));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    private void setFavAction(FloatingActionButton fab) {
+//        String username = sharedPreferenceUtils.getUserName(USER_NAME);
+//        String userKey = sharedPreferenceUtils.getUserName(USER_KEY);
+//
+//
+//        try {
+//            fab.setOnClickListener(new FabClickListener(DisplayCredentialsActivity.this, context,
+//                    credentialService, new CryptService(userKey), username));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void populateCredentials(final List<Credential> list) {
         runOnUiThread(() -> {
@@ -502,4 +502,10 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                 .build()
                 .inject(this);
     }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
 }

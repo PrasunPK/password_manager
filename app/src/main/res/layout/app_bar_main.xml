@@ -31,14 +31,14 @@
                 android:src="@android:drawable/ic_input_add"
                 android:tint="@color/white" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                passwordManager:layoutManager="LinearLayoutManager"
-                tools:listitem="@layout/view_list_item" />
+<!--            <android.support.v7.widget.RecyclerView-->
+<!--                android:id="@+id/recycler_view"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:clickable="true"-->
+<!--                android:focusable="true"-->
+<!--                passwordManager:layoutManager="LinearLayoutManager"-->
+<!--                tools:listitem="@layout/view_list_item" />-->
         </RelativeLayout>
     </FrameLayout>
 

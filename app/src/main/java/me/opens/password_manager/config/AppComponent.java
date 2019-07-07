@@ -8,6 +8,7 @@ import dagger.Component;
 import me.opens.password_manager.activity.BaseActivity;
 import me.opens.password_manager.activity.DisplayCredentialsActivity;
 import me.opens.password_manager.activity.PassCodeActivity;
+import me.opens.password_manager.activity.PostLoginMainActivity;
 import me.opens.password_manager.activity.RegistrationActivity;
 import me.opens.password_manager.activity.RevealCredentialActivity;
 import me.opens.password_manager.data.CredentialDao;
@@ -26,6 +27,8 @@ public interface AppComponent {
     void inject(DisplayCredentialsActivity displayCredentialsActivity);
 
     void inject(RevealCredentialActivity revealCredentialActivity);
+
+    void inject(PostLoginMainActivity postLoginMainActivity);
 
     void inject(BaseActivity revealBaseActivity);
 

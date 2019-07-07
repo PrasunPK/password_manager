@@ -32,7 +32,7 @@ public class PassCodeActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        intent = new Intent(this, DisplayCredentialsActivity.class);
+        intent = new Intent(this, PostLoginMainActivity.class);
         setContentView(R.layout.activity_pass_code);
 
         setActionBar(null);
@@ -51,7 +51,7 @@ public class PassCodeActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(String number) {
                         intent.putExtra(EXTRA_MESSAGE, "Login Activity");
-                        Log.i(TAG, "starting display credentials activity");
+                        Log.i(TAG, "starting Post Login Base activity");
                         startActivity(intent);
                     }
                 });
