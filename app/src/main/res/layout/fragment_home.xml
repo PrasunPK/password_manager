@@ -70,9 +70,10 @@
 
                         <ImageView
                             android:id="@+id/shorcut_scan_image"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/baseline_lock_open"
                             />
 
                         <TextView
@@ -80,9 +81,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_marginTop="8dp"
                             android:textColor="@color/colorPrimary"
                             android:text="Keep Password"
-                            android:textSize="18sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -104,21 +106,24 @@
 
                         <ImageView
                             android:id="@+id/shorcut_search_image"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:layout_gravity="center" />
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/baseline_attach_money"/>
 
                         <TextView
                             android:id="@+id/shorcut_search_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_marginTop="8dp"
                             android:text="Track Money"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:textColor="@color/colorPrimary"/>
                     </LinearLayout>
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
@@ -144,18 +149,19 @@
 
                         <ImageView
                             android:id="@+id/shorcut_assign_tags_image"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_gravity="center"
-                            />
+                            android:src="@drawable/baseline_check_circle_outline" />
 
                         <TextView
                             android:id="@+id/shorcut_assign_tags_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_marginTop="8dp"
                             android:text="Remember"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:textColor="@color/colorPrimary"/>
                     </LinearLayout>
 
@@ -177,23 +183,32 @@
 
                         <ImageView
                             android:id="@+id/shorcut_edit_tags_image"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_gravity="center"
-                            />
+                            android:src="@drawable/baseline_mood"/>
 
                         <TextView
                             android:id="@+id/shorcut_edit_tags_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_marginTop="8dp"
                             android:text="Misc."
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:textColor="@color/colorPrimary"/>
                     </LinearLayout>
 
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/border">
+                </LinearLayout>
+                
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
