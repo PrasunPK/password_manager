@@ -44,6 +44,7 @@ import me.opens.password_manager.config.DaggerAppComponent;
 import me.opens.password_manager.config.SharedPreferenceUtils;
 import me.opens.password_manager.data.Credential;
 import me.opens.password_manager.fragment.HomeFragment;
+import me.opens.password_manager.fragment.ListCreadentialsFragment;
 import me.opens.password_manager.listener.FabClickListener;
 import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
@@ -59,7 +60,8 @@ import static me.opens.password_manager.util.Constants.USERNAME;
 import static me.opens.password_manager.util.Constants.USER_KEY;
 import static me.opens.password_manager.util.Constants.USER_NAME;
 
-public class PostLoginMainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener {
+public class PostLoginMainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
+        ListCreadentialsFragment.OnFragmentInteractionListener {
 
     public static final String TAG = PostLoginMainActivity.class.getCanonicalName();
     private RecyclerView recycleView;
@@ -231,15 +233,15 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
     }
 
     private void setNvavigationTextAndIconColor() {
-        int[][] state = new int[][] {
-                new int[] {-android.R.attr.state_enabled}, // disabled
-                new int[] {android.R.attr.state_enabled}, // enabled
-                new int[] {-android.R.attr.state_checked}, // unchecked
-                new int[] { android.R.attr.state_pressed}  // pressed
+        int[][] state = new int[][]{
+                new int[]{-android.R.attr.state_enabled}, // disabled
+                new int[]{android.R.attr.state_enabled}, // enabled
+                new int[]{-android.R.attr.state_checked}, // unchecked
+                new int[]{android.R.attr.state_pressed}  // pressed
 
         };
 
-        int[] color = new int[] {
+        int[] color = new int[]{
                 Color.BLACK,
                 Color.BLACK,
                 Color.DKGRAY,
@@ -248,15 +250,15 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
 
         ColorStateList ColorStateList1 = new ColorStateList(state, color);
 
-        int[][] states = new int[][] {
-                new int[] {-android.R.attr.state_enabled}, // disabled
-                new int[] {android.R.attr.state_enabled}, // enabled
-                new int[] {-android.R.attr.state_checked}, // unchecked
-                new int[] { android.R.attr.state_pressed}  // pressed
+        int[][] states = new int[][]{
+                new int[]{-android.R.attr.state_enabled}, // disabled
+                new int[]{android.R.attr.state_enabled}, // enabled
+                new int[]{-android.R.attr.state_checked}, // unchecked
+                new int[]{android.R.attr.state_pressed}  // pressed
 
         };
 
-        int[] colors = new int[] {
+        int[] colors = new int[]{
                 Color.BLACK,
                 Color.BLACK,
                 Color.DKGRAY,
@@ -348,7 +350,7 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
         switch (navItemIndex) {
             case 0:
                 // home
-                HomeFragment homeFragment = new HomeFragment();
+                HomeFragment homeFragment = HomeFragment.newInstance(sharedPreferenceUtils, credentialService);
                 return homeFragment;
 //            case 3:
 //                // notifications fragment

@@ -14,6 +14,8 @@ import me.opens.password_manager.activity.RevealCredentialActivity;
 import me.opens.password_manager.data.CredentialDao;
 import me.opens.password_manager.data.CredentialDatabase;
 import me.opens.password_manager.data.CredentialRepository;
+import me.opens.password_manager.fragment.HomeFragment;
+import me.opens.password_manager.fragment.ListCreadentialsFragment;
 import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
@@ -27,6 +29,10 @@ public interface AppComponent {
     void inject(DisplayCredentialsActivity displayCredentialsActivity);
 
     void inject(RevealCredentialActivity revealCredentialActivity);
+
+    void inject(ListCreadentialsFragment listCreadentialsFragment);
+
+    void inject(HomeFragment homeFragment);
 
     void inject(PostLoginMainActivity postLoginMainActivity);
 

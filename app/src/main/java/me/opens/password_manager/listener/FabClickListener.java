@@ -13,6 +13,7 @@ import java.util.List;
 import me.opens.password_manager.R;
 import me.opens.password_manager.activity.DisplayCredentialsActivity;
 import me.opens.password_manager.data.Credential;
+import me.opens.password_manager.fragment.ListCreadentialsFragment;
 import me.opens.password_manager.service.CredentialService;
 import me.opens.password_manager.service.CryptService;
 
@@ -21,16 +22,18 @@ import static me.opens.password_manager.activity.DisplayCredentialsActivity.TAG;
 
 public class FabClickListener implements View.OnClickListener {
 
-    private DisplayCredentialsActivity activity;
+//    private DisplayCredentialsActivity activity;
     private Context context;
     private CredentialService credentialService;
     private CryptService cryptService;
     private String username;
+    private ListCreadentialsFragment fragment;
 
-    public FabClickListener(DisplayCredentialsActivity activity, Context context,
+    public FabClickListener(ListCreadentialsFragment fragment, Context context,
                             CredentialService credentialService, CryptService cryptService,
                             String username) {
-        this.activity = activity;
+        this.fragment = fragment;
+//        this.activity = activity;
         this.context = context;
         this.credentialService = credentialService;
         this.cryptService = cryptService;
@@ -55,7 +58,7 @@ public class FabClickListener implements View.OnClickListener {
             List<Credential> credentials = credentialService
                     .getAllCredentialsFor(username);
             if (!credentials.isEmpty()) {
-                activity.populateCredentials(credentials);
+                fragment.populateCredentials(credentials);
             }
         }).start();
     }
