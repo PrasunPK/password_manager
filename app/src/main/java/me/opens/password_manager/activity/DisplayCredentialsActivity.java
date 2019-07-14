@@ -39,7 +39,7 @@ import static me.opens.password_manager.util.Constants.USER_NAME;
 
 public class DisplayCredentialsActivity extends AppCompatActivity {
 
-    public static final String TAG = DisplayCredentialsActivity.class.getCanonicalName();
+//    public static final String TAG = DisplayCredentialsActivity.class.getCanonicalName();
     private RecyclerView recycleView;
     final Context context = this;
     private Intent intent;
@@ -63,7 +63,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
         // Navigation view header
         fab = findViewById(R.id.fab);
 
-        injectModules();
+//        injectModules();
         intent = new Intent(this, RevealCredentialActivity.class);
 
         recycleView = findViewById(R.id.recycler_view);
@@ -107,7 +107,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                         String passedInKey = ((EditText) dialog.findViewById(R.id.text_key)).getText().toString();
                         if (credentialService.isKeyMatched(passedInKey)) {
                             setIntent(item);
-                            Log.i(TAG, "starting reveal credential activity");
+//                            Log.i(TAG, "starting reveal credential activity");
                             startActivity(intent);
                         }
                         dialog.dismiss();
@@ -131,12 +131,12 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                 .putExtra(LAST_UPDATED, dateFormat.format(date));
     }
 
-    private void injectModules() {
-        DaggerAppComponent.builder()
-                .appModule(new AppModule(getApplication()))
-                .roomModule(new RoomModule(getApplication()))
-                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
-                .build()
-                .inject(this);
-    }
+//    private void injectModules() {
+//        DaggerAppComponent.builder()
+//                .appModule(new AppModule(getApplication()))
+//                .roomModule(new RoomModule(getApplication()))
+//                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
+//                .build()
+//                .inject(this);
+//    }
 }

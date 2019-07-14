@@ -52,7 +52,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         Intent intent = getIntent();
                         String email = intent.getStringExtra(USER_NAME);
 
-                        intent = new Intent(RegistrationActivity.this, DisplayCredentialsActivity.class);
+                        intent = new Intent(RegistrationActivity.this, PostLoginMainActivity.class);
 
                         sharedPreferenceUtils.setUserName(USER_NAME, email);
                         sharedPreferenceUtils.setUserKey(USER_KEY, number);

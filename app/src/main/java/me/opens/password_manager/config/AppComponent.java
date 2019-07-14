@@ -6,7 +6,6 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import me.opens.password_manager.activity.BaseActivity;
-import me.opens.password_manager.activity.DisplayCredentialsActivity;
 import me.opens.password_manager.activity.PassCodeActivity;
 import me.opens.password_manager.activity.PostLoginMainActivity;
 import me.opens.password_manager.activity.RegistrationActivity;
@@ -25,8 +24,6 @@ import me.opens.password_manager.service.CredentialService;
 @Singleton
 @Component(dependencies = {}, modules = {AppModule.class, RoomModule.class, SharedPreferencesModule.class})
 public interface AppComponent {
-
-    void inject(DisplayCredentialsActivity displayCredentialsActivity);
 
     void inject(RevealCredentialActivity revealCredentialActivity);
 

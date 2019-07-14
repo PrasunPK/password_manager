@@ -20,23 +20,6 @@
                 android:value=".activity.BaseActivity" />
         </activity>
         <activity
-            android:name=".activity.DisplayCredentialsActivity"
-            android:noHistory="true"
-            android:parentActivityName=".activity.PostLoginMainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.PostLoginMainActivity" />
-        </activity>
-        <activity
-            android:name=".activity.RevealCredentialActivity"
-            android:noHistory="true"
-            android:parentActivityName=".activity.DisplayCredentialsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.DisplayCredentialsActivity" />
-        </activity>
-        <activity
             android:name=".activity.PassCodeActivity"
             android:label="@string/title_activity_login"
             android:noHistory="true"
@@ -68,6 +51,7 @@
             </intent-filter>
         </activity>
     </application>
+
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 

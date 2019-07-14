@@ -11,14 +11,12 @@ import java.util.Date;
 import java.util.List;
 
 import me.opens.password_manager.R;
-import me.opens.password_manager.activity.DisplayCredentialsActivity;
 import me.opens.password_manager.data.Credential;
 import me.opens.password_manager.fragment.ListCreadentialsFragment;
 import me.opens.password_manager.service.CredentialService;
 import me.opens.password_manager.service.CryptService;
 
 import static android.text.TextUtils.isEmpty;
-import static me.opens.password_manager.activity.DisplayCredentialsActivity.TAG;
 
 public class FabClickListener implements View.OnClickListener {
 
@@ -108,7 +106,7 @@ public class FabClickListener implements View.OnClickListener {
             String encryptedPassword = cryptService
                     .encrypt(mPassword.getText().toString());
 
-            Log.i(TAG, "Encrypted [" + encryptedPassword + "]");
+//            Log.i(TAG, "Encrypted [" + encryptedPassword + "]");
 
             final Credential credential =
                     prepareCredential(username,
