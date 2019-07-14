@@ -36,14 +36,6 @@ import static me.opens.password_manager.util.Constants.USERNAME;
 import static me.opens.password_manager.util.Constants.USER_KEY;
 import static me.opens.password_manager.util.Constants.USER_NAME;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ListCreadentialsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ListCreadentialsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ListCreadentialsFragment extends Fragment {
 
     public static final String TAG = ListCreadentialsFragment.class.getCanonicalName();
@@ -79,10 +71,9 @@ public class ListCreadentialsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         fab = getView().findViewById(R.id.fab);
-
-        recycleView = getView().findViewById(R.id.recycler_view);
-
+        recycleView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         populateCredentialsForUser();
         setFavAction(fab);
     }
@@ -111,28 +102,31 @@ public class ListCreadentialsFragment extends Fragment {
     }
 
     public void populateCredentials(final List<Credential> list) {
-        try {
-            Log.i(TAG, "Trying to run on UI threda");
-            recycleView.setAdapter(new CredentialAdapter(list, item -> {
-                final Dialog dialog = new Dialog(getContext());
-                dialog.setContentView(R.layout.dialog_reveal_with_key);
-                Log.i(TAG, "Trying to set RecycleView Adapter");
+        getActivity().runOnUiThread(() -> {
+            try {
+                Log.i(TAG, "Trying to run on UI threda");
+                recycleView.setAdapter(new CredentialAdapter(list, item -> {
+                            final Dialog dialog = new Dialog(getContext());
+                            dialog.setContentView(R.layout.dialog_reveal_with_key);
+                            Log.i(TAG, "Trying to set RecycleView Adapter");
 
-                Button dialogButton = dialog.findViewById(R.id.dialogButtonReveal);
-                dialogButton.setOnClickListener(view -> {
-                    String passedInKey = ((EditText) dialog.findViewById(R.id.text_key)).getText().toString();
-                    if (credentialService.isKeyMatched(passedInKey)) {
-                        setIntent(item);
-                        Log.i(TAG, "starting reveal credential activity");
-                        startActivity(intent);
-                    }
-                    dialog.dismiss();
-                });
-                dialog.show();
-            }, new CryptService(sharedPreferenceUtils.getUserName(USER_NAME))));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                            Button dialogButton = dialog.findViewById(R.id.dialogButtonReveal);
+                            dialogButton.setOnClickListener(view -> {
+                                String passedInKey = ((EditText) dialog.findViewById(R.id.text_key)).getText().toString();
+                                if (credentialService.isKeyMatched(passedInKey)) {
+                                    setIntent(item);
+                                    Log.i(TAG, "starting reveal credential activity");
+                                    startActivity(intent);
+                                }
+                                dialog.dismiss();
+                            });
+                            dialog.show();
+                        }, new CryptService(sharedPreferenceUtils.getUserName(USER_NAME)))
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void setIntent(Credential item) {
