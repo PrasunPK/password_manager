@@ -35,6 +35,5 @@
             android:src="@android:drawable/ic_input_add"
             android:tint="@color/white"
             android:background="@color/colorPrimary"/>
-
     </RelativeLayout>
 </FrameLayout>

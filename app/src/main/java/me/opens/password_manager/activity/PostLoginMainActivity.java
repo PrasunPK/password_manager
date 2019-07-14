@@ -1,6 +1,5 @@
 package me.opens.password_manager.activity;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -17,12 +16,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,17 +26,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import me.opens.password_manager.R;
-import me.opens.password_manager.adapter.CredentialAdapter;
 import me.opens.password_manager.config.DaggerAppComponent;
 import me.opens.password_manager.config.SharedPreferenceUtils;
-import me.opens.password_manager.data.Credential;
 import me.opens.password_manager.fragment.HomeFragment;
 import me.opens.password_manager.fragment.ListCreadentialsFragment;
 import me.opens.password_manager.module.AppModule;
@@ -48,13 +38,6 @@ import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
 import me.opens.password_manager.service.AuthenticationService;
 import me.opens.password_manager.service.CredentialService;
-import me.opens.password_manager.service.CryptService;
-
-import static me.opens.password_manager.util.Constants.DOMAIN;
-import static me.opens.password_manager.util.Constants.LAST_UPDATED;
-import static me.opens.password_manager.util.Constants.PASSWORD;
-import static me.opens.password_manager.util.Constants.USERNAME;
-import static me.opens.password_manager.util.Constants.USER_NAME;
 
 public class PostLoginMainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
         ListCreadentialsFragment.OnFragmentInteractionListener {
@@ -129,8 +112,6 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
 
         injectModules();
         intent = new Intent(this, RevealCredentialActivity.class);
-
-        populateCredentialsForUser();
     }
 
     @Override
@@ -367,53 +348,6 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
                 .into(imgProfile);
 
         navigationView.getMenu().getItem(3).setActionView(R.layout.menu_dot);
-    }
-
-    private void populateCredentialsForUser() {
-        String username = sharedPreferenceUtils.getUserName(USER_NAME);
-        new Thread(() -> {
-            List<Credential> credentials = credentialService
-                    .getAllCredentialsFor(username);
-            if (!credentials.isEmpty()) {
-                populateCredentials(credentials);
-            }
-        }).start();
-    }
-
-    public void populateCredentials(final List<Credential> list) {
-        runOnUiThread(() -> {
-            try {
-                recycleView.setAdapter(new CredentialAdapter(list, item -> {
-                    final Dialog dialog = new Dialog(context);
-                    dialog.setContentView(R.layout.dialog_reveal_with_key);
-
-                    Button dialogButton = dialog.findViewById(R.id.dialogButtonReveal);
-                    dialogButton.setOnClickListener(view -> {
-                        String passedInKey = ((EditText) dialog.findViewById(R.id.text_key)).getText().toString();
-                        if (credentialService.isKeyMatched(passedInKey)) {
-                            setIntent(item);
-                            Log.i(TAG, "starting reveal credential activity");
-                            startActivity(intent);
-                        }
-                        dialog.dismiss();
-                    });
-                    dialog.show();
-                }, new CryptService(sharedPreferenceUtils.getUserName(USER_NAME))));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    private void setIntent(Credential item) {
-        Date date = new Date(item.getUpdatedAt());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
-
-        intent.putExtra("me.opens.password_manager.MESSAGE", "Display Credential Activity")
-                .putExtra(DOMAIN, item.getDomain())
-                .putExtra(USERNAME, item.getUsername())
-                .putExtra(PASSWORD, item.getPassword())
-                .putExtra(LAST_UPDATED, dateFormat.format(date));
     }
 
     private void injectModules() {

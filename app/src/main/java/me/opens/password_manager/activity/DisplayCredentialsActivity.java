@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -19,13 +18,8 @@ import javax.inject.Inject;
 
 import me.opens.password_manager.R;
 import me.opens.password_manager.adapter.CredentialAdapter;
-import me.opens.password_manager.config.DaggerAppComponent;
 import me.opens.password_manager.config.SharedPreferenceUtils;
 import me.opens.password_manager.data.Credential;
-import me.opens.password_manager.listener.FabClickListener;
-import me.opens.password_manager.module.AppModule;
-import me.opens.password_manager.module.RoomModule;
-import me.opens.password_manager.module.SharedPreferencesModule;
 import me.opens.password_manager.service.AuthenticationService;
 import me.opens.password_manager.service.CredentialService;
 import me.opens.password_manager.service.CryptService;
@@ -34,7 +28,6 @@ import static me.opens.password_manager.util.Constants.DOMAIN;
 import static me.opens.password_manager.util.Constants.LAST_UPDATED;
 import static me.opens.password_manager.util.Constants.PASSWORD;
 import static me.opens.password_manager.util.Constants.USERNAME;
-import static me.opens.password_manager.util.Constants.USER_KEY;
 import static me.opens.password_manager.util.Constants.USER_NAME;
 
 public class DisplayCredentialsActivity extends AppCompatActivity {
@@ -102,7 +95,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
                     final Dialog dialog = new Dialog(context);
                     dialog.setContentView(R.layout.dialog_reveal_with_key);
 
-                    Button dialogButton = dialog.findViewById(R.id.dialogButtonReveal);
+                    Button dialogButton = dialog.findViewById(R.id.t9_key_reveal);
                     dialogButton.setOnClickListener(view -> {
                         String passedInKey = ((EditText) dialog.findViewById(R.id.text_key)).getText().toString();
                         if (credentialService.isKeyMatched(passedInKey)) {

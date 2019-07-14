@@ -1,34 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
-    android:layout_height="match_parent"
-    android:padding="20dp"
-    android:orientation="vertical">
+    android:layout_width="250dp"
+    android:layout_height="300dp"
+    android:orientation="vertical"
+    android:id="@+id/dialog_keyboard"
+    android:padding="10dp">
 
-    <android.support.design.widget.TextInputLayout
+    <me.opens.password_manager.listener.KeyboardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="20dp">
-
-        <EditText
-            android:id="@+id/text_key"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/enter_key"
-            android:inputType="numberPassword"
-            android:maxLength="4"
-            android:maxLines="1"
-            android:singleLine="true"/>
-    </android.support.design.widget.TextInputLayout>
-
-    <Button
-        android:id="@+id/dialogButtonReveal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:theme="@style/PrimaryFlatButton"
-        android:textAllCaps="true"
-        android:layout_gravity="end"
-        android:layout_marginTop="10dp"
-        android:text="@string/action_reveal" />
-
+        android:layout_height="match_parent" />
 </LinearLayout>

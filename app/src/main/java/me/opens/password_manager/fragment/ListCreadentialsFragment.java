@@ -14,8 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -104,15 +104,14 @@ public class ListCreadentialsFragment extends Fragment {
     public void populateCredentials(final List<Credential> list) {
         getActivity().runOnUiThread(() -> {
             try {
-                Log.i(TAG, "Trying to run on UI threda");
+                Log.i(TAG, "Trying to run on UI thread");
                 recycleView.setAdapter(new CredentialAdapter(list, item -> {
                             final Dialog dialog = new Dialog(getContext());
                             dialog.setContentView(R.layout.dialog_reveal_with_key);
                             Log.i(TAG, "Trying to set RecycleView Adapter");
-
-                            Button dialogButton = dialog.findViewById(R.id.dialogButtonReveal);
-                            dialogButton.setOnClickListener(view -> {
-                                String passedInKey = ((EditText) dialog.findViewById(R.id.text_key)).getText().toString();
+                            TextView textView = dialog.findViewById(R.id.t9_key_reveal);
+                            textView.setOnClickListener(view -> {
+                                String passedInKey = ((EditText) dialog.findViewById(R.id.password_field)).getText().toString();
                                 if (credentialService.isKeyMatched(passedInKey)) {
                                     setIntent(item);
                                     Log.i(TAG, "starting reveal credential activity");
