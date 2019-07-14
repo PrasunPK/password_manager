@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -113,9 +114,23 @@ public class ListCreadentialsFragment extends Fragment {
                             textView.setOnClickListener(view -> {
                                 String passedInKey = ((EditText) dialog.findViewById(R.id.password_field)).getText().toString();
                                 if (credentialService.isKeyMatched(passedInKey)) {
-                                    setIntent(item);
-                                    Log.i(TAG, "starting reveal credential activity");
-                                    startActivity(intent);
+                                    Log.i(TAG, "Starting reveal credential activity with key [" + passedInKey + "]");
+
+                                    Date date = new Date(item.getUpdatedAt());
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
+                                    Bundle args = new Bundle();
+                                    args.putString(DOMAIN, item.getDomain());
+                                    args.putString(USERNAME, item.getUsername());
+                                    args.putString(PASSWORD, item.getPassword());
+                                    args.putString(LAST_UPDATED, dateFormat.format(date));
+
+                                    Fragment fragment = RevealCredentialFragment.newInstance(sharedPreferenceUtils, credentialService);
+                                    fragment.setArguments(args);
+
+                                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                                    transaction.replace(R.id.fragment_list_credentials, fragment);
+                                    transaction.addToBackStack(null);
+                                    transaction.commit();
                                 }
                                 dialog.dismiss();
                             });
@@ -128,21 +143,9 @@ public class ListCreadentialsFragment extends Fragment {
         });
     }
 
-    private void setIntent(Credential item) {
-        Date date = new Date(item.getUpdatedAt());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
-
-        intent.putExtra("me.opens.password_manager.MESSAGE", "List Credentials Fragment")
-                .putExtra(DOMAIN, item.getDomain())
-                .putExtra(USERNAME, item.getUsername())
-                .putExtra(PASSWORD, item.getPassword())
-                .putExtra(LAST_UPDATED, dateFormat.format(date));
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_list_creadentials, container, false);
     }
 

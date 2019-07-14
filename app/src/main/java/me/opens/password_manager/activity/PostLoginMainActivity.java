@@ -33,6 +33,7 @@ import me.opens.password_manager.config.DaggerAppComponent;
 import me.opens.password_manager.config.SharedPreferenceUtils;
 import me.opens.password_manager.fragment.HomeFragment;
 import me.opens.password_manager.fragment.ListCreadentialsFragment;
+import me.opens.password_manager.fragment.RevealCredentialFragment;
 import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
@@ -40,7 +41,7 @@ import me.opens.password_manager.service.AuthenticationService;
 import me.opens.password_manager.service.CredentialService;
 
 public class PostLoginMainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
-        ListCreadentialsFragment.OnFragmentInteractionListener {
+        ListCreadentialsFragment.OnFragmentInteractionListener, RevealCredentialFragment.OnFragmentInteractionListener {
 
     public static final String TAG = PostLoginMainActivity.class.getCanonicalName();
     private RecyclerView recycleView;
