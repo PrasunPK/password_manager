@@ -2,6 +2,10 @@ package me.opens.password_manager.listener;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,13 +14,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import me.opens.password_manager.R;
-import me.opens.password_manager.activity.RevealCredentialActivity;
+import me.opens.password_manager.fragment.RevealCredentialFragment;
 import me.opens.password_manager.service.CredentialService;
 import me.opens.password_manager.service.CryptService;
 
+import static android.support.constraint.Constraints.TAG;
 import static android.text.TextUtils.isEmpty;
+import static me.opens.password_manager.util.Constants.DOMAIN;
 import static me.opens.password_manager.util.Constants.LAST_UPDATED;
 import static me.opens.password_manager.util.Constants.PASSWORD;
+import static me.opens.password_manager.util.Constants.USERNAME;
 
 public class EditButtonClickListener implements View.OnClickListener {
 
@@ -24,14 +31,15 @@ public class EditButtonClickListener implements View.OnClickListener {
     private final String domain;
     private final String identifier;
     private final String password;
+    private RevealCredentialFragment revealCredentialFragment;
     private final CredentialService credentialService;
     private Context context;
-    private RevealCredentialActivity activity;
+//    private RevealCredentialActivity activity;
 
-    public EditButtonClickListener(Context context, RevealCredentialActivity activity, CredentialService credentialService, CryptService cryptService,
+    public EditButtonClickListener(Context context, RevealCredentialFragment revealCredentialFragment, CredentialService credentialService, CryptService cryptService,
                                    String domain, String identifier, String password) {
         this.context = context;
-        this.activity = activity;
+        this.revealCredentialFragment = revealCredentialFragment;
         this.credentialService = credentialService;
         this.cryptService = cryptService;
         this.domain = domain;
@@ -93,6 +101,7 @@ public class EditButtonClickListener implements View.OnClickListener {
             String encryptedPassword = cryptService
                     .encrypt(mPassword.getText().toString());
 
+            Log.i(TAG, "Trying to save credential [ "+ mDomain.getText().toString() + mPassword.getText().toString() + mIdentifier.getText().toString() +" ]");
             new Thread(() -> {
                 credentialService.updateCredential(
                         mDomain.getText().toString(),
@@ -103,13 +112,21 @@ public class EditButtonClickListener implements View.OnClickListener {
             }).start();
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
-            activity.getIntent().putExtra(PASSWORD, encryptedPassword)
-                    .putExtra(LAST_UPDATED, dateFormat.format(date.getTime()));
+
+            Bundle args = new Bundle();
+            args.putString(DOMAIN, domain);
+            args.putString(USERNAME, encryptedIdentifier);
+            args.putString(PASSWORD, encryptedPassword);
+            args.putString(LAST_UPDATED, dateFormat.format(date.getTime()));
+
+
 
             if (!isEmpty(mPassword.getText().toString())) {
                 dialog.dismiss();
-                activity.finish();
-                activity.startActivity(activity.getIntent());
+                FragmentTransaction ft = revealCredentialFragment.getFragmentManager().beginTransaction();
+                ft.detach(revealCredentialFragment);
+                revealCredentialFragment.setArguments(args);
+                ft.attach(revealCredentialFragment).commit();
             }
         }
     }

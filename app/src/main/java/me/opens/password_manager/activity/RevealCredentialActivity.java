@@ -1,14 +1,11 @@
 package me.opens.password_manager.activity;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +14,7 @@ import javax.inject.Inject;
 import me.opens.password_manager.R;
 import me.opens.password_manager.config.DaggerAppComponent;
 import me.opens.password_manager.config.SharedPreferenceUtils;
+import me.opens.password_manager.listener.DialogButtonClickListener;
 import me.opens.password_manager.listener.EditButtonClickListener;
 import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
@@ -82,17 +80,15 @@ public class RevealCredentialActivity extends AppCompatActivity {
 
     private void setEditAction(String domain, String identifier, String password) throws Exception {
         View editButton = findViewById(R.id.edit_credential);
-        editButton.setOnClickListener(
-                new EditButtonClickListener(
-                        context,
-                        RevealCredentialActivity.this,
-                        credentialService,
-                        cryptService,
-                        domain,
-                        identifier,
-                        password
-                )
-        );
+//        editButton.setOnClickListener(
+//                new EditButtonClickListener(
+//                        context, new Fragmen,
+//                        credentialService,
+//                        cryptService,
+//                        domain,
+//                        identifier,
+//                        password)
+//        );
     }
 
     @Override
@@ -103,7 +99,7 @@ public class RevealCredentialActivity extends AppCompatActivity {
 
     private void setDeleteAction(String domain, String username, String password) {
         View deleteButton = findViewById(R.id.delete_credential);
-        deleteButton.setOnClickListener(new DialogButtonClickListner(domain, username, password));
+        deleteButton.setOnClickListener(new DialogButtonClickListener(this.context, credentialService, domain, username, password));
     }
 
     private void injectModules() {
@@ -113,36 +109,5 @@ public class RevealCredentialActivity extends AppCompatActivity {
                 .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
                 .build()
                 .inject(this);
-    }
-
-    private class DialogButtonClickListner implements View.OnClickListener {
-
-        private final String domain;
-        private final String username;
-        private final String password;
-
-        DialogButtonClickListner(String domain, String username, String password) {
-            this.domain = domain;
-            this.username = username;
-            this.password = password;
-        }
-
-        @Override
-        public void onClick(View view) {
-            final Dialog dialog = new Dialog(context);
-            dialog.setContentView(R.layout.dialog_confirm_deletion);
-            dialog.setTitle("Alert");
-
-            Button dialogButton = dialog.findViewById(R.id.dialog_delete_ok);
-            dialogButton.setOnClickListener(v1 -> {
-                new Thread(() -> {
-                    credentialService.deleteCredential(domain, username, password);
-                    Log.i(TAG, "DELETING CREDENTIAL");
-                }).start();
-                dialog.dismiss();
-                onBackPressed();
-            });
-            dialog.show();
-        }
     }
 }

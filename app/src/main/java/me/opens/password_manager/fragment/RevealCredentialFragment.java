@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +14,8 @@ import android.widget.TextView;
 
 import me.opens.password_manager.R;
 import me.opens.password_manager.config.SharedPreferenceUtils;
+import me.opens.password_manager.listener.DialogButtonClickListener;
+import me.opens.password_manager.listener.EditButtonClickListener;
 import me.opens.password_manager.service.CredentialService;
 import me.opens.password_manager.service.CryptService;
 
@@ -23,7 +24,6 @@ import static me.opens.password_manager.util.Constants.LAST_UPDATED;
 import static me.opens.password_manager.util.Constants.PASSWORD;
 import static me.opens.password_manager.util.Constants.USERNAME;
 import static me.opens.password_manager.util.Constants.USER_KEY;
-import static me.opens.password_manager.util.Constants.USER_NAME;
 
 public class RevealCredentialFragment extends Fragment {
 
@@ -66,6 +66,31 @@ public class RevealCredentialFragment extends Fragment {
         String lastUpdated = this.getArguments().getString(LAST_UPDATED);
 
         updateTextViewsWithCredential(domain, username, password, lastUpdated);
+
+        try {
+            setDeleteAction(domain, username, password);
+            setEditAction(domain, username, password);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
+    }
+
+    private void setDeleteAction(String domain, String username, String password) {
+        View deleteButton = getView().findViewById(R.id.delete_credential);
+        deleteButton.setOnClickListener(new DialogButtonClickListener(getContext(), credentialService, domain, username, password));
+    }
+
+    private void setEditAction(String domain, String identifier, String password) throws Exception {
+        View editButton = getView().findViewById(R.id.edit_credential);
+        editButton.setOnClickListener(
+                new EditButtonClickListener(
+                        getContext(), this,
+                        credentialService,
+                        cryptService,
+                        domain,
+                        identifier,
+                        password)
+        );
     }
 
     private void updateTextViewsWithCredential(String domain, String username, String password, String lastUpdated) {
