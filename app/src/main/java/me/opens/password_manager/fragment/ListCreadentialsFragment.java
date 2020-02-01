@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -72,6 +73,12 @@ public class ListCreadentialsFragment extends Fragment {
         recycleView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         populateCredentialsForUser();
         setFavAction(fab);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        populateCredentialsForUser();
     }
 
     private void setFavAction(FloatingActionButton fab) {
