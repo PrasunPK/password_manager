@@ -14,7 +14,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".activity.PostLoginMainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.BaseActivity" />
@@ -24,7 +24,7 @@
             android:label="@string/title_activity_login"
             android:noHistory="true"
             android:parentActivityName=".activity.BaseActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.BaseActivity" />
@@ -34,7 +34,7 @@
             android:label="@string/title_activity_login"
             android:noHistory="true"
             android:parentActivityName=".activity.BaseActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.BaseActivity" />
@@ -43,7 +43,7 @@
             android:name=".activity.BaseActivity"
             android:label="@string/title_activity_base"
             android:noHistory="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

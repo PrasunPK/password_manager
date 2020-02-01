@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/enter_key"
             android:text="@string/delete_warning"
-            android:textColor="@color/danger"
+            android:textColor="@color/red"
             android:textSize="18sp" />
     </android.support.design.widget.TextInputLayout>
 

@@ -77,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/if_warning"
                     android:layout_gravity="end"
-                    android:tint="@color/danger"
+                    android:tint="@color/red"
                     android:visibility="gone"
                     android:paddingTop="5dp"
                     android:src="@android:drawable/stat_sys_warning" />

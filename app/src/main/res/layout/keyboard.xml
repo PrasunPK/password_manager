@@ -16,6 +16,9 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:singleLine="true"
+        android:textAlignment="center"
+        android:password="true"
+        android:textSize="20sp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TableLayout
