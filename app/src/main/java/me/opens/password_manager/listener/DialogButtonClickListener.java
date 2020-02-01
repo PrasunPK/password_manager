@@ -34,15 +34,17 @@ public class DialogButtonClickListener implements View.OnClickListener {
         dialog.setContentView(R.layout.dialog_confirm_deletion);
         dialog.setTitle("Alert");
 
-        Button dialogButton = dialog.findViewById(R.id.dialog_delete_ok);
-        dialogButton.setOnClickListener(v1 -> {
+        Button dialogButtonOk = dialog.findViewById(R.id.dialog_delete_ok);
+        Button dialogButtonCancel = dialog.findViewById(R.id.dialog_delete_cancel);
+        dialogButtonOk.setOnClickListener(v1 -> {
             new Thread(() -> {
                 credentialService.deleteCredential(domain, username, password);
                 Log.i(RevealCredentialFragment.TAG, "DELETING CREDENTIAL");
             }).start();
             dialog.dismiss();
-//            revealCredentialActivity.onBackPressed();
         });
+
+        dialogButtonCancel.setOnClickListener(v1 -> dialog.dismiss());
         dialog.show();
     }
 }

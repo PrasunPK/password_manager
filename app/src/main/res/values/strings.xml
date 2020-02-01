@@ -21,6 +21,8 @@
     <!--Action Buttons-->
     <string name="action_ok">OK</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_yes">Yes</string>
+    <string name="action_no">No</string>
     <string name="action_save">Save</string>
     <string name="action_reveal">Reveal</string>
 
@@ -37,7 +39,7 @@
     <string name="last_updated">Last updated</string>
     <string name="caution">Warning : You have just revealed this credential.</string>
 
-    <string name="delete_warning">You are in process of deleting a credential. Are you sure?</string>
+    <string name="delete_warning">Are you sure? \nYou are deleting this credential.</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
