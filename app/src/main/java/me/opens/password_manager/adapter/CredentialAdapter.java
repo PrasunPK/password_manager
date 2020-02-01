@@ -67,8 +67,8 @@ public class CredentialAdapter extends RecyclerView.Adapter<CredentialAdapter.Cr
             pwdTextView.setText(credential.getPassword());
             long difference = getDifference(credential.getUpdatedAt());
 
-            elapsedTimeTextView.setText(String.format("%s days", difference));
-            if (difference > 90) {
+            elapsedTimeTextView.setText(String.format("%s days since last updated", difference));
+            if (difference > 60) {
                 warningImageView.setVisibility(View.VISIBLE);
             }
 

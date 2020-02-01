@@ -35,7 +35,7 @@
     <string name="edit">edit</string>
     <string name="delete">delete</string>
     <string name="last_updated">Last updated</string>
-    <string name="caution">Warning : You are seeing your password and username because you have entered the key correctly</string>
+    <string name="caution">Warning : You have just revealed this credential.</string>
 
     <string name="delete_warning">You are in process of deleting a credential. Are you sure?</string>
 
@@ -89,5 +89,6 @@
     <string name="number_nine">9</string>
     <string name="btn_clear">Clear</string>
     <string name="btn_ok">Reveal</string>
+    <string name="_12_days">12 days</string>
 
 </resources>
