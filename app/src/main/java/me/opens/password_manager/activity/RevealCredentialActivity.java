@@ -14,8 +14,8 @@ import javax.inject.Inject;
 import me.opens.password_manager.R;
 import me.opens.password_manager.config.DaggerAppComponent;
 import me.opens.password_manager.config.SharedPreferenceUtils;
+import me.opens.password_manager.fragment.RevealCredentialFragment;
 import me.opens.password_manager.listener.DialogButtonClickListener;
-import me.opens.password_manager.listener.EditButtonClickListener;
 import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
@@ -94,12 +94,11 @@ public class RevealCredentialActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 //        startActivity(new Intent(this, DisplayCredentialsActivity.class));
-        Toast.makeText(context, "Exiting the app", Toast.LENGTH_SHORT).show();
     }
 
     private void setDeleteAction(String domain, String username, String password) {
         View deleteButton = findViewById(R.id.delete_credential);
-        deleteButton.setOnClickListener(new DialogButtonClickListener(this.context, credentialService, domain, username, password));
+        deleteButton.setOnClickListener(new DialogButtonClickListener(new RevealCredentialFragment(), this.context, credentialService, domain, username, password, null));
     }
 
     private void injectModules() {
@@ -107,7 +106,6 @@ public class RevealCredentialActivity extends AppCompatActivity {
                 .appModule(new AppModule(getApplication()))
                 .roomModule(new RoomModule(getApplication()))
                 .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
-                .build()
-                .inject(this);
+                .build();
     }
 }

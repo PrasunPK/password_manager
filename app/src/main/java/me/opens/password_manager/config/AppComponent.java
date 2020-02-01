@@ -26,7 +26,7 @@ import me.opens.password_manager.service.CredentialService;
 @Component(dependencies = {}, modules = {AppModule.class, RoomModule.class, SharedPreferencesModule.class})
 public interface AppComponent {
 
-    void inject(RevealCredentialActivity revealCredentialActivity);
+    // void inject(RevealCredentialActivity revealCredentialActivity);
 
     void inject(ListCreadentialsFragment listCreadentialsFragment);
 

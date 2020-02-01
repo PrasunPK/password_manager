@@ -231,10 +231,10 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
                         navItemIndex = 3;
                         CURRENT_TAG = TAG_NOTIFICATIONS;
                         break;
-                    case R.id.nav_settings:
-                        navItemIndex = 4;
-                        CURRENT_TAG = TAG_SETTINGS;
-                        break;
+//                    case R.id.nav_settings:
+//                        navItemIndex = 4;
+//                        CURRENT_TAG = TAG_SETTINGS;
+//                        break;
 //                    case R.id.nav_about_us:
 //                        // launch new intent instead of loading fragment
 //                        startActivity(new Intent(DisplayCredentialsActivity.this, AboutUsActivity.class));
@@ -333,7 +333,7 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
 
     private void loadNavHeader() {
         txtName.setText("Test User");
-        txtWebsite.setText("Personal profile");
+        txtWebsite.setText("Profile");
 
         Glide.with(this).load(urlNavHeaderBg)
                 .thumbnail()

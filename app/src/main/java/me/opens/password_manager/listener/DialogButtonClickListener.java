@@ -2,30 +2,34 @@ package me.opens.password_manager.listener;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import me.opens.password_manager.R;
-import me.opens.password_manager.activity.RevealCredentialActivity;
 import me.opens.password_manager.fragment.RevealCredentialFragment;
 import me.opens.password_manager.service.CredentialService;
 
 public class DialogButtonClickListener implements View.OnClickListener {
 
+    private RevealCredentialFragment currentFragment;
     private final Context context;
     private final CredentialService credentialService;
-    private RevealCredentialActivity revealCredentialActivity;
     private final String domain;
     private final String username;
     private final String password;
+    private Fragment destinationFragment;
 
-    public DialogButtonClickListener(Context context, CredentialService credentialService, String domain, String username, String password) {
+    public DialogButtonClickListener(RevealCredentialFragment currentFragment, Context context, CredentialService credentialService, String domain,
+                                     String username, String password, Fragment destinationFragment) {
+        this.currentFragment = currentFragment;
         this.context = context;
         this.credentialService = credentialService;
         this.domain = domain;
         this.username = username;
         this.password = password;
+        this.destinationFragment = destinationFragment;
     }
 
     @Override
@@ -42,6 +46,8 @@ public class DialogButtonClickListener implements View.OnClickListener {
                 Log.i(RevealCredentialFragment.TAG, "DELETING CREDENTIAL");
             }).start();
             dialog.dismiss();
+            currentFragment.onBackPressed();
+            destinationFragment.onResume();
         });
 
         dialogButtonCancel.setOnClickListener(v1 -> dialog.dismiss());

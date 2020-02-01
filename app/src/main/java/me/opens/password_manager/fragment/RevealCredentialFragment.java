@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,16 +74,16 @@ public class RevealCredentialFragment extends Fragment {
         updateTextViewsWithCredential(domain, username, password, lastUpdated);
 
         try {
-            setDeleteAction(domain, username, password);
+            setDeleteAction(domain, username, password, getListCredentialFragment());
             setEditAction(domain, username, password);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
     }
 
-    private void setDeleteAction(String domain, String username, String password) {
+    private void setDeleteAction(String domain, String username, String password, Fragment destinationFragment) {
         View deleteButton = getView().findViewById(R.id.delete_credential);
-        deleteButton.setOnClickListener(new DialogButtonClickListener(getContext(), credentialService, domain, username, password));
+        deleteButton.setOnClickListener(new DialogButtonClickListener(this, getContext(), credentialService, domain, username, password, destinationFragment));
     }
 
     private void setEditAction(String domain, String identifier, String password) throws Exception {
@@ -124,16 +125,27 @@ public class RevealCredentialFragment extends Fragment {
         }
     }
 
+    public void onBackPressed() {
+        FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+        ft.remove(this).commit();
+        Objects.requireNonNull(getListCredentialFragment()).onResume();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
+        Objects.requireNonNull(getListCredentialFragment()).onResume();
+    }
+
+    private Fragment getListCredentialFragment() {
         FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
         List<Fragment> fragments = fragmentManager.getFragments();
         for(Fragment fragment :fragments) {
             if (fragment instanceof ListCreadentialsFragment) {
-                fragment.onResume();
+                return fragment;
             }
         }
+        return null;
     }
 
     @Override
