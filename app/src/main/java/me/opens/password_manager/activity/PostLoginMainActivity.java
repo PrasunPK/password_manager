@@ -34,6 +34,7 @@ import me.opens.password_manager.config.SharedPreferenceUtils;
 import me.opens.password_manager.fragment.HomeFragment;
 import me.opens.password_manager.fragment.ListCreadentialsFragment;
 import me.opens.password_manager.fragment.RevealCredentialFragment;
+import me.opens.password_manager.fragment.SettingsFragment;
 import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
@@ -41,7 +42,8 @@ import me.opens.password_manager.service.AuthenticationService;
 import me.opens.password_manager.service.CredentialService;
 
 public class PostLoginMainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
-        ListCreadentialsFragment.OnFragmentInteractionListener, RevealCredentialFragment.OnFragmentInteractionListener {
+        ListCreadentialsFragment.OnFragmentInteractionListener, RevealCredentialFragment.OnFragmentInteractionListener,
+        SettingsFragment.OnFragmentInteractionListener {
 
     public static final String TAG = PostLoginMainActivity.class.getCanonicalName();
     private RecyclerView recycleView;
@@ -140,9 +142,11 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
             getMenuInflater().inflate(R.menu.main, menu);
         }
 
-        if (navItemIndex == 3) {
+        if (navItemIndex == 1) {
             getMenuInflater().inflate(R.menu.notifications, menu);
         }
+
+
         return true;
     }
 
@@ -228,13 +232,13 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
                         CURRENT_TAG = TAG_HOME;
                         break;
                     case R.id.nav_notifications:
-                        navItemIndex = 3;
+                        navItemIndex = 1;
                         CURRENT_TAG = TAG_NOTIFICATIONS;
                         break;
-//                    case R.id.nav_settings:
-//                        navItemIndex = 4;
-//                        CURRENT_TAG = TAG_SETTINGS;
-//                        break;
+                    case R.id.nav_settings:
+                        navItemIndex = 2;
+                        CURRENT_TAG = TAG_SETTINGS;
+                        break;
 //                    case R.id.nav_about_us:
 //                        // launch new intent instead of loading fragment
 //                        startActivity(new Intent(DisplayCredentialsActivity.this, AboutUsActivity.class));
@@ -283,21 +287,21 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
         actionBarDrawerToggle.syncState();
     }
 
-    private Fragment getHomeFragment() {
+    private Fragment getRelevantFragment() {
         switch (navItemIndex) {
             case 0:
                 // home
                 HomeFragment homeFragment = HomeFragment.newInstance(sharedPreferenceUtils, credentialService);
                 return homeFragment;
-//            case 3:
+//            case 1:
 //                // notifications fragment
 //                NotificationsFragment notificationsFragment = new NotificationsFragment();
 //                return notificationsFragment;
 //
-//            case 4:
-//                // settings fragment
-//                SettingsFragment settingsFragment = new SettingsFragment();
-//                return settingsFragment;
+            case 2:
+                // settings fragment
+                SettingsFragment settingsFragment = SettingsFragment.newInstance(sharedPreferenceUtils, credentialService);
+                return settingsFragment;
             default:
                 return new HomeFragment();
         }
@@ -314,7 +318,7 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
         }
 
         Runnable mPendingRunnable = () -> {
-            Fragment fragment = getHomeFragment();
+            Fragment fragment = getRelevantFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
                     android.R.anim.fade_out);

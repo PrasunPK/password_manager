@@ -30,10 +30,8 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
+            android:layout_margin="30dp"
             android:src="@android:drawable/ic_input_add"
-            android:tint="@color/white"
-            android:background="@color/colorPrimaryDark"/>
+            android:tint="@color/white"/>
     </RelativeLayout>
 </FrameLayout>

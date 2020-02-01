@@ -2,7 +2,6 @@ package me.opens.password_manager.listener;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +19,6 @@ import static android.text.TextUtils.isEmpty;
 
 public class FabClickListener implements View.OnClickListener {
 
-//    private DisplayCredentialsActivity activity;
     private Context context;
     private CredentialService credentialService;
     private CryptService cryptService;
@@ -31,7 +29,6 @@ public class FabClickListener implements View.OnClickListener {
                             CredentialService credentialService, CryptService cryptService,
                             String username) {
         this.fragment = fragment;
-//        this.activity = activity;
         this.context = context;
         this.credentialService = credentialService;
         this.cryptService = cryptService;
@@ -105,8 +102,6 @@ public class FabClickListener implements View.OnClickListener {
                     .encrypt(mIdentifier.getText().toString());
             String encryptedPassword = cryptService
                     .encrypt(mPassword.getText().toString());
-
-//            Log.i(TAG, "Encrypted [" + encryptedPassword + "]");
 
             final Credential credential =
                     prepareCredential(username,

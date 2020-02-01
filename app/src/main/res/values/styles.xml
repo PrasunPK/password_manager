@@ -58,10 +58,15 @@
         <item name="android:scaleType">centerInside</item>
         <item name="android:background">@drawable/keyboard_button_bg</item>
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
     <style name="keyboard_number_button" parent="keyboard_button">
         <item name="android:tag">number_button</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
 </resources>
