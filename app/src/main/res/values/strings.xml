@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Password Manager</string>
-    <string name="title_activity_login">Password Manager</string>
-    <string name="title_activity_base">Password Manager</string>
+    <string name="app_name">@string/personal_assistant</string>
+    <string name="title_activity_login">@string/personal_assistant</string>
+    <string name="title_activity_base">@string/personal_assistant</string>
 
 
     <!-- Strings related to login -->
@@ -31,6 +31,7 @@
     <string name="password">password</string>
     <string name="enter_domain">Enter domain</string>
     <string name="enter_identifier">Enter identifier</string>
+    <string name="enter_name">Name</string>
     <string name="enter_password">Enter password</string>
     <string name="password_revealed">Password has been revealed</string>
     <string name="enter_key">Enter key</string>
@@ -90,5 +91,8 @@
     <string name="btn_clear">Clear</string>
     <string name="btn_ok">Reveal</string>
     <string name="_12_days">12 days</string>
+    <string name="your_name">Your Name</string>
+    <string name="sample_email">abc@email.com</string>
+    <string name="personal_assistant">Personal Assistant</string>
 
 </resources>

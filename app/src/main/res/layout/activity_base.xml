@@ -37,7 +37,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|center_horizontal"
                 android:layout_below="@id/image_view"
-                android:text="Password Manager"
+                android:text="@string/personal_assistant"
                 android:textColor="@color/white"
                 android:textSize="@dimen/home_page_font_big"/>
         </LinearLayout>

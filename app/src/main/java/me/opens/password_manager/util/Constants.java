@@ -10,6 +10,8 @@ public class Constants {
     public static final String DATABASE_NAME = "CredentialDatabase";
     public static final String USER_NAME = "USER_NAME";
     public static final String USER_KEY = "USER_KEY";
+    public static final String USER_EMAIL = "USER_EMAIL";
+    public static final String NAME = "NAME";
     public static final String LAST_UPDATED = "LAST_UPDATED";
 
     public static final String DESEDE_ENCRYPTION_SCHEME = "DESede";

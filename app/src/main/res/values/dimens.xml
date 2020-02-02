@@ -13,4 +13,6 @@
     <dimen name="profile_height">75dp</dimen>
 
     <dimen name="revealed_font_size">16sp</dimen>
+    <dimen name="settings_default_font_size">20sp</dimen>
+    <dimen name="settings_sub_font_size">16sp</dimen>
 </resources>

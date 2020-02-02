@@ -28,4 +28,20 @@ public class SharedPreferenceUtils {
     public String getUserKey(String key) {
         return sharedPreferences.getString(key, null);
     }
+
+    public void setAccountName(String key, String data) {
+        sharedPreferences.edit().putString(key, data).apply();
+    }
+
+    public String getAccountName(String key) {
+        return sharedPreferences.getString(key, null);
+    }
+
+    public void setName(String key, String data) {
+        sharedPreferences.edit().putString(key, data).apply();
+    }
+
+    public String getName(String key) {
+        return sharedPreferences.getString(key, null);
+    }
 }

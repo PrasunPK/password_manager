@@ -31,6 +31,7 @@ import javax.inject.Inject;
 import me.opens.password_manager.R;
 import me.opens.password_manager.config.DaggerAppComponent;
 import me.opens.password_manager.config.SharedPreferenceUtils;
+import me.opens.password_manager.fragment.EditProfileFragment;
 import me.opens.password_manager.fragment.HomeFragment;
 import me.opens.password_manager.fragment.ListCreadentialsFragment;
 import me.opens.password_manager.fragment.RevealCredentialFragment;
@@ -40,10 +41,14 @@ import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
 import me.opens.password_manager.service.AuthenticationService;
 import me.opens.password_manager.service.CredentialService;
+import me.opens.password_manager.service.ProfileService;
+
+import static me.opens.password_manager.util.Constants.NAME;
+import static me.opens.password_manager.util.Constants.USER_EMAIL;
 
 public class PostLoginMainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
         ListCreadentialsFragment.OnFragmentInteractionListener, RevealCredentialFragment.OnFragmentInteractionListener,
-        SettingsFragment.OnFragmentInteractionListener {
+        SettingsFragment.OnFragmentInteractionListener, EditProfileFragment.OnFragmentInteractionListener {
 
     public static final String TAG = PostLoginMainActivity.class.getCanonicalName();
     private RecyclerView recycleView;
@@ -77,6 +82,9 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
 
     @Inject
     CredentialService credentialService;
+
+    @Inject
+    ProfileService profileService;
 
     @Inject
     AuthenticationService authenticationService;
@@ -300,7 +308,7 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
 //
             case 2:
                 // settings fragment
-                SettingsFragment settingsFragment = SettingsFragment.newInstance(sharedPreferenceUtils, credentialService);
+                SettingsFragment settingsFragment = SettingsFragment.newInstance(sharedPreferenceUtils, credentialService, profileService);
                 return settingsFragment;
             default:
                 return new HomeFragment();
@@ -336,8 +344,8 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
     }
 
     private void loadNavHeader() {
-        txtName.setText("Test User");
-        txtWebsite.setText("Profile");
+//        txtName.setText(sharedPreferenceUtils.getName(NAME));
+//        txtWebsite.setText(sharedPreferenceUtils.getAccountName(USER_EMAIL));
 
         Glide.with(this).load(urlNavHeaderBg)
                 .thumbnail()

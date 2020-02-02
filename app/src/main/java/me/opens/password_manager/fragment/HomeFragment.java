@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import me.opens.password_manager.R;
 import me.opens.password_manager.config.SharedPreferenceUtils;

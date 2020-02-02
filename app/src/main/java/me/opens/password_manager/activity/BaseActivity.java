@@ -28,6 +28,10 @@ import me.opens.password_manager.config.SharedPreferenceUtils;
 import me.opens.password_manager.module.AppModule;
 import me.opens.password_manager.module.RoomModule;
 import me.opens.password_manager.module.SharedPreferencesModule;
+import me.opens.password_manager.service.ProfileService;
+
+import static me.opens.password_manager.util.Constants.NAME;
+import static me.opens.password_manager.util.Constants.USER_EMAIL;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -38,6 +42,9 @@ public class BaseActivity extends AppCompatActivity {
 
     @Inject
     SharedPreferenceUtils sharedPreferenceUtils;
+
+    @Inject
+    ProfileService profileService;
 
     AvailabilityCheckTask availabilityCheckTask;
     Intent intent;
@@ -57,17 +64,19 @@ public class BaseActivity extends AppCompatActivity {
         injectModules();
 
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(intent);
-                String wantPermission = Manifest.permission.READ_CONTACTS;
-                String email = checkAndGetEmail(wantPermission);
-                finish();
-                availabilityCheckTask = new AvailabilityCheckTask(email);
-                availabilityCheckTask.execute((Void) null);
-            }
+        new Handler().postDelayed(() -> {
+            startActivity(intent);
+            String wantPermission = Manifest.permission.READ_CONTACTS;
+            String email = checkAndGetEmail(wantPermission);
+            finish();
+            availabilityCheckTask = new AvailabilityCheckTask(email);
+            availabilityCheckTask.execute((Void) null);
         }, TIME_OUT);
+
+        new Thread(() -> {
+            String name = profileService.getProfile().getName();
+            sharedPreferenceUtils.setName(NAME, name);
+        });
 
     }
 
@@ -128,6 +137,7 @@ public class BaseActivity extends AppCompatActivity {
                 email = account.name;
             }
         }
+        sharedPreferenceUtils.setAccountName(USER_EMAIL, email);
         return email;
     }
 
