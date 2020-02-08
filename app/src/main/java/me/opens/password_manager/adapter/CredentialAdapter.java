@@ -63,7 +63,7 @@ public class CredentialAdapter extends RecyclerView.Adapter<CredentialAdapter.Cr
 
         public void bind(final Credential credential, final OnItemClickListener listener) {
             nameTextView.setText(credential.getDomain());
-            ageTextView.setText(cryptService.decrypt(credential.getUsername()));
+            ageTextView.setText(credential.getUsername());
             pwdTextView.setText(credential.getPassword());
             long difference = getDifference(credential.getUpdatedAt());
 

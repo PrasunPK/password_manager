@@ -46,6 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     android:textColor="@color/raw_umber"
+                    android:visibility="gone"
                     android:text="@string/username" />
 
                 <TextView

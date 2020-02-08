@@ -1,11 +1,15 @@
 package me.opens.password_manager.data;
 
+import android.util.Log;
+
 import java.util.List;
 
 import javax.inject.Inject;
 
 public class CredentialDataSource implements CredentialRepository {
     private CredentialDao credentialDao;
+
+    private static final String TAG = CredentialDao.class.getCanonicalName();
 
     @Inject
     public CredentialDataSource(CredentialDao credentialDao) {
@@ -44,5 +48,10 @@ public class CredentialDataSource implements CredentialRepository {
     @Override
     public void update(String userKey, String domain, String username, String password, Long updatedTime) {
         credentialDao.update(userKey, domain, username, password, updatedTime);
+    }
+
+    @Override
+    public void updateBulk(String accountName, String domain, String identifier, String password, Long updatedTime) {
+        credentialDao.updateBulk(accountName, domain, identifier, password, updatedTime);
     }
 }

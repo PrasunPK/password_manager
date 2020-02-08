@@ -1,5 +1,6 @@
 package me.opens.password_manager.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -83,7 +84,7 @@ public class ListCreadentialsFragment extends Fragment {
 
     private void setFavAction(FloatingActionButton fab) {
         String username = sharedPreferenceUtils.getUserName(USER_NAME);
-        String userKey = sharedPreferenceUtils.getUserName(USER_KEY);
+        String userKey = sharedPreferenceUtils.getUserName(USER_KEY); // Needs migration
 
         try {
             fab.setOnClickListener(new FabClickListener(this, getContext(),
@@ -119,7 +120,7 @@ public class ListCreadentialsFragment extends Fragment {
                                     Log.i(TAG, "Starting reveal credential activity with key [" + passedInKey + "]");
 
                                     Date date = new Date(item.getUpdatedAt());
-                                    SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
+                                    @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
                                     Bundle args = new Bundle();
                                     args.putString(DOMAIN, item.getDomain());
                                     args.putString(USERNAME, item.getUsername());

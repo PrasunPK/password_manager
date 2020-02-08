@@ -33,4 +33,9 @@ public interface CredentialDao {
             "AND belongs_to=:userKey")
     void update(String userKey, String domain, String username,
                 String password, Long updatedTime);
+
+    @Query("UPDATE Credential SET password=:password, username=:username, updated_at=:updatedTime " +
+            "WHERE domain=:domain AND belongs_to=:userKey")
+    void updateBulk(String userKey, String domain, String username,
+                String password, Long updatedTime);
 }

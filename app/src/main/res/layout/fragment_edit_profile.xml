@@ -14,9 +14,18 @@
         android:padding="5dp"
         tools:ignore="UselessParent">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/personal_information"
+            android:textStyle="bold"
+            android:textSize="@dimen/settings_default_heading_size"
+        />
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
 
             <EditText
                 android:id="@+id/name_text_identifier"
@@ -29,6 +38,52 @@
 
         <Button
             android:id="@+id/save_profile_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/action_save"
+            android:textAllCaps="true"
+            android:theme="@style/PrimaryFlatButton"
+            tools:ignore="ButtonStyle" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/security_information"
+            android:textStyle="bold"
+            android:textSize="@dimen/settings_default_heading_size"
+            android:layout_marginTop="20dp"
+            />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <EditText
+                android:id="@+id/old_pass_code_text_identifier"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/old_password"
+                android:autofillHints="Password"
+                android:inputType="numberPassword" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/new_pass_code_text_identifier"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/new_password"
+                android:autofillHints="Password"
+                android:inputType="numberPassword" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/save_security_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"

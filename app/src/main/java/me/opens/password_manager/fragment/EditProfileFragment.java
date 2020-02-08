@@ -1,6 +1,5 @@
 package me.opens.password_manager.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +25,7 @@ import me.opens.password_manager.data.Profile;
 import me.opens.password_manager.service.CredentialService;
 import me.opens.password_manager.service.ProfileService;
 
+import static java.lang.Thread.sleep;
 import static me.opens.password_manager.util.Constants.USER_NAME;
 
 public class EditProfileFragment extends Fragment {
@@ -48,10 +47,31 @@ public class EditProfileFragment extends Fragment {
         return new EditProfileFragment();
     }
 
-    @SuppressLint("StaticFieldLeak")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setSaveProfileOption();
+        setSaveSecurityOption();
+    }
+
+    private void setSaveSecurityOption() {
+        Toast.makeText(this.getContext(), "Clicked save btn", Toast.LENGTH_LONG).show();
+        Button saveSecurityBtn = (Button) getView().findViewById(R.id.save_security_btn);
+        saveSecurityBtn.setOnClickListener(v -> {
+            EditText oldPass = (EditText) getView().findViewById(R.id.old_pass_code_text_identifier);
+            EditText newPass = (EditText) getView().findViewById(R.id.new_pass_code_text_identifier);
+            new Thread(() -> {
+                try {
+                    credentialService.updateKey(oldPass.getText().toString(), newPass.getText().toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
+//            Objects.requireNonNull(getActivity()).finish();
+        });
+    }
+
+    private void setSaveProfileOption() {
         Button saveProfileBtn = (Button) getView().findViewById(R.id.save_profile_btn);
         saveProfileBtn.setOnClickListener(v -> {
             EditText newName = (EditText) getView().findViewById(R.id.name_text_identifier);

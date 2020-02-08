@@ -33,6 +33,8 @@
     <string name="enter_identifier">Enter identifier</string>
     <string name="enter_name">Name</string>
     <string name="enter_password">Enter password</string>
+    <string name="new_password">New password</string>
+    <string name="old_password">Old password</string>
     <string name="password_revealed">Password has been revealed</string>
     <string name="enter_key">Enter key</string>
     <string name="edit">edit</string>
@@ -94,5 +96,7 @@
     <string name="your_name">Your Name</string>
     <string name="sample_email">abc@email.com</string>
     <string name="personal_assistant">Personal Assistant</string>
+    <string name="personal_information">Personal</string>
+    <string name="security_information">Security</string>
 
 </resources>

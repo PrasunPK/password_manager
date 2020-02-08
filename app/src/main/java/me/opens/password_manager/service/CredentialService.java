@@ -4,6 +4,7 @@ package me.opens.password_manager.service;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -12,6 +13,7 @@ import me.opens.password_manager.config.SharedPreferenceUtils;
 import me.opens.password_manager.data.Credential;
 import me.opens.password_manager.data.CredentialDataSource;
 
+import static me.opens.password_manager.util.Constants.USER_EMAIL;
 import static me.opens.password_manager.util.Constants.USER_KEY;
 import static me.opens.password_manager.util.Constants.USER_NAME;
 
@@ -22,6 +24,8 @@ public class CredentialService {
 
     @Inject
     CredentialDataSource dataSource;
+
+    private static final String TAG = CredentialService.class.getCanonicalName();
 
     @Inject
     public CredentialService() {
@@ -36,7 +40,7 @@ public class CredentialService {
     }
 
     public void deleteCredential(String domain, String username, String password) {
-        Log.i(CredentialService.class.getName(),"Deleting credential for: " + domain + username + password);
+        Log.i(CredentialService.class.getName(), "Deleting credential for: " + domain + username + password);
         dataSource.deleteFor(
                 sharedPreferenceUtils.getUserKey(USER_NAME),
                 domain,
@@ -63,5 +67,34 @@ public class CredentialService {
     public void updateCredential(String domain, String identifier, String password, Long updatedTime) {
         dataSource.update(sharedPreferenceUtils.getUserKey(USER_NAME),
                 domain, identifier, password, updatedTime);
+    }
+
+    private void bulkUpdateCredential(String domain, String identifier, String password, Long updatedTime) {
+        Log.i(TAG, "Updating credential one by one ...");
+        dataSource.updateBulk(sharedPreferenceUtils.getAccountName(USER_EMAIL),
+                domain, identifier, password, updatedTime);
+    }
+
+    public void updateKey(String passedInOldKey, String newKey) throws Exception {
+        String userName = sharedPreferenceUtils.getUserName(USER_NAME);
+        String oldUserKey = sharedPreferenceUtils.getUserName(USER_KEY); // Needs migration
+        CryptService cryptServiceWithOldKey = new CryptService(oldUserKey);
+
+        if (oldUserKey.equals(passedInOldKey) && newKey.length() == 4) {
+            //set new user key
+            sharedPreferenceUtils.setUserKey(USER_KEY, newKey);
+            Log.i(TAG,"Conditions satisfied. Going to update ...");
+            CryptService cryptServiceWithNewKey = new CryptService(newKey);
+            List<Credential> allCreds = dataSource.getAllFor(userName);
+            Log.i(TAG,"Length of all credentials " + allCreds.size());
+            allCreds.forEach(ocr -> {
+                String username = cryptServiceWithNewKey.encrypt(cryptServiceWithOldKey.decrypt(ocr.getUsername()));
+                String password = cryptServiceWithNewKey.encrypt(cryptServiceWithOldKey.decrypt(ocr.getPassword()));
+                long time = new Date().getTime();
+                bulkUpdateCredential(ocr.getDomain(), username, password, time);
+            });
+            return;
+        }
+        Log.i(TAG,"Conditions did not satisfy. Going back ...");
     }
 }
