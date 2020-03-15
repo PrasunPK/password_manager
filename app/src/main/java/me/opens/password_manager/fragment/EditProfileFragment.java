@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -55,19 +56,19 @@ public class EditProfileFragment extends Fragment {
     }
 
     private void setSaveSecurityOption() {
-        Toast.makeText(this.getContext(), "Clicked save btn", Toast.LENGTH_LONG).show();
         Button saveSecurityBtn = (Button) getView().findViewById(R.id.save_security_btn);
         saveSecurityBtn.setOnClickListener(v -> {
             EditText oldPass = (EditText) getView().findViewById(R.id.old_pass_code_text_identifier);
             EditText newPass = (EditText) getView().findViewById(R.id.new_pass_code_text_identifier);
             new Thread(() -> {
                 try {
-                    credentialService.updateKey(oldPass.getText().toString(), newPass.getText().toString());
+                    boolean updated = credentialService.updateKey(oldPass.getText().toString(), newPass.getText().toString());
+                    TextView warning = (TextView) getView().findViewById(R.id.warning_old_password_mismatch);
+                    warning.setVisibility(updated ? View.INVISIBLE : View.VISIBLE);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }).start();
-//            Objects.requireNonNull(getActivity()).finish();
         });
     }
 

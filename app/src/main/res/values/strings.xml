@@ -98,5 +98,6 @@
     <string name="personal_assistant">Personal Assistant</string>
     <string name="personal_information">Personal</string>
     <string name="security_information">Security</string>
+    <string name="condition_mismatch">Condition did not satisfy.</string>
 
 </resources>

@@ -75,7 +75,7 @@ public class CredentialService {
                 domain, identifier, password, updatedTime);
     }
 
-    public void updateKey(String passedInOldKey, String newKey) throws Exception {
+    public boolean updateKey(String passedInOldKey, String newKey) throws Exception {
         String userName = sharedPreferenceUtils.getUserName(USER_NAME);
         String oldUserKey = sharedPreferenceUtils.getUserName(USER_KEY); // Needs migration
         CryptService cryptServiceWithOldKey = new CryptService(oldUserKey);
@@ -93,8 +93,8 @@ public class CredentialService {
                 long time = new Date().getTime();
                 bulkUpdateCredential(ocr.getDomain(), username, password, time);
             });
-            return;
+            return true;
         }
-        Log.i(TAG,"Conditions did not satisfy. Going back ...");
+        return false;
     }
 }

@@ -55,10 +55,22 @@
             android:layout_marginTop="20dp"
             />
 
-        <android.support.design.widget.TextInputLayout
+        <TextView
+            android:id="@+id/warning_old_password_mismatch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:text="@string/condition_mismatch"
+            android:paddingStart="5dp"
+            android:textStyle="bold"
+            android:textColor="@color/warning"
+            android:layout_marginTop="5dp"
+            android:textSize="10dp"
+            android:visibility="gone"
+            tools:ignore="RtlSymmetry" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/old_pass_code_text_identifier"
