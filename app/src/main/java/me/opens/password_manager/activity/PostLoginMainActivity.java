@@ -43,9 +43,6 @@ import me.opens.password_manager.service.AuthenticationService;
 import me.opens.password_manager.service.CredentialService;
 import me.opens.password_manager.service.ProfileService;
 
-import static me.opens.password_manager.util.Constants.NAME;
-import static me.opens.password_manager.util.Constants.USER_EMAIL;
-
 public class PostLoginMainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
         ListCreadentialsFragment.OnFragmentInteractionListener, RevealCredentialFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener, EditProfileFragment.OnFragmentInteractionListener {
@@ -164,6 +161,12 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
 
         if (id == R.id.action_logout) {
             Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
+            return true;
+        }
+
+        if (id == R.id.action_export) {
+            Toast.makeText(getApplicationContext(), "Exporting Credentials", Toast.LENGTH_LONG).show();
+            credentialService.writeToFile(context);
             return true;
         }
 

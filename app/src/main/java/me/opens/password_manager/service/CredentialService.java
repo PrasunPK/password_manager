@@ -1,9 +1,13 @@
 package me.opens.password_manager.service;
 
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Date;
 import java.util.List;
 
@@ -96,5 +100,17 @@ public class CredentialService {
             return true;
         }
         return false;
+    }
+
+    public void writeToFile(Context context) {
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("credentials.txt", Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+            Toast.makeText(context, "File has been save to the location", Toast.LENGTH_SHORT).show();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
     }
 }
