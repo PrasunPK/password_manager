@@ -76,6 +76,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string-array name="nav_item_activity_titles">
         <item>Home</item>
+        <item>Passwords</item>
         <item>Notifications</item>
         <item>Settings</item>
     </string-array>
@@ -99,5 +100,6 @@
     <string name="personal_information">Personal</string>
     <string name="security_information">Security</string>
     <string name="condition_mismatch">Condition did not satisfy.</string>
+    <string name="nav_passwords">Passwords</string>
 
 </resources>

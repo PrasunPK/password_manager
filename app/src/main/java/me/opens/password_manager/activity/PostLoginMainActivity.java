@@ -72,6 +72,7 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
     private static final String TAG_HOME = "home";
     private static final String TAG_NOTIFICATIONS = "notifications";
     private static final String TAG_SETTINGS = "settings";
+    private static final String TAG_PASSWORDS = "passwords";
     public static String CURRENT_TAG = TAG_HOME;
 
     private static final String urlNavHeaderBg = "https://api.androidhive.info/images/nav-menu-header-bg.jpg";
@@ -237,12 +238,16 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
                         navItemIndex = 0;
                         CURRENT_TAG = TAG_HOME;
                         break;
-                    case R.id.nav_notifications:
+                    case R.id.nav_passwords:
                         navItemIndex = 1;
+                        CURRENT_TAG = TAG_PASSWORDS;
+                        break;
+                    case R.id.nav_notifications:
+                        navItemIndex = 2;
                         CURRENT_TAG = TAG_NOTIFICATIONS;
                         break;
                     case R.id.nav_settings:
-                        navItemIndex = 2;
+                        navItemIndex = 3;
                         CURRENT_TAG = TAG_SETTINGS;
                         break;
 //                    case R.id.nav_about_us:
@@ -299,7 +304,11 @@ public class PostLoginMainActivity extends AppCompatActivity implements HomeFrag
                 // home
                 HomeFragment homeFragment = HomeFragment.newInstance(sharedPreferenceUtils, credentialService);
                 return homeFragment;
-//            case 1:
+            case 1:
+                // password
+                ListCreadentialsFragment listCreadentialsFragment = ListCreadentialsFragment.newInstance(sharedPreferenceUtils, credentialService);
+                return listCreadentialsFragment;
+//            case 2:
 //                // notifications fragment
 //                NotificationsFragment notificationsFragment = new NotificationsFragment();
 //                return notificationsFragment;
