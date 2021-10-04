@@ -68,13 +68,20 @@ public class CredentialAdapter extends RecyclerView.Adapter<CredentialAdapter.Cr
             pwdTextView.setText(credential.getPassword());
             long difference = getDifference(credential.getUpdatedAt());
 
-            elapsedTimeTextView.setText(String.format("%s days since last updated", difference));
+
+            elapsedTimeTextView.setText(getFormat(difference));
             if (difference > 60) {
                 warningImageView.setVisibility(View.VISIBLE);
             }
 
             itemView.setOnClickListener(view -> listener.onItemClick(credential));
 
+        }
+
+        private String getFormat(long difference) {
+            if(difference <= 0 ) return "Last updated today";
+            else if(difference == 1) return "Last updated yesterday";
+            else return "Last updated %s days ago";
         }
 
         private long getDifference(Long time) {
