@@ -12,11 +12,22 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical">
+        <androidx.appcompat.widget.SearchView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:id="@+id/credential_search_box"
+            android:label="@string/search_box_string"
+            android:hint="@string/search_hint"
+            android:layout_margin="5dp"
+            android:iconifiedByDefault="true">
+
+        </androidx.appcompat.widget.SearchView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/credential_search_box"
             android:clickable="true"
             android:focusable="true"
             passwordManager:layoutManager="LinearLayoutManager"

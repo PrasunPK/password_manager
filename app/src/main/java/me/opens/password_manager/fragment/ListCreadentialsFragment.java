@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,8 +24,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 import me.opens.password_manager.R;
 import me.opens.password_manager.adapter.CredentialAdapter;
@@ -52,6 +56,7 @@ public class ListCreadentialsFragment extends Fragment {
 
 
     private RecyclerView recycleView;
+    SearchView searchView;
     private Intent intent;
 
     private FloatingActionButton fab;
@@ -75,7 +80,41 @@ public class ListCreadentialsFragment extends Fragment {
         fab = getView().findViewById(R.id.fab);
         recycleView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         populateCredentialsForUser();
+        enableSearchOption();
         setFavAction(fab);
+    }
+
+    private void enableSearchOption() {
+        searchView = (SearchView) requireView().findViewById(R.id.credential_search_box);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return searchAndApply(query);
+            }
+
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.i(TAG, "onQueryTextChange" + newText);
+                return searchAndApply(newText);
+            }
+
+            private boolean searchAndApply(String query) {
+                String username = sharedPreferenceUtils.getUserName(USER_NAME);
+                new Thread(() -> {
+                    List<Credential> credentials = credentialService
+                            .getAllCredentialsFor(username);
+
+                    List<Credential> filteredCredentials = credentials.stream().filter(cred -> cred.getDomain().toLowerCase(Locale.ROOT).contains(query.toLowerCase(Locale.ROOT))
+                            || cred.getUsername().toLowerCase(Locale.ROOT).contains(query.toLowerCase(Locale.ROOT))).collect(Collectors.toList());
+
+                    if (!filteredCredentials.isEmpty()) {
+                        populateCredentials(filteredCredentials);
+                    }
+                }).start();
+                return true;
+            }
+        });
     }
 
     @Override
@@ -108,10 +147,11 @@ public class ListCreadentialsFragment extends Fragment {
     }
 
     public void populateCredentials(final List<Credential> list) {
+        List<Credential> sortedList = list.stream().sorted(Comparator.comparing(Credential::getDomain)).collect(Collectors.toList());
         getActivity().runOnUiThread(() -> {
             try {
                 Log.i(TAG, "Trying to run on UI thread");
-                recycleView.setAdapter(new CredentialAdapter(list, item -> {
+                recycleView.setAdapter(new CredentialAdapter(sortedList, item -> {
                             final Dialog dialog = new Dialog(getContext());
                             dialog.setContentView(R.layout.dialog_reveal_with_key);
                             Log.i(TAG, "Trying to set RecycleView Adapter");

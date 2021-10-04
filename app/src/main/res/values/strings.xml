@@ -101,5 +101,7 @@
     <string name="security_information">Security</string>
     <string name="condition_mismatch">Condition did not satisfy.</string>
     <string name="nav_passwords">Passwords</string>
+    <string name="search_box_string">Search a credential</string>
+    <string name="search_hint">domain</string>
 
 </resources>
