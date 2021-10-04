@@ -2,10 +2,11 @@ package me.opens.password_manager.listener;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.fragment.app.Fragment;
 
 import me.opens.password_manager.R;
 import me.opens.password_manager.fragment.RevealCredentialFragment;

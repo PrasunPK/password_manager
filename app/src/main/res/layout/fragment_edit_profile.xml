@@ -22,7 +22,7 @@
             android:textSize="@dimen/settings_default_heading_size"
         />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp">
@@ -34,7 +34,7 @@
                 android:hint="@string/enter_name"
                 android:autofillHints="Name"
                 android:inputType="text" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/save_profile_btn"
@@ -68,7 +68,7 @@
             android:visibility="gone"
             tools:ignore="RtlSymmetry" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -79,9 +79,9 @@
                 android:hint="@string/old_password"
                 android:autofillHints="Password"
                 android:inputType="numberPassword" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -92,7 +92,7 @@
                 android:hint="@string/new_password"
                 android:autofillHints="Password"
                 android:inputType="numberPassword" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/save_security_btn"

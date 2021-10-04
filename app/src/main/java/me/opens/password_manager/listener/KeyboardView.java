@@ -1,13 +1,14 @@
 package me.opens.password_manager.listener;
 
 import android.content.Context;
-import android.support.annotation.IdRes;
 import android.text.Editable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import androidx.annotation.IdRes;
 
 import me.opens.password_manager.R;
 

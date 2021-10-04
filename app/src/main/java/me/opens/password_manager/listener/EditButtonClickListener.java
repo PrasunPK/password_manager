@@ -3,23 +3,24 @@ package me.opens.password_manager.listener;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.fragment.app.FragmentTransaction;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 import me.opens.password_manager.R;
 import me.opens.password_manager.fragment.RevealCredentialFragment;
 import me.opens.password_manager.service.CredentialService;
 import me.opens.password_manager.service.CryptService;
 
-import static android.support.constraint.Constraints.TAG;
 import static android.text.TextUtils.isEmpty;
+import static me.opens.password_manager.fragment.ListCreadentialsFragment.TAG;
 import static me.opens.password_manager.util.Constants.DOMAIN;
 import static me.opens.password_manager.util.Constants.LAST_UPDATED;
 import static me.opens.password_manager.util.Constants.PASSWORD;
@@ -123,7 +124,7 @@ public class EditButtonClickListener implements View.OnClickListener {
 
             if (!isEmpty(mPassword.getText().toString())) {
                 dialog.dismiss();
-                FragmentTransaction ft = revealCredentialFragment.getFragmentManager().beginTransaction();
+                FragmentTransaction ft = revealCredentialFragment.requireFragmentManager().beginTransaction();
                 ft.detach(revealCredentialFragment);
                 revealCredentialFragment.setArguments(args);
                 ft.attach(revealCredentialFragment).commit();

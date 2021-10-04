@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/card_view_top"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -74,10 +74,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="12sp"
                     android:id="@+id/if_warning"
-                    android:tint="@color/red"
                     android:visibility="gone"
                     android:src="@android:drawable/stat_sys_warning"
-                    android:contentDescription="warning" />
+                    android:contentDescription="warning"
+                    app:tint="@color/red" />
                 <TextView
                     android:id="@+id/elapsed_time"
                     android:layout_width="wrap_content"
@@ -92,6 +92,6 @@
 
 
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

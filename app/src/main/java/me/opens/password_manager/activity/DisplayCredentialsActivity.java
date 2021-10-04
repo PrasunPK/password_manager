@@ -4,11 +4,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,6 +20,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import me.opens.password_manager.R;
+import me.opens.password_manager.config.DaggerAppComponent;
 import me.opens.password_manager.adapter.CredentialAdapter;
 import me.opens.password_manager.config.SharedPreferenceUtils;
 import me.opens.password_manager.data.Credential;
@@ -97,7 +101,7 @@ public class DisplayCredentialsActivity extends AppCompatActivity {
 
                     Button dialogButton = dialog.findViewById(R.id.t9_key_reveal);
                     dialogButton.setOnClickListener(view -> {
-                        String passedInKey = ((EditText) dialog.findViewById(R.id.text_key)).getText().toString();
+                        String passedInKey = ((TextView) dialog.findViewById(R.id.text_key)).getText().toString();
                         if (credentialService.isKeyMatched(passedInKey)) {
                             setIntent(item);
 //                            Log.i(TAG, "starting reveal credential activity");
