@@ -81,7 +81,7 @@ public class CredentialAdapter extends RecyclerView.Adapter<CredentialAdapter.Cr
         private String getFormat(long difference) {
             if(difference <= 0 ) return "Last updated today";
             else if(difference == 1) return "Last updated yesterday";
-            else return "Last updated %s days ago";
+            else return String.format("Last updated %s days ago", difference);
         }
 
         private long getDifference(Long time) {
